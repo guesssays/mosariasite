@@ -3,12 +3,70 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>МОСАРИЯ — полуфабрикаты ручной работы</title>
   <meta name="description" content="Вкусно, быстро и надёжно: пельмени, манты, вареники и домашние блюда. Ручная лепка и собственное производство." />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Canonical (пока Netlify) -->
+  <link rel="canonical" href="https://mosariademo.netlify.app/" />
+  <link rel="alternate" hreflang="ru" href="https://mosariademo.netlify.app/" />
+
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico?v=3">
+<link rel="shortcut icon" href="/favicon.ico?v=3">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png?v=3">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png?v=3">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png?v=3">
+<link rel="manifest" href="/assets/icons/site.webmanifest?v=3">
+<meta name="theme-color" content="#9c6644">
+
+
+  <!-- Open Graph -->
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="МОСАРИЯ — полуфабрикаты ручной работы">
+  <meta property="og:description" content="Пельмени, манты, вареники и домашние блюда. Ручная лепка и собственное производство.">
+  <meta property="og:url" content="https://mosariademo.netlify.app/">
+  <meta property="og:site_name" content="МОСАРИЯ">
+  <meta property="og:image" content="https://mosariademo.netlify.app/assets/hero.png">
+  <meta property="og:image:alt" content="Упаковка и продукция МОСАРИЯ">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="МОСАРИЯ — полуфабрикаты ручной работы">
+  <meta name="twitter:description" content="Вкусно, быстро и надёжно: пельмени, манты, вареники и домашние блюда. Ручная лепка и собственное производство.">
+  <meta name="twitter:image" content="https://mosariademo.netlify.app/assets/hero.png">
+
+  <!-- Производительность -->
   <link rel="preload" href="assets/hero.png" as="image" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- JSON-LD (структурированные данные) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FoodEstablishment",
+    "name": "МОСАРИЯ",
+    "url": "https://mosariademo.netlify.app/",
+    "image": "https://mosariademo.netlify.app/assets/hero.png",
+    "logo": "https://mosariademo.netlify.app/assets/icons/android-chrome-192x192.png",
+    "telephone": "+998903166170",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Ташкент",
+      "streetAddress": "ул. Пушкина, 1",
+      "addressCountry": "UZ"
+    },
+    "sameAs": [
+      "https://www.instagram.com/mosariya.uz"
+    ],
+    "priceRange": "$$"
+  }
+  </script>
 </head>
+
 <body>
 <header class="site-header">
   <div class="container">
@@ -271,13 +329,13 @@
       <div>
         <h2 class="h2">Доставка и условия</h2>
         <ul class="list">
-          <li><img src="assets/icon-truck.svg" alt="" aria-hidden="true" />Минимальный заказ от 10 кг</li>
-          <li><img src="assets/icon-truck.svg" alt="" aria-hidden="true" />Бесплатная доставка по городу от 50 кг</li>
-          <li><img src="assets/icon-truck.svg" alt="" aria-hidden="true" />Склад на Юнусабад, самовывоз</li>
+          <li><img src="assets/icon-truck.svg" alt="" aria-hidden="true" />Минимальный заказ от 3 кг</li>
+          <li><img src="assets/icon-truck.svg" alt="" aria-hidden="true" />Бесплатная доставка по городу на сумму 400 тыс.</li>
+          <li><img src="assets/icon-truck.svg" alt="" aria-hidden="true" />Цех находится Ул. Сайрам, Мирзо-Улугбекский район., самовывоз</li>
         </ul>
       </div>
       <div class="delivery-cta">
-        <p class="h3">Работаем с НДС и безналом.</p>
+        <p class="h3">Работаем с НДС и безналом, также есть PayMe.</p>
         <a class="btn btn-outline" href="#form">Узнать условия</a>
       </div>
     </div>
