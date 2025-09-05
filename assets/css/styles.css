@@ -1,0 +1,571 @@
+/* ==== Design tokens (palette & typography) ==== */
+:root{
+  --c1:#9c6644; /* primary deep brown */
+  --c2:#7f5539;
+  --c3:#b08968;
+  --c4:#ddb892;
+  --c5:#e6ccb2;
+  --c6:#ede0d4; /* light bg */
+  --ink:#2b211a;
+  --bg:#fcf7f3;
+  --ok:#2e7d32;
+  --err:#b00020;
+  --radius:18px;
+  --shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+/* ====== Custom fonts ====== */
+@font-face{
+  font-family: "AndyMTCyrillicBold";
+  src: url("../fonts/Andy MT Cyrillic Bold_0.otf") format("opentype");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face{
+  font-family: "SegoePro";
+  src: url("../fonts/SegoePro-Regular.ttf") format("truetype");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face{
+  font-family: "SegoePro";
+  src: url("../fonts/SegoePro-Semibold.ttf") format("truetype");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face{
+  font-family: "SegoePro";
+  src: url("../fonts/SegoePro-Bold.ttf") format("truetype");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face{
+  font-family: "SegoePro";
+  src: url("../fonts/SegoePro-Black.ttf") format("truetype");
+  font-weight: 900; font-style: normal; font-display: swap;
+}
+@font-face{
+  font-family: "BarboskinsAkzident";
+  src: url("../fonts/barboskinsakzident.otf") format("opentype");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+/* Base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "SegoePro", system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  color:var(--ink);
+  background:linear-gradient(180deg, var(--c6), #fff 40%);
+  line-height:1.6;
+}
+
+/* Typography helpers */
+h1,h2,h3{margin:0 0 .5em; font-family:"SegoePro",sans-serif}
+h1{font-size:clamp(28px, 3.2vw, 44px); line-height:1.15; letter-spacing:.2px; font-weight:900}
+h2{font-size:clamp(24px, 2.4vw, 34px); font-weight:700}
+h3{font-size:clamp(18px, 1.8vw, 22px); font-weight:600}
+
+/* Контент на всю ширину экрана */
+.container{width:min(1180px, 100%); margin-inline:auto; padding-inline:16px}
+
+
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:.5rem;
+  padding:.9rem 1.1rem;
+  border-radius:calc(var(--radius) - 6px);
+  text-decoration:none; cursor:pointer; border:0; font-weight:700;
+  transition:transform .12s ease, box-shadow .2s ease, background .2s ease;
+  box-shadow: var(--shadow);
+  font-family:"SegoePro",sans-serif;
+}
+.btn--primary{background:var(--c1); color:#fff}
+.btn--primary:hover{transform:translateY(-1px); background:var(--c2)}
+.btn--light{background:var(--c5); color:var(--ink)}
+.btn--light:hover{transform:translateY(-1px); background:var(--c4)}
+.btn--sm{padding:.6rem .9rem; font-size:.95rem}
+
+/* Header */
+.site-header{
+  position:sticky; top:0; z-index:1000; backdrop-filter:saturate(1.2) blur(8px);
+  background:rgba(237,224,212,.8); border-bottom:1px solid rgba(0,0,0,.05);
+}
+.hdr{display:flex; align-items:center; gap:16px; min-height:64px}
+.logo{
+  font-family:"BarboskinsAkzident","SegoePro",sans-serif;
+  font-weight:700; letter-spacing:.6px; text-decoration:none; color:var(--c1);
+  font-size:1.25rem;
+}
+.logo span{color:var(--ink)}
+.nav{margin-left:auto}
+.nav__toggle{display:none; background:transparent; border:0; font-size:22px; cursor:pointer}
+.nav__list{display:flex; gap:18px; list-style:none; margin:0; padding:0}
+.nav__list a{color:var(--ink); text-decoration:none; font-weight:600; font-family:"SegoePro",sans-serif}
+.nav__list a:hover{color:var(--c1)}
+.hdr__cta{margin-left:8px}
+
+@media (max-width:900px){
+  .nav__toggle{display:inline-block}
+  .nav__list{position:fixed; inset:auto 0 0 0; background:var(--c6);
+    padding:16px; transform:translateY(100%); transition:transform .25s ease;
+    box-shadow:0 -8px 24px rgba(0,0,0,.08); flex-direction:column; gap:12px}
+  .nav__list.is-open{transform:translateY(0)}
+}
+
+/* Hero — PNG-карусель без подложек, крупный лэйаут */
+.hero{
+  background:
+    radial-gradient(1200px 500px at 80% -20%, var(--c5), transparent 70%),
+    radial-gradient(900px 420px at -10% 20%, var(--c4), transparent 70%);
+  padding:48px 0 28px;
+}
+
+/* Делаем правую колонку шире */
+/* HERO: контейнер */
+.hero__inner{
+  display:grid;
+  grid-template-columns: 0.9fr 1.1fr; /* правая колонка шире */
+  gap:24px; align-items:center;
+  min-height:min(78vh, 760px);
+}
+.hero__content p{max-width:640px}
+.h-accent{color:var(--c1); font-family:"AndyMTCyrillicBold","SegoePro",sans-serif}
+.hero__actions{display:flex; gap:12px; margin:16px 0 8px}
+.hero__badges{display:flex; gap:14px; list-style:none; padding:0; margin:14px 0 0; flex-wrap:wrap}
+.hero__badges li{background:var(--c6); padding:.4rem .7rem; border-radius:999px; border:1px solid var(--c5)}
+
+/* Карусель только из картинок, вытягиваем к правому краю вьюпорта */
+/* Карусель — БЕЗ отрицательных отступов, с клиппингом */
+/* Карусель — фиксируем высоту, режем излишки, без margin-хаков */
+.hero__carousel{
+  position: relative;
+  height: clamp(420px, 60vh, 720px); /* <-- было min-height */
+  overflow: hidden;
+  justify-self: end;
+}
+
+/* Слайды */
+.hero-slide{
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: flex-end;
+  opacity: 0; transform: translateX(10%);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.hero-slide.is-active{opacity: 1; transform: translateX(0)}
+
+.hero-slide img{
+  display: block;              /* чтобы не было базовой строки */
+  aspect-ratio: 16 / 10;       /* не схлопывается, даже если картинка не успела */
+  width: clamp(900px, 120%, 1600px);
+  max-height: 80vh;
+  height: auto;
+  object-fit: contain;
+  transform: translateX(6%);
+  filter: drop-shadow(0 28px 40px rgba(0,0,0,.25));
+  pointer-events: none; user-select: none;
+}
+
+@media (max-width:900px){
+  .hero__carousel{height: clamp(320px, 50vh, 520px)}
+  .hero-slide img{width: clamp(520px, 120%, 1200px); max-height: 70vh; transform: none}
+}
+
+
+
+/* Categories */
+.cats{padding:40px 0 20px}
+.cats h2{margin-bottom:12px}
+.cats__scroller{
+  display:flex; gap:10px; overflow:auto; padding-bottom:8px; scrollbar-width:none;
+  border-bottom:1px dashed var(--c4); margin-bottom:18px;
+}
+.cat{
+  background:#fff; border:1px solid var(--c5); padding:.55rem .8rem; border-radius:999px;
+  cursor:pointer; font-weight:700; white-space:nowrap; font-family:"SegoePro",sans-serif;
+}
+.cat.is-active{background:var(--c1); color:#fff; border-color:transparent}
+
+/* Grid */
+.grid{display:grid; gap:18px}
+.grid--2{grid-template-columns: 1.1fr .9fr}
+.grid--3{grid-template-columns: repeat(3, 1fr)}
+@media (max-width:1000px){ .grid--3{grid-template-columns: repeat(2,1fr)} }
+@media (max-width:700px){ .grid--2, .grid--3{grid-template-columns: 1fr} }
+
+/* Product card */
+.card{
+  background:#fff; border:1px solid var(--c5); border-radius:var(--radius); overflow:hidden;
+  box-shadow:var(--shadow);
+  display:grid; grid-template-rows: 180px 1fr; transition: transform .12s ease;
+}
+.card:hover{transform: translateY(-2px)}
+.card__img{background: linear-gradient(180deg, var(--c6), #fff); display:flex; align-items:center; justify-content:center}
+.card__img .ph{width:72%; height:72%; background:var(--c6); border-radius:16px; border:1px dashed var(--c4)}
+.card__body{padding:14px}
+.card__title{font-weight:800; font-size:1.05rem; margin:0 0 6px; font-family:"SegoePro",sans-serif}
+.card__meta{color:#6b5a4e; font-size:.95rem; margin-bottom:10px}
+.card__foot{display:flex; align-items:center; justify-content:space-between; gap:10px}
+.price{font-weight:900; color:var(--c2); font-family:"SegoePro",sans-serif}
+.card .btn{box-shadow:none}
+
+/* Sections */
+.benefits, .quality, .delivery, .about, .lead, .contacts{padding:40px 0}
+.quality__card, .delivery__card, .contacts__card, .lead__box{
+  background:#fff; border:1px solid var(--c5); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow);
+}
+.quality__note{margin:0 0 10px; color:#6b5a4e}
+
+/* Checklist */
+.checklist{list-style:none; padding:0; margin:10px 0 0}
+.checklist li{position:relative; padding-left:26px; margin:10px 0}
+.checklist li::before{
+  content:"✓"; position:absolute; left:0; top:.15rem; background:var(--c5); width:20px; height:20px;
+  border-radius:50%; display:grid; place-items:center; font-weight:900; color:var(--c2);
+}
+
+/* Stats */
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+.stats div{background:#fff; border:1px solid var(--c5); border-radius:var(--radius); padding:14px; text-align:center}
+.stats strong{font-size:1.25rem; display:block}
+.stats span{font-size:.9rem; color:#6b5a4e}
+@media (max-width:700px){ .stats{grid-template-columns:1fr 1fr} }
+
+/* Form */
+.form{display:grid; gap:12px; max-width:520px}
+.form__row label{display:grid; gap:6px; font-weight:700; font-family:"SegoePro",sans-serif}
+input, select, textarea{
+  width:100%; padding:.8rem .9rem; border-radius:14px; border:1px solid var(--c4); background:#fff;
+  outline:none; transition: border-color .2s ease, box-shadow .2s ease;
+  font-family:"SegoePro",sans-serif;
+}
+input:focus, select:focus, textarea:focus{border-color:var(--c2); box-shadow:0 0 0 3px rgba(124,85,57,.12)}
+.form__agree .chk{display:flex; align-items:center; gap:10px; font-weight:600}
+.form__status{min-height:1.2em; font-weight:700}
+.form__status.ok{color:var(--ok)} .form__status.err{color:var(--err)}
+
+/* Contacts */
+.map-stub{background:#fff; border:1px dashed var(--c4); border-radius:var(--radius); height:260px; display:grid; place-items:center; color:#6b5a4e}
+
+/* Footer */
+.site-footer{border-top:1px solid rgba(0,0,0,.05); padding:18px 0; background:#fff}
+.foot{display:flex; align-items:center; justify-content:space-between}
+.to-top{text-decoration:none; color:var(--c2); font-family:"SegoePro",sans-serif}
+.to-top:hover{color:var(--c1)}
+/* === HERO carousel: force visible height & no horizontal scroll === */
+.hero__carousel{
+  position: relative;
+  height: clamp(420px, 60vh, 720px) !important; /* вместо min-height */
+  overflow: hidden;
+  justify-self: end;
+}
+.hero-slide{
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: flex-end;
+  opacity: 0; transform: translateX(10%);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.hero-slide.is-active{ opacity: 1; transform: translateX(0) }
+
+.hero-slide img{
+  display: block;                /* без базовой строки */
+  aspect-ratio: 16 / 10;         /* не схлопывается до загрузки */
+  width: clamp(520px, 120%, 1600px);
+  max-height: 80vh;
+  height: auto;
+  object-fit: contain;
+  transform: translateX(6%);     /* лёгкий «выход» вправо внутри обрезки */
+  filter: drop-shadow(0 28px 40px rgba(0,0,0,.25));
+  pointer-events: none; user-select: none;
+}
+
+@media (max-width:900px){
+  .hero__carousel{ height: clamp(320px, 50vh, 520px) !important; }
+  .hero-slide img{ transform: none; }
+}
+/* HERO carousel — фиксируем ширину в гриде и высоту */
+.hero__carousel{
+  position: relative;
+  width: 100%;              /* ключевой фикс — элемент растягивается по треку */
+  min-width: 0;             /* разрешаем ужиматься внутри grid */
+  height: clamp(420px, 60vh, 720px);
+  overflow: hidden;
+  /* justify-self: end;  <-- удалить */
+}
+
+.hero-slide{
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: flex-end;
+  opacity: 0; transform: translateX(10%);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.hero-slide.is-active{ opacity: 1; transform: translateX(0) }
+
+.hero-slide img{
+  display: block;
+  aspect-ratio: 16 / 10;
+  width: clamp(900px, 120%, 1600px);
+  max-height: 80vh;
+  height: auto;
+  object-fit: contain;
+  transform: translateX(6%);
+  filter: drop-shadow(0 28px 40px rgba(0,0,0,.25));
+  pointer-events: none; user-select: none;
+}
+
+@media (max-width:900px){
+  .hero__carousel{ height: clamp(320px, 50vh, 520px) }
+  .hero-slide img{ width: clamp(520px, 120%, 1200px); transform: none }
+}
+/* было: justify-self:end */
+.hero__carousel{
+  position: relative;
+  height: clamp(420px, 60vh, 720px);
+  overflow: hidden;
+  justify-self: center; /* центрируем блок карусели в колонке */
+}
+
+/* было: justify-content:flex-end */
+.hero-slide{
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center; /* центрируем сам слайд */
+  opacity: 0; transform: translateX(10%);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.hero-slide.is-active{ opacity:1; transform:translateX(0) }
+
+/* было: transform: translateX(6%) (сдвиг вправо) */
+.hero-slide img{
+  display:block;
+  aspect-ratio:16/10;
+  width: clamp(900px, 120%, 1600px);
+  max-height:80vh; height:auto; object-fit:contain;
+  transform: translateX(-6%); /* лёгкий сдвиг влево, как на референсе */
+  filter: drop-shadow(0 28px 40px rgba(0,0,0,.25));
+  pointer-events:none; user-select:none;
+}
+
+@media (max-width:900px){
+  .hero__carousel{ height: clamp(320px, 50vh, 520px); }
+  .hero-slide img{ transform:none; } /* на мобиле без сдвига */
+}
+/* ===== HERO v2 (reference look) — финальные оверрайды ===== */
+.hero h1{
+  font-family:"BarboskinsAkzident","SegoePro",sans-serif;
+  font-size:clamp(42px, 7.2vw, 92px);
+  line-height:1.05;
+  letter-spacing:.2px;
+}
+
+/* правая колонка с каруселью — норм ширина и клип без горизонт.скролла */
+.hero__carousel{
+  position:relative;
+  width:100%;
+  min-width:0;
+  height:clamp(520px, 66vh, 820px) !important;
+  overflow:hidden;                      /* чтобы «выползание» не давало скролл */
+  justify-self:center !important;       /* не прижимаем вправо */
+}
+
+/* сам слайд — строго по центру колонки */
+.hero-slide{
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center !important;
+  opacity:0; transform:translateX(10%);
+  transition:opacity .6s ease, transform .6s ease;
+  z-index:1;
+}
+.hero-slide.is-active{ opacity:1; transform:translateX(0) }
+
+/* картинка большая и немного сдвинута ВЛЕВО (как на макете) */
+.hero-slide img{
+  display:block;
+  aspect-ratio:16/10;
+  width:min(1600px, 135%) !important;  /* крупнее контейнера */
+  max-height:80vh;
+  height:auto; object-fit:contain;
+  transform:translateX(-12%) !important; /* ключевой сдвиг влево */
+  filter:drop-shadow(0 28px 40px rgba(0,0,0,.25));
+  pointer-events:none; user-select:none;
+}
+
+/* декоративное пунктирное кольцо позади продукта */
+.hero__ring{
+  position:absolute;
+  right:2%;
+  top:6%;
+  width:min(780px, 60vw);
+  height:auto;
+  opacity:.45;
+  z-index:0;
+  pointer-events:none;
+}
+.hero__ring circle{
+  fill:none;
+  stroke:var(--c2);
+  stroke-width:6;
+  stroke-linecap:round;
+  stroke-dasharray:24 18;
+}
+
+@media (max-width:900px){
+  .hero__inner{ grid-template-columns:1fr; }
+  .hero__carousel{ height:clamp(360px, 56vh, 560px) !important; }
+  .hero-slide img{
+    width:min(1200px, 120%) !important;
+    transform:none !important;          /* на мобиле без сдвига */
+  }
+  .hero__ring{ width:70vw; right:-6%; top:0; }
+}
+/* === HERO — как в референсе (оверрайды) === */
+
+/* верни нормальный размер заголовка */
+.hero h1{
+  font-family:"SegoePro",sans-serif;       /* оставляем твой базовый шрифт */
+  font-size:clamp(28px, 3.2vw, 44px);
+  line-height:1.15;
+  letter-spacing:.2px;
+  font-weight:900;
+}
+
+/* колонка с каруселью — по центру своей колонки, без прижатия вправо */
+.hero__carousel{
+  position:relative;
+  width:100%;
+  min-width:0;
+  height:clamp(520px, 66vh, 820px) !important;
+  overflow:hidden;
+  justify-self:center !important;
+}
+
+/* слайд строго по центру */
+.hero-slide{
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center !important;
+  opacity:0; transform:translateX(10%);
+  transition:opacity .6s ease, transform .6s ease;
+  z-index:1;
+}
+.hero-slide.is-active{opacity:1; transform:translateX(0)}
+
+/* Крупная картинка, немного сдвинута влево (как в макете) */
+.hero-slide img{
+  display:block;
+  max-height:80vh; height:auto; object-fit:contain;
+  width:min(1700px, 140%) !important;   /* масштаб — как на референсе */
+  transform:translateX(-10%) !important;/* смещение влево */
+  filter:drop-shadow(0 28px 40px rgba(0,0,0,.25));
+  pointer-events:none; user-select:none;
+}
+
+/* Пунктирное кольцо — чисто CSS, без картинок */
+.hero__carousel::before{
+  content:"";
+  position:absolute;
+  right:2%;
+  top:6%;
+  width:min(760px, 58vw);
+  aspect-ratio:1/1;
+  border-radius:50%;
+  background:repeating-conic-gradient(var(--c2) 0 18deg, transparent 18deg 32deg);
+  /* делаем тонкий ободок */
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 0);
+          mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 0);
+  opacity:.42;
+  z-index:0;
+}
+
+@media (max-width:900px){
+  .hero__inner{ grid-template-columns:1fr; }
+  .hero__carousel{ height:clamp(360px, 56vh, 560px) !important; }
+  .hero-slide img{
+    width:min(1200px, 120%) !important;
+    transform:none !important;         /* на мобиле без сдвига */
+  }
+  .hero__carousel::before{
+    width:70vw; right:-6%; top:0;
+  }
+}
+/* HERO — картинка только в правой колонке, не наезжает на текст */
+.hero__carousel{ justify-self:end !important; overflow:hidden; }
+
+.hero__carousel .hero-slide{ justify-content:flex-end !important; }
+
+.hero__carousel .hero-slide img{
+  width: min(1700px, 140%) !important;  /* крупная */
+  transform: translateX(6%) !important; /* чуть «вправо», выходит за правый край */
+}
+
+/* кольцо под продуктом слегка правее, чтобы совпало с композицией */
+.hero__carousel::before{ right:-4% !important; }
+
+@media (max-width:900px){
+  .hero__carousel{ justify-self:center !important; }
+  .hero__carousel .hero-slide{ justify-content:center !important; }
+  .hero__carousel .hero-slide img{
+    width:min(1200px, 120%) !important;
+    transform:none !important;
+  }
+}
+/* ===== HERO (чистовая версия) ===== */
+
+/* сетка геро: правая колонка шире */
+.hero__inner{
+  display:grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap:24px; align-items:center;
+  min-height:min(78vh, 760px);
+}
+
+/* карусель занимает свою колонку, клиппинг включён */
+.hero__carousel{
+  position:relative;
+  width:100%;
+  min-width:0;
+  height:clamp(520px, 66vh, 820px);
+  overflow:hidden;
+  justify-self:end;         /* прижали к правому краю своей колонки */
+}
+
+/* слайд — к правому краю, поверх кольца */
+.hero__carousel .hero-slide{
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:flex-end;
+  opacity:0; transform:translateX(10%);
+  transition:opacity .6s ease, transform .6s ease;
+  z-index:1;
+}
+.hero__carousel .hero-slide.is-active{opacity:1; transform:translateX(0)}
+
+/* большая PNG, слегка вправо — выходит за правый край, но не влево */
+.hero__carousel .hero-slide img{
+  display:block;
+  width:min(1700px, 140%);
+  max-height:80vh;
+  height:auto; object-fit:contain;
+  transform:translateX(8%);        /* ключ: положительное значение, вправо */
+  filter:drop-shadow(0 28px 40px rgba(0,0,0,.25));
+  pointer-events:none; user-select:none;
+}
+
+/* пунктирное кольцо за продуктом */
+.hero__carousel::before{
+  content:"";
+  position:absolute;
+  right:-4%; top:6%;
+  width:min(760px, 58vw);
+  aspect-ratio:1/1;
+  border-radius:50%;
+  background:repeating-conic-gradient(var(--c2) 0 18deg, transparent 18deg 32deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 0);
+          mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 0);
+  opacity:.42;
+  z-index:0;
+}
+
+@media (max-width:900px){
+  .hero__inner{ grid-template-columns:1fr; }
+  .hero__carousel{ justify-self:center; height:clamp(360px, 56vh, 560px); }
+  .hero__carousel .hero-slide{ justify-content:center; }
+  .hero__carousel .hero-slide img{ width:min(1200px, 120%); transform:none; }
+  .hero__carousel::before{ width:70vw; right:-6%; top:0; }
+}
