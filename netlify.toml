@@ -1,3 +1,28 @@
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
+# ---------- Redirects ----------
+[[redirects]]
+  from = "http://mosariya.uz/*"
+  to   = "https://www.mosariya.uz/:splat"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from = "https://mosariya.uz/*"
+  to   = "https://www.mosariya.uz/:splat"
+  status = 301
+  force  = true
+
+# ---------- Security Headers ----------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self' https: data:; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https:; script-src 'self' https: 'unsafe-inline'; connect-src 'self' https:; font-src 'self' https: data:; frame-ancestors 'self'; frame-src https://www.google.com/"
+
+# ---------- Caching for static assets ----------
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Карта сайта
+Sitemap: https://www.mosariya.uz/sitemap.xml
+
+# Для Яндекс
+Host: www.mosariya.uz
