@@ -1,15 +1,31 @@
 # ---------- Redirects ----------
+# http -> https (без www)
 [[redirects]]
   from = "http://mosariya.uz/*"
-  to   = "https://www.mosariya.uz/:splat"
+  to   = "https://mosariya.uz/:splat"
+  status = 301
+  force  = true
+
+# www -> без www (http и https)
+[[redirects]]
+  from = "http://www.mosariya.uz/*"
+  to   = "https://mosariya.uz/:splat"
   status = 301
   force  = true
 
 [[redirects]]
-  from = "https://mosariya.uz/*"
-  to   = "https://www.mosariya.uz/:splat"
+  from = "https://www.mosariya.uz/*"
+  to   = "https://mosariya.uz/:splat"
   status = 301
   force  = true
+
+# (опционально) тех. домен Netlify -> канонический
+[[redirects]]
+  from = "https://mosariademo.netlify.app/*"
+  to   = "https://mosariya.uz/:splat"
+  status = 301
+  force  = true
+
 
 # ---------- Security Headers ----------
 [[headers]]
