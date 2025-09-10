@@ -22,42 +22,12 @@ window.addEventListener('load', setHeaderVar);
 window.addEventListener('resize', setHeaderVar);
 
 // =========================
-// Mobile menu (burger)
+// (УДАЛЕНО) ЛОГИКА БУРГЕРА / МОБ. МЕНЮ
+// — больше не нужна, т.к. меню скрываем на мобилках
 // =========================
-const burger = $('.burger');
-const mobileNav = $('#mobileNav');
-
-function setBurgerState(open){
-  if (!burger || !mobileNav) return;
-  burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-  mobileNav.classList.toggle('is-open', !!open);
-  document.body.classList.toggle('nav-open', !!open);
-}
-
-if (burger && mobileNav){
-  burger.addEventListener('click', () => {
-    const open = burger.getAttribute('aria-expanded') !== 'true';
-    setBurgerState(open);
-  });
-
-  // Закрывать по клику на пункт
-  mobileNav.addEventListener('click', (e) => {
-    const link = e.target.closest('a[data-close]');
-    if (link){
-      setBurgerState(false);
-    }
-  });
-
-  // Закрывать по ESC
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape'){
-      setBurgerState(false);
-    }
-  });
-}
 
 // =========================
-// Catalog filter
+/** Catalog filter */
 // =========================
 const chips = $$('.chip');
 const cards = $$('.card');

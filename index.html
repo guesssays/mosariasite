@@ -14,7 +14,7 @@
   <link rel="alternate" hreflang="ru" href="https://www.mosariya.uz/" />
   <link rel="alternate" hreflang="x-default" href="https://www.mosariya.uz/" />
 
-  <!-- Prefetch/Preconnect (микро-ускорение) -->
+  <!-- Prefetch/Preconnect -->
   <link rel="dns-prefetch" href="//www.google.com">
   <link rel="preconnect" href="https://www.google.com" crossorigin>
 
@@ -50,7 +50,7 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-  <!-- JSON-LD (структурированные данные) -->
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -78,7 +78,6 @@
   }
   </script>
 
-  <!-- WebSite + SearchAction -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -93,7 +92,6 @@
   }
   </script>
 
-  <!-- FAQ -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -101,29 +99,19 @@
     "mainEntity": [{
       "@type": "Question",
       "name": "Как оформить заказ на готовую еду и полуфабрикаты?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Оставьте заявку на сайте или позвоните по телефону. Менеджер уточнит состав, объем и условия доставки."
-      }
+      "acceptedAnswer": { "@type": "Answer", "text": "Оставьте заявку на сайте или позвоните по телефону. Менеджер уточнит состав, объем и условия доставки." }
     },{
       "@type": "Question",
       "name": "Доставляете ли вы по Ташкенту?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Да. Бесплатная доставка по городу при заказе от 400 тыс. сум. Также доступен самовывоз."
-      }
+      "acceptedAnswer": { "@type": "Answer", "text": "Да. Бесплатная доставка по городу при заказе от 400 тыс. сум. Также доступен самовывоз." }
     },{
       "@type": "Question",
       "name": "Какие ингредиенты вы используете?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Мясо от проверенных поставщиков, специи и мука высшего сорта. Без сои и усилителей вкуса."
-      }
+      "acceptedAnswer": { "@type": "Answer", "text": "Мясо от проверенных поставщиков, специи и мука высшего сорта. Без сои и усилителей вкуса." }
     }]
   }
   </script>
 
-  <!-- Organization -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -142,16 +130,6 @@
     <!-- Лого -->
     <a class="logo" href="#top" aria-label="МОСАРИЯ — на главную">МОСАРИЯ</a>
 
-    <!-- Бургер (моб.) -->
-    <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mobileNav">
-      <span class="burger-box" aria-hidden="true">
-        <span class="burger-line"></span>
-        <span class="burger-line"></span>
-        <span class="burger-line"></span>
-      </span>
-      <span class="burger-text">Меню</span>
-    </button>
-
     <!-- ДЕСКТОП: навигация -->
     <nav class="main-nav" aria-label="Главное меню">
       <a href="#catalog">Каталог</a>
@@ -162,7 +140,7 @@
       <a href="#contacts">Контакты</a>
     </nav>
 
-    <!-- Соцсети / Контакты -->
+    <!-- Соцсети / Контакты (видны и на моб.) -->
     <div class="header-social" aria-label="Контакты">
       <a class="social-btn" href="tel:+998903166170" aria-label="Позвонить менеджеру">
         <i class="bi bi-telephone"></i>
@@ -176,16 +154,6 @@
     <!-- МОБИЛЬНАЯ CTA -->
     <a class="btn btn-primary btn-sm cta-mobile" href="#form">Заказать</a>
   </div>
-
-  <!-- МОБИЛЬНОЕ МЕНЮ -->
-  <nav id="mobileNav" class="mobile-nav" aria-label="Мобильное меню">
-    <a href="#catalog" data-close>Каталог</a>
-    <a href="#quality" data-close>Качество</a>
-    <a href="#delivery" data-close>Доставка</a>
-    <a href="#partners" data-close>Партнёры</a>
-    <a href="#form" data-close>Заявка</a>
-    <a href="#contacts" data-close>Контакты</a>
-  </nav>
 </header>
 
 <main id="top" class="page">
@@ -215,7 +183,7 @@
     </div>
   </section>
 
-  <!-- КАТАЛОГ -->
+  <!-- КАТАЛОГ (содержимое без изменений) -->
   <section id="catalog" class="section">
     <div class="container">
       <h2 class="h2">Каталог</h2>
@@ -391,28 +359,21 @@
         </article>
       </div>
 
+    
       <ul class="badges3" aria-label="Почему нас выбирают">
         <li>
           <div class="badge-head">Натуральный состав</div>
-          <p class="badge-desc">
-            Мясо от проверенных поставщиков, специи и мука высшего сорта.
-            Без сои и Е-добавок.
-          </p>
+          <p class="badge-desc">Мясо от проверенных поставщиков, специи и мука высшего сорта. Без сои и Е-добавок.</p>
         </li>
         <li>
           <div class="badge-head">Ручная лепка</div>
-          <p class="badge-desc">
-            Каждый продукт изготовлен вручную — лучшее качество начинки и теста.
-          </p>
+          <p class="badge-desc">Каждый продукт изготовлен вручную — лучшее качество начинки и теста.</p>
         </li>
         <li>
           <div class="badge-head">Стабильные поставки</div>
-          <p class="badge-desc">
-            Собственная логистика по городу и области. Заморозка −18°C, сохранность 100%.
-          </p>
+          <p class="badge-desc">Собственная логистика по городу и области. Заморозка −18°C, сохранность 100%.</p>
         </li>
       </ul>
-
     </div>
   </section>
 
@@ -467,7 +428,7 @@
         </ul>
       </div>
       <div class="delivery-cta">
-        <p class="h3">Работаем с НДС и безналом, также есть PayMe.</p>
+        <p class="h3">Работаем с НДС и безналом, также есть PayMe.</п>
         <a class="btn btn-outline" href="#form">Узнать условия</a>
       </div>
     </div>
@@ -529,7 +490,6 @@
 
       <div class="footer-map">
         <div class="map-embed">
-          <!-- Исправленный embeddable URL с координатами -->
           <iframe
             src="https://www.google.com/maps?q=41.336176,69.320007&z=16&hl=ru&output=embed"
             allowfullscreen
