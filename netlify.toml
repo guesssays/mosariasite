@@ -46,6 +46,12 @@
       frame-src https://www.google.com/ https://www.google.com.uz/;
     """
 
+# ---------- Caching for HTML (ДОБАВЛЕНО) ----------
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=300"
+
 # ---------- Caching for static assets ----------
 [[headers]]
   for = "/assets/*"

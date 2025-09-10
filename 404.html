@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Страница не найдена — МОСАРИЯ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,follow">
+  <link rel="preload" href="/assets/hero.png" as="image">
+  <style>
+    :root{
+      --ink:#2b211a; --muted:#6b5647; --brand:#7f5539; --brand2:#9c6644; --bg:#f8f2ec;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; display:grid; place-items:center; min-height:100%;
+      font:400 16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--ink); background:var(--bg);
+    }
+    .wrap{
+      text-align:center; padding:32px; max-width:720px;
+    }
+    h1{font:800 54px/1.1 system-ui; margin:0 0 6px; color:var(--brand2)}
+    p{margin:8px 0; color:var(--muted)}
+    a.btn{
+      display:inline-block; margin-top:14px; padding:.8rem 1.2rem; border-radius:999px;
+      background:var(--brand); color:#fff; text-decoration:none; font-weight:800;
+    }
+    .hint{margin-top:16px; font-size:.9rem}
+    img{max-width:280px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.08)}
+    @media (max-width:600px){
+      h1{font-size:40px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <img src="/assets/hero.png" alt="МОСАРИЯ" loading="lazy" decoding="async">
+    <h1>404 — Страница не найдена</h1>
+    <p>Похоже, ссылка устарела или адрес введён с ошибкой.</p>
+    <p><a class="btn" href="/">На главную</a></p>
+    <p class="hint">Если ошибка повторяется, свяжитесь с нами: <a href="tel:+998903166170">+998 (90) 316-61-70</a></p>
+  </div>
+</body>
+</html>
