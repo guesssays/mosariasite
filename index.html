@@ -35,7 +35,6 @@
   <meta property="og:site_name" content="МОСАРИЯ">
   <meta property="og:image" content="https://www.mosariya.uz/assets/hero.png">
   <meta property="og:image:alt" content="Упаковка и продукция МОСАРИЯ">
-  <!-- ДОБАВЛЕНО: размеры и тип OG-картинки -->
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:type" content="image/png">
@@ -124,7 +123,7 @@
   }
   </script>
 
-  <!-- ДОБАВЛЕНО: JSON-LD Organization -->
+  <!-- Organization -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -142,6 +141,16 @@
   <div class="container">
     <!-- Лого -->
     <a class="logo" href="#top" aria-label="МОСАРИЯ — на главную">МОСАРИЯ</a>
+
+    <!-- Бургер (моб.) -->
+    <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mobileNav">
+      <span class="burger-box" aria-hidden="true">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </span>
+      <span class="burger-text">Меню</span>
+    </button>
 
     <!-- ДЕСКТОП: навигация -->
     <nav class="main-nav" aria-label="Главное меню">
@@ -167,6 +176,16 @@
     <!-- МОБИЛЬНАЯ CTA -->
     <a class="btn btn-primary btn-sm cta-mobile" href="#form">Заказать</a>
   </div>
+
+  <!-- МОБИЛЬНОЕ МЕНЮ -->
+  <nav id="mobileNav" class="mobile-nav" aria-label="Мобильное меню">
+    <a href="#catalog" data-close>Каталог</a>
+    <a href="#quality" data-close>Качество</a>
+    <a href="#delivery" data-close>Доставка</a>
+    <a href="#partners" data-close>Партнёры</a>
+    <a href="#form" data-close>Заявка</a>
+    <a href="#contacts" data-close>Контакты</a>
+  </nav>
 </header>
 
 <main id="top" class="page">
@@ -196,7 +215,7 @@
     </div>
   </section>
 
-  <!-- КАТЕГОРИИ + КАТАЛОГ -->
+  <!-- КАТАЛОГ -->
   <section id="catalog" class="section">
     <div class="container">
       <h2 class="h2">Каталог</h2>
@@ -510,9 +529,9 @@
 
       <div class="footer-map">
         <div class="map-embed">
-          <!-- Встраиваем карту через google.com, указывая ваш maps.app.goo.gl линк как поисковый запрос -->
+          <!-- Исправленный embeddable URL с координатами -->
           <iframe
-            src="https://www.google.com/maps?hl=ru&q=https://maps.app.goo.gl/FQvejDyaYDQh4azp7&z=15&output=embed"
+            src="https://www.google.com/maps?q=41.336176,69.320007&z=16&hl=ru&output=embed"
             allowfullscreen
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade">

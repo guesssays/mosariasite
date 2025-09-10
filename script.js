@@ -7,8 +7,7 @@ const isIOS = () =>
   /iPad|iPhone|iPod/.test(navigator.userAgent) ||
   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-// Конечная точка отправки (можно переопределить до подключения скрипта):
-// <script>window.__LEAD_ENDPOINT__='/.netlify/functions/lead'</script>
+// Конечная точка отправки
 const LEAD_ENDPOINT = window.__LEAD_ENDPOINT__ || '/.netlify/functions/lead';
 
 // =========================
@@ -21,6 +20,41 @@ function setHeaderVar(){
 }
 window.addEventListener('load', setHeaderVar);
 window.addEventListener('resize', setHeaderVar);
+
+// =========================
+// Mobile menu (burger)
+// =========================
+const burger = $('.burger');
+const mobileNav = $('#mobileNav');
+
+function setBurgerState(open){
+  if (!burger || !mobileNav) return;
+  burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  mobileNav.classList.toggle('is-open', !!open);
+  document.body.classList.toggle('nav-open', !!open);
+}
+
+if (burger && mobileNav){
+  burger.addEventListener('click', () => {
+    const open = burger.getAttribute('aria-expanded') !== 'true';
+    setBurgerState(open);
+  });
+
+  // Закрывать по клику на пункт
+  mobileNav.addEventListener('click', (e) => {
+    const link = e.target.closest('a[data-close]');
+    if (link){
+      setBurgerState(false);
+    }
+  });
+
+  // Закрывать по ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape'){
+      setBurgerState(false);
+    }
+  });
+}
 
 // =========================
 // Catalog filter
@@ -37,7 +71,7 @@ chips.forEach(ch => ch.addEventListener('click', () => {
   });
 }));
 
-// Автоподстановка категории в форме при клике «Оформить заказ» в карточке
+// Автоподстановка категории в форме при клике «Оформить заказ»
 document.addEventListener('click', (e) => {
   const link = e.target.closest('a[href="#form"]');
   if (!link) return;
@@ -213,7 +247,6 @@ if (form){
       if (!res.ok){
         const t = await res.text().catch(()=>'');
 
-        // сигнал Netlify-ботам и пр. о том, что это «soft fail»
         console.error('lead submit error:', t || `HTTP ${res.status}`);
         throw new Error(t || `HTTP ${res.status}`);
       }
@@ -230,7 +263,3 @@ if (form){
     }
   });
 }
-
-// =========================
-// ВАЖНО: переход по якорям нативный
-// =========================

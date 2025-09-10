@@ -74,17 +74,14 @@ body{
 img{max-width:100%;height:auto;display:block}
 .container{ width:min(var(--container),100% - 24px); margin-inline:auto; }
 
-/* улучшение доступности для скрытого текста */
 .sr-only{ position:absolute!important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0 }
 
-/* full-bleed фон + лёгкая виньетка, если нужно */
 .full-bleed{
   background:
     radial-gradient(1000px 400px at 80% -10%, rgba(0,0,0,.06), transparent 60%) no-repeat,
     var(--bg);
 }
 
-/* якоря — запас под фикс-шапку */
 :where([id]){ scroll-margin-top: calc(var(--header,56px) + 12px); }
 
 /* =========================
@@ -110,7 +107,7 @@ img{max-width:100%;height:auto;display:block}
   font-size:26px;
 }
 
-/* Навигация */
+/* ДЕСКТОП навигация */
 .main-nav{display:flex; gap:18px; margin-left:auto}
 .main-nav a{color:var(--muted); text-decoration:none; font-weight:600}
 .main-nav a:hover{color:var(--ink)}
@@ -124,14 +121,9 @@ img{max-width:100%;height:auto;display:block}
   transition:background .15s ease, color .15s ease, border-color .15s ease
 }
 .social-btn:hover{background:#fff3e7}
-
-/* Instagram — фирменный градиент (оранжево-красный) */
 .social-btn--ig .bi-instagram{
   background: linear-gradient(45deg,#f58529,#feda77,#dd2a7b,#8134af,#515bd4);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  font-weight:700;
+  -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:700;
 }
 
 /* Кнопки */
@@ -147,6 +139,30 @@ img{max-width:100%;height:auto;display:block}
 .btn-outline:hover{background:var(--ink); color:#fff}
 .btn-secondary{background:#ead5c4; color:#3b2b22; font-weight:800}
 
+/* ===== БУРГЕР + МОБ. МЕНЮ ===== */
+.burger{
+  display:none; align-items:center; gap:8px;
+  background:transparent; border:0; padding:6px 10px; margin-left:auto;
+  cursor:pointer; border-radius:10px;
+}
+.burger:focus-visible{ outline:2px solid var(--brand-2) }
+.burger-box{ display:inline-flex; flex-direction:column; gap:4px }
+.burger-line{ width:22px; height:2px; background:#3b2b22; border-radius:2px }
+.burger-text{ font-weight:700; color:#3b2b22; font-size:14px }
+
+.mobile-nav{
+  display:none; position:fixed; inset:auto 0 0 0; top:calc(var(--header,56px));
+  background:#fff7ee; border-top:1px solid rgba(0,0,0,.06);
+  box-shadow:0 -10px 30px rgba(0,0,0,.08);
+  padding:12px; z-index:1299;
+}
+.mobile-nav a{
+  display:block; padding:12px 8px; border-radius:10px; color:#3b2b22; text-decoration:none; font-weight:700;
+}
+.mobile-nav a:hover{ background:#f1e3d7 }
+
+.mobile-nav.is-open{ display:block }
+
 /* =========================
    HERO
    ========================= */
@@ -159,10 +175,6 @@ img{max-width:100%;height:auto;display:block}
 .hero-text h1 span{ color:var(--brand-2); }
 .brand-word{ font-family:var(--ff-brand); font-weight:400; }
 .hero-text .brand-word{ font-family:var(--ff-brand); font-weight:400; color:var(--ink); font-size:72px; line-height:1.05; display:inline-block; }
-@media (max-width:640px){
-  .hero-text h1{ font-size:36px }
-  .hero-text .brand-word{ font-size:44px }
-}
 .lead{ color:var(--muted); max-width:52ch }
 .hero-cta{ display:flex; flex-wrap:wrap; gap:12px; margin:18px 0 }
 .hero-badges{ display:flex; flex-wrap:wrap; gap:10px; padding:0; margin:12px 0 0; list-style:none; }
@@ -174,15 +186,6 @@ img{max-width:100%;height:auto;display:block}
 
 /* без старого круга */
 .hero::after{ content:none !important; }
-
-/* MOBILE: упростим */
-@media (max-width:960px){
-  .hero{ padding-top: 1px; padding-bottom: 32px }
-  .hero-media{ display:none !important; }
-  .hero-cta{ display:flex; flex-wrap:nowrap; justify-content:center; gap:10px; }
-  .hero-cta .btn{ flex:1 1 48%; min-width:0; font-size:.95rem; font-weight:600; padding:.6rem .9rem; border-width:1.5px; }
-  .contact-col{ display:grid; gap:12px; }
-}
 
 /* =========================
    SECTIONS
@@ -225,6 +228,7 @@ img{max-width:100%;height:auto;display:block}
 .quality-grid, .delivery-grid{ display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:center; }
 .list{ list-style:none; padding:0; margin:12px 0 0; display:grid; gap:8px }
 .list li{ display:flex; align-items:flex-start; gap:10px }
+.list li img{ width:20px; height:20px; flex:0 0 20px; } /* <-- фикс размера иконок */
 
 /* =========================
    FORM
@@ -269,25 +273,39 @@ img{max-width:100%;height:auto;display:block}
 .copyright{ margin:16px 0 0; opacity:.9; font-size:14px }
 
 /* =========================
-   RESPONSIVE GRIDS
+   RESPONSIVE
    ========================= */
 @media (max-width:960px){
+  /* шапка */
+  .burger{ display:inline-flex; }
+  .main-nav{ display:none; } /* скрыть десктопное меню на моб. */
+  .site-header .container{ display:flex; align-items:center; justify-content:space-between; }
+  .header-social{ margin-left:8px; order:10; display:flex; gap:8px; }
+  .cta-mobile{ order:11; margin-left:6px; }
+
+  /* hero мобильные правки */
+  .hero{ padding-top: 28px; padding-bottom: 28px }
+  .hero-media{ display:none !important; }
+  .hero .container{ display:grid; }
+  .hero-text{ text-align:center; margin-inline:auto; }
+  .hero-text h1{ font-size:36px }
+  .hero-text .brand-word{ font-size:44px }
+  .lead{ margin-inline:auto; }
+  .hero-cta{ display:flex; flex-wrap:nowrap; justify-content:center; gap:10px; }
+  .hero-cta .btn{ flex:1 1 48%; min-width:0; font-size:.95rem; font-weight:600; padding:.6rem .9rem; border-width:1.5px; }
+  .hero-badges{ justify-content:center; }
+
+  /* гриды */
   .cards{ grid-template-columns:1fr 1fr }
   .quality-grid, .delivery-grid, .form-grid{ grid-template-columns:1fr }
   .badges3{ grid-template-columns:1fr 1fr }
   .partners{ grid-template-columns: repeat(2,minmax(120px,1fr)); }
 }
+
 @media (max-width:640px){
   .cards{ grid-template-columns:1fr }
   .badges3{ grid-template-columns:1fr; gap:18px }
   .partner{ min-height:76px }
-}
-
-/* MOBILE header tweaks (оставляю из вашей версии, сокращено) */
-@media (max-width:960px){
-  .site-header .container{ display:flex; align-items:center; justify-content:space-between; }
-  .header-social{ margin-left:auto; order:10; display:flex; gap:8px; }
-  .cta-mobile{ order:11; margin-left:6px; }
 }
 
 /* MOBILE фон hero */
