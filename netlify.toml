@@ -26,16 +26,25 @@
   status = 301
   force  = true
 
-
-# ---------- Security Headers ----------
+# ---------- Security & SEO Headers ----------
 [[headers]]
   for = "/*"
   [headers.values]
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "SAMEORIGIN"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self' https: data:; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https:; script-src 'self' https: 'unsafe-inline'; connect-src 'self' https:; font-src 'self' https: data:; frame-ancestors 'self'; frame-src https://www.google.com/"
+    X-Content-Type-Options    = "nosniff"
+    X-Frame-Options           = "SAMEORIGIN"
+    Referrer-Policy           = "strict-origin-when-cross-origin"
+    # CSP: разрешаем self, https, data; карты — только google; шрифты/иконки — CDN
+    Content-Security-Policy = """
+      default-src 'self' https: data:;
+      img-src 'self' https: data:;
+      style-src 'self' 'unsafe-inline' https:;
+      script-src 'self' https: 'unsafe-inline';
+      connect-src 'self' https:;
+      font-src 'self' https: data:;
+      frame-ancestors 'self';
+      frame-src https://www.google.com/ https://www.google.com.uz/;
+    """
 
 # ---------- Caching for static assets ----------
 [[headers]]

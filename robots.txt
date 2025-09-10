@@ -5,4 +5,4 @@ Allow: /
 Sitemap: https://www.mosariya.uz/sitemap.xml
 
 # Для Яндекс
-Host: www.mosariya.uz
+Host: mosariya.uz

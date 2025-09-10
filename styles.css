@@ -1,6 +1,3 @@
-
-
-
 /* =========================
    FONTS
    ========================= */
@@ -75,11 +72,10 @@ body{
   letter-spacing:.2px;
 }
 img{max-width:100%;height:auto;display:block}
+.container{ width:min(var(--container),100% - 24px); margin-inline:auto; }
 
-.container{
-  width:min(var(--container),100% - 24px);
-  margin-inline:auto;
-}
+/* улучшение доступности для скрытого текста */
+.sr-only{ position:absolute!important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0 }
 
 /* full-bleed фон + лёгкая виньетка, если нужно */
 .full-bleed{
@@ -125,8 +121,18 @@ img{max-width:100%;height:auto;display:block}
   display:inline-flex; align-items:center; justify-content:center;
   width:38px; height:38px; border-radius:999px;
   border:2px dashed #cdb29f; color:var(--ink); text-decoration:none;
+  transition:background .15s ease, color .15s ease, border-color .15s ease
 }
 .social-btn:hover{background:#fff3e7}
+
+/* Instagram — фирменный градиент (оранжево-красный) */
+.social-btn--ig .bi-instagram{
+  background: linear-gradient(45deg,#f58529,#feda77,#dd2a7b,#8134af,#515bd4);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  font-weight:700;
+}
 
 /* Кнопки */
 .btn{
@@ -141,83 +147,41 @@ img{max-width:100%;height:auto;display:block}
 .btn-outline:hover{background:var(--ink); color:#fff}
 .btn-secondary{background:#ead5c4; color:#3b2b22; font-weight:800}
 
-/* Переключатель меню */
-.menu-toggle{display:none; margin-left:auto; border:0; background:transparent; font-size:26px}
-
 /* =========================
    HERO
    ========================= */
 .hero{
-  position:relative;
-  overflow:hidden;
-  padding:88px 0 56px;
-  background:var(--bg);
+  position:relative; overflow:hidden; padding:88px 0 56px; background:#E6CCB2 !important;
 }
 .hero .container{ position:relative; }
-
-.hero-text{
-  max-width:720px;
-  text-align:left;
-}
-.hero-text h1{
-  font-size:48px; line-height:1.1; margin:16px 0 0; font-weight:700;
-}
+.hero-text{ max-width:720px; text-align:left; }
+.hero-text h1{ font-size:48px; line-height:1.1; margin:16px 0 0; font-weight:700; }
 .hero-text h1 span{ color:var(--brand-2); }
-
-/* слово «МОСАРИЯ» */
 .brand-word{ font-family:var(--ff-brand); font-weight:400; }
-.hero-text .brand-word{
-  font-family:var(--ff-brand);
-  font-weight:400;
-  color:var(--ink);
-  font-size:72px;
-  line-height:1.05;
-  display:inline-block;
-}
+.hero-text .brand-word{ font-family:var(--ff-brand); font-weight:400; color:var(--ink); font-size:72px; line-height:1.05; display:inline-block; }
 @media (max-width:640px){
   .hero-text h1{ font-size:36px }
   .hero-text .brand-word{ font-size:44px }
 }
-
 .lead{ color:var(--muted); max-width:52ch }
 .hero-cta{ display:flex; flex-wrap:wrap; gap:12px; margin:18px 0 }
-.hero-badges{
-  display:flex; flex-wrap:wrap; gap:10px; padding:0; margin:12px 0 0; list-style:none;
-}
-.hero-badges li{
-  font-size:.9rem; padding:.45rem .8rem; border:1.5px dashed #cdb29f;
-  border-radius:999px; color:#5a4639; background:#fff3e7;
-}
+.hero-badges{ display:flex; flex-wrap:wrap; gap:10px; padding:0; margin:12px 0 0; list-style:none; }
+.hero-badges li{ font-size:.9rem; padding:.45rem .8rem; border:1.5px dashed #cdb29f; border-radius:999px; color:#5a4639; background:#fff3e7; }
 
-/* Картинка справа (десктоп) */
-.hero-media{
-  position:absolute; top:50%; right:-140px;
-  transform:translateY(-50%);
-  width:min(50vw, 760px);
-  pointer-events:none; /* чтобы не перекрывала клики */
-  z-index:1;
-}
+/* картинка справа */
+.hero-media{ position:absolute; top:50%; left:50% !important; transform: translateX(-1%) translateY(-50%) !important; width:min(32vw, 520px) !important; pointer-events:none; z-index:1; }
 .hero-media img{ width:100%; height:auto; object-fit:contain }
 
-/* Декоративный пунктирный круг */
-.hero::after{
-  content:""; position:absolute;
-  width:1100px; height:1100px;
-  right:-180px; top:-120px;
-  border:6px dashed #b88f75; border-radius:50%;
-  transform:rotate(10deg); z-index:0; pointer-events:none;
-}
+/* без старого круга */
+.hero::after{ content:none !important; }
 
-/* Планшет/мобилка — картинка уходит под текст */
+/* MOBILE: упростим */
 @media (max-width:960px){
-  .hero{ padding:56px 0 32px }
-  .hero-media{
-    position:relative; right:auto; top:auto; transform:none;
-    width:100%; aspect-ratio:4/3; margin-top:24px; pointer-events:auto; z-index:1;
-  }
-  .hero::after{
-    width:120vw; height:120vw; right:-40vw; top:-20vw; border-width:4px;
-  }
+  .hero{ padding-top: 1px; padding-bottom: 32px }
+  .hero-media{ display:none !important; }
+  .hero-cta{ display:flex; flex-wrap:nowrap; justify-content:center; gap:10px; }
+  .hero-cta .btn{ flex:1 1 48%; min-width:0; font-size:.95rem; font-weight:600; padding:.6rem .9rem; border-width:1.5px; }
+  .contact-col{ display:grid; gap:12px; }
 }
 
 /* =========================
@@ -225,26 +189,19 @@ img{max-width:100%;height:auto;display:block}
    ========================= */
 .section{ padding:48px 0 }
 .tinted{ background:var(--paper) }
-
 .h2{ font-size:28px; margin:0 0 16px; font-weight:700 }
 .h3{ font-size:20px; margin:6px 0; font-weight:700 }
 
-/* Chips (категории) */
+/* Chips */
 .chips{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px }
-.chip{
-  padding:.5rem 1rem; border-radius:999px; border:2px solid #d6b8a5;
-  background:#fff; color:#3d2f26; font-weight:700; cursor:pointer;
-}
+.chip{ padding:.5rem 1rem; border-radius:999px; border:2px solid #d6b8a5; background:#fff; color:#3d2f26; font-weight:700; cursor:pointer; }
 .chip.is-active, .chip:hover{ background:#3d2f26; color:#fff; border-color:#3d2f26 }
 
 /* =========================
    CARDS
    ========================= */
 .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px }
-.card{
-  background:#fff; border-radius:20px; overflow:hidden;
-  box-shadow:var(--shadow); display:flex; flex-direction:column;
-}
+.card{ background:#fff; border-radius:20px; overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column; }
 .card img{ aspect-ratio:4/3; object-fit:cover }
 .card-body{ padding:14px 14px 16px }
 .card-title{ margin:0 0 6px; font-size:18px; line-height:1.3; font-weight:700 }
@@ -256,592 +213,89 @@ img{max-width:100%;height:auto;display:block}
    BADGES (3 в ряд)
    ========================= */
 .badges3{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:28px;
-  padding:0; margin:24px 0 0;
-  list-style:none;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:28px; padding:0; margin:24px 0 0; list-style:none;
 }
-.badges3 li{
-  display:flex; flex-direction:column; align-items:center;
-  text-align:center; background:transparent; box-shadow:none; padding:0;
-}
-.badge-head{
-  display:inline-block; margin:0;
-  padding:14px 32px;
-  border:2.5px dashed #d0b096; border-radius:24px;
-  font-weight:700; font-size:22px; line-height:1.1; color:#3b2b22;
-}
-.badge-desc{
-  display:block; margin:12px auto 0; max-width:36ch;
-  font-size:14px; line-height:1.35; color:#2b211a; font-weight:600;
-}
+.badges3 li{ display:flex; flex-direction:column; align-items:center; text-align:center; background:transparent; box-shadow:none; padding:0; }
+.badge-head{ display:inline-block; margin:0; padding:14px 32px; border:2.5px dashed #d0b096; border-radius:24px; font-weight:700; font-size:22px; line-height:1.1; color:#3b2b22; }
+.badge-desc{ display:block; margin:12px auto 0; max-width:36ch; font-size:14px; line-height:1.35; color:#2b211a; font-weight:600; }
 
 /* =========================
    QUALITY / DELIVERY
    ========================= */
-.quality-grid,
-.delivery-grid{
-  display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:center;
-}
+.quality-grid, .delivery-grid{ display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:center; }
 .list{ list-style:none; padding:0; margin:12px 0 0; display:grid; gap:8px }
 .list li{ display:flex; align-items:flex-start; gap:10px }
-
-/* выравнивание правых колонок */
-.quality-cta, .delivery-cta{
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; text-align:center;
-}
 
 /* =========================
    FORM
    ========================= */
-.form-grid{
-  display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:start;
-}
+.form-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:start; }
 .lead-form{ display:grid; gap:12px }
 .lead-form label{ display:grid; gap:6px; font-weight:700 }
 .lead-form input, .lead-form select, .lead-form textarea{
   border:2px solid #d8c2b2; border-radius:14px; padding:12px 14px;
-  background:#fff; color:var(--ink); font:inherit;
-  box-shadow:inset 0 2px 0 rgba(0,0,0,.02);
+  background:#fff; color:var(--ink); font:inherit; box-shadow:inset 0 2px 0 rgba(0,0,0,.02);
 }
-.form-note{ font-size:.85rem }
 
-.contacts{ list-style:none; padding:0; margin:10px 0; display:grid; gap:8px }
-.contacts li{ display:flex; align-items:center; gap:10px }
-.contacts img{ width:18px; height:18px; flex-shrink:0 } /* унификация иконок */
-
-.contact-photo{
-  border-radius:20px; overflow:hidden; box-shadow:var(--shadow); border:10px solid #ecd6c8;
-  height:420px;
+/* =========================
+   PARTNERS
+   ========================= */
+.partners{
+  --gap: 22px;
+  display:grid;
+  grid-template-columns: repeat(6, minmax(120px,1fr));
+  gap: var(--gap);
+  align-items:center;
+  list-style:none;
+  padding:0; margin:18px 0 0;
 }
-.contact-photo img{
-  width:100%; height:100%; object-fit:cover; object-position:center;
+.partner{
+  background:#fff; border:2px dashed #d6b8a5; border-radius:16px; padding:14px;
+  display:flex; align-items:center; justify-content:center; min-height:84px;
+  box-shadow: var(--shadow);
 }
-@media (max-width:960px){
-  .contact-photo{ height:320px }
-}
+.partner img{ display:block; height:auto; max-height:56px; width:auto }
 
 /* =========================
    FOOTER
    ========================= */
-.site-footer{
-  background:#e6d2c1;
-  color:var(--ink);
-  padding:36px 0;
-  font-family:var(--ff-body);
-}
-.footer-head{
-  display:flex; align-items:baseline; justify-content:space-between; gap:24px; margin-bottom:12px;
-}
-.footer-quick{
-  margin:0; padding:0; list-style:none;
-  display:flex; flex-wrap:wrap; gap:14px 22px; font-weight:600;
-}
+.site-footer{ background:#e6d2c1; color:var(--ink); padding:36px 0; font-family:var(--ff-body); }
+.footer-head{ display:flex; align-items:baseline; justify-content:space-between; gap:24px; margin-bottom:12px; }
+.footer-quick{ margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:14px 22px; font-weight:600; }
 .footer-quick a{ color:inherit; text-decoration:none }
-
-.footer-grid{ display:grid; grid-template-columns:1fr 1.2fr; gap:24px; align-items:start }
 .footer-map{ grid-column:1/-1 }
-.footer-map .map-embed{
-  position:relative; width:100%; aspect-ratio:16/9;
-  border-radius:8px; overflow:hidden; box-shadow:var(--shadow); background:#fff;
-}
+.footer-map .map-embed{ position:relative; width:100%; aspect-ratio:16/9; border-radius:8px; overflow:hidden; box-shadow:var(--shadow); background:#fff; }
 .footer-map .map-embed iframe{ position:absolute; inset:0; width:100%; height:100%; border:0 }
-@media (max-width:640px){ .footer-map .map-embed{ aspect-ratio:4/3 } }
-
 .copyright{ margin:16px 0 0; opacity:.9; font-size:14px }
 
 /* =========================
    RESPONSIVE GRIDS
    ========================= */
 @media (max-width:960px){
-  .menu-toggle{ display:block }
-  .hero .container,
-  .hero-text{ text-align:center }
   .cards{ grid-template-columns:1fr 1fr }
-  .quality-grid, .delivery-grid, .form-grid, .footer-grid{ grid-template-columns:1fr }
+  .quality-grid, .delivery-grid, .form-grid{ grid-template-columns:1fr }
   .badges3{ grid-template-columns:1fr 1fr }
+  .partners{ grid-template-columns: repeat(2,minmax(120px,1fr)); }
 }
 @media (max-width:640px){
   .cards{ grid-template-columns:1fr }
   .badges3{ grid-template-columns:1fr; gap:18px }
-  .badge-head{ font-size:20px; padding:12px 24px }
-  .badge-desc{ font-size:13.5px }
+  .partner{ min-height:76px }
 }
 
-/* На очень маленьких экранах — побольше полей по краям */
-@media (max-width:420px){
-  .container{ width:min(var(--container), 100% - 36px) }
-}
-
-/* =========================
-   MOBILE MENU (slide-down)
-   ========================= */
-
-/* Бэкдроп (по умолчанию скрыт) */
-.nav-backdrop{
-  position:fixed; inset:0; background:rgba(0,0,0,.25);
-  z-index:1280; opacity:0; visibility:hidden; pointer-events:none;
-  transition:opacity .2s ease, visibility 0s .2s;
-}
-.nav-backdrop[hidden]{ display:none }
-body.nav-open .nav-backdrop{ opacity:1; visibility:visible; pointer-events:auto; transition:opacity .2s ease }
-
-/* Состояние скрытого меню (для безопасности кликов) */
-.main-nav[aria-hidden="true"]{
-  pointer-events:none; opacity:0; visibility:hidden; transform:translateY(-16px);
-}
-
-/* Десктоп: меню всегда обычное, без фиксации и скрытий */
-@media (min-width:961px){
-  .main-nav{
-    position:static!important;
-    display:flex!important; gap:18px!important;
-    transform:none!important; opacity:1!important; visibility:visible!important; pointer-events:auto!important;
-  }
-  .main-nav[aria-hidden="true"]{
-    transform:none!important; opacity:1!important; visibility:visible!important; pointer-events:auto!important;
-  }
-  .menu-toggle{ display:none!important }
-}
-
-/* Мобилка: панель, выезжающая вниз из-под шапки */
+/* MOBILE header tweaks (оставляю из вашей версии, сокращено) */
 @media (max-width:960px){
-  .main-nav{
-    position:fixed; left:0; right:0; top:calc(var(--header,56px));
-    display:grid; gap:4px;
-    background:rgba(255,247,238,.98);
-    backdrop-filter:blur(6px) saturate(1.1);
-    padding:14px 16px 18px;
-    border-bottom:1px solid rgba(0,0,0,.06);
-    transform:translateY(-16px);
-    opacity:0; visibility:hidden; pointer-events:none;
-    transition:opacity .18s ease, transform .18s ease, visibility 0s .18s;
-    z-index:1290;
-  }
-  body.nav-open .main-nav{
-    transform:translateY(0);
-    opacity:1; visibility:visible; pointer-events:auto;
-    transition:opacity .18s ease, transform .18s ease;
-  }
-  .main-nav a{
-    display:block; padding:12px 10px; border-radius:12px;
-    color:var(--ink); font-weight:700; text-decoration:none;
-  }
-  .main-nav a:hover{ background:#fff }
-
-  /* чтобы декор hero не перекрывал клики по меню */
-  .hero::after, .hero-media{ pointer-events:none!important }
+  .site-header .container{ display:flex; align-items:center; justify-content:space-between; }
+  .header-social{ margin-left:auto; order:10; display:flex; gap:8px; }
+  .cta-mobile{ order:11; margin-left:6px; }
 }
 
-/* =========================
-   SMALL POLISH
-   ========================= */
-
-/* Чуть больше «воздуха» на мобилках в шапке */
-@media (max-width:640px){
-  .site-header .container{ padding:10px 0 }
-}
-
-/* Соцсети с CDN-иконками (если используешь <i class="bi ...">) */
-.social-btn{ transition:background .15s ease, color .15s ease, border-color .15s ease }
-.social-btn i{ font-size:20px; line-height:1 }
-.social-btn--tg:hover{ color:#229ED9; border-color:#cdb29f; background:#fffdf8 }
-.social-btn--ig:hover{ color:#E1306C; border-color:#cdb29f; background:#fffdf8 }
-
-/* === FIX: мелкие иконки списков и контактов === */
-.list img,
-.contacts img,
-.badges3 img {
-  width: 16px !important;
-  height: 16px !important;
-  flex-shrink: 0;
-}
-
-/* === Мобильная версия: соцсети справа рядом с меню === */
-@media (max-width:960px){
-  .site-header .container{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-
-
-  /* соцсети и бургер вместе справа */
-  .header-social{
-    margin-left: auto;
-    order: 10;
-    display: flex;
-    gap: 8px;
-  }
-
-  .menu-toggle{
-    order: 11;
-    margin-left: 6px;
-  }
-}
-/* === Мобильная версия: центрируем hero === */
-@media (max-width:960px){
-  .hero-text{
-    text-align: center;
-    margin-inline: auto;
-  }
-
-  .hero-cta{
-    justify-content: center;
-  }
-
-  .hero-badges{
-    justify-content: center;
-  }
-}
-/* === Десктоп: уменьшаем и центрируем hero-картинку === */
-@media (min-width:961px){
-  .hero-media{
-    right: -60px;         /* было -140px, подвинули ближе к центру */
-    width: min(42vw, 680px); /* было 50vw/760px — чуть меньше */
-  }
-}
-@media (min-width:961px){
-  .hero-media{
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-1%) translateY(-50%) !important; /* было -40%, стало -35% — сдвиг правее */
-    width: min(32vw, 520px) !important;
-  }
-}
-/* 1) Старый круг в hero выключаем */
-.hero::after{ content: none !important; }
-
-/* 2) Рисуем круг вокруг самой картинки */
-@media (min-width:961px){
-  .hero-media{
-    /* чтобы псевдоэлемент мог лежать под картинкой, но не под всей страницей */
-    isolation: isolate;
-  }
-  .hero-media::after{
-    content:"";
-    position:absolute;
-    left:50%; top:50%;
-    width:110%;                /* размер кольца относительно ширины картинки */
-    aspect-ratio:1/1;          /* идеальный круг */
-    transform: translate(-50%, -50%) rotate(12deg); /* лёгкий поворот как в рефе */
-    border-radius:50%;
-    z-index:-1;                /* под изображением, поверх фона */
-
-    /* пунктирное «кольцо» с настраиваемыми штрихами */
-    --dash-color:#b88f75;      /* оттенок из макета */
-    --dash: 12deg;             /* длина штриха */
-    --gap: 10deg;              /* длина промежутка */
-    background:
-      repeating-conic-gradient(
-        from 6deg,
-        var(--dash-color) 0 var(--dash),
-        transparent var(--dash) calc(var(--dash) + var(--gap))
-      );
-
-    /* толщина «бордера» */
-    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
-            mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
-  }
-}
-
-/* 3) Мобилки — центрированный круг под картинкой */
-@media (max-width:960px){
-  .hero-media{ isolation:isolate; }
-  .hero-media::after{
-    content:"";
-    position:absolute;
-    left:50%; top:50%;
-    width:min(88vw, 680px);
-    aspect-ratio:1/1;
-    transform:translate(-50%, -50%) rotate(12deg);
-    border-radius:50%;
-    z-index:-1;
-
-    --dash-color:#b88f75;
-    --dash: 22deg;
-    --gap: 14deg;
-    background:
-      repeating-conic-gradient(
-        from 6deg,
-        var(--dash-color) 0 var(--dash),
-        transparent var(--dash) calc(var(--dash) + var(--gap))
-      );
-    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 0);
-            mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 0);
-  }
-}
-/* Убираем лишнее пространство сверху над картинкой только на мобильных */
-@media (max-width:960px){
-  .hero{
-    padding-top: 1px;   /* было 56px, стало меньше */
-    padding-bottom: 32px; /* низ можно оставить или тоже уменьшить */
-  }
-}
-.hero{
-
-  background:#E6CCB2 !important;
-}
-
-
-/* Дополнительно: цель-якорь всегда учитывает высоту шапки */
-:where([id]){ scroll-margin-top: calc(var(--header,56px) + 14px); }
-/* Убираем всё меню */
-
-
-/* CTA в шапке на мобилках */
-@media (max-width:960px){
-  .cta-mobile {
-    display:inline-flex !important;
-    margin-left:auto;
-    font-size:.95rem;
-    padding:.5rem .9rem;
-  }
-}
-
-/* На мобилках показываем CTA, меню скрываем */
-@media (max-width:960px){
-  .main-nav { display:none !important; }
-  .cta-mobile {
-    display:inline-flex !important;
-    margin-left:auto;
-    font-size:.95rem;
-    padding:.5rem .9rem;
-  }
-}
-
-/* На десктопе наоборот: показываем меню, прячем CTA */
-
-@media (max-width:960px){
-  .hero-media{ pointer-events:none !important; }   /* картинка не мешает */
-  .hero::after{ pointer-events:none !important; } /* круг тоже не мешает */
-}
-@media (max-width:960px){
-  .cta-mobile {
-    display:inline-flex !important;
-    margin-left:auto;
-    font-size:.95rem;
-    padding:.5rem .9rem;
-    position: relative;
-    z-index: 2000; /* поверх всех декоративных слоёв */
-  }
-}
-/* На мобилках показываем компактную CTA */
-@media (max-width:960px){
-  .cta-mobile {
-    display:inline-flex !important;
-    margin-left:auto;
-    font-size:.9rem;
-    padding:.45rem .9rem;
-  }
-}
-
-/* На десктопе — показываем тоже, но справа от меню */
-@media (min-width:961px){
-  .cta-mobile {
-    display:inline-flex !important;
-    margin-left:12px;
-    font-size:.9rem;
-    padding:.5rem 1rem;
-  }
-}
-
-
-/* ===== MOBILE: hide hero image and dashed circle ===== */
-@media (max-width:960px){
-  /* прячем сам блок с картинкой */
-  .hero-media{
-    display: none !important;
-  }
-
-  /* на всякий случай гасим любые псевдоэлементы-кольца */
-  .hero-media::before,
-  .hero-media::after,
-  .hero::before,
-  .hero::after{
-    content: none !important;
-    display: none !important;
-  }
-}
-/* === Hero buttons: side by side on mobile === */
-@media (max-width:960px){
-  .hero-cta{
-    display: flex;
-    flex-wrap: nowrap;   /* чтобы не переносились */
-    justify-content: center;
-    gap: 12px;
-  }
-  .hero-cta .btn{
-    flex: 1 1 auto;      /* равная ширина */
-    min-width: 44%;      /* чтобы поместились 2 рядом */
-    text-align: center;
-  }
-}
-/* === Hero: компактные кнопки на мобильных === */
-@media (max-width:960px){
-  .hero-cta{
-    display:flex;
-    flex-wrap:nowrap;
-    justify-content:center;
-    gap:10px;
-  }
-  .hero-cta .btn{
-    flex:1 1 48%;
-    min-width:0;            /* чтобы текст не распирал */
-    font-size:.95rem;       /* было 1rem */
-    font-weight:600;        /* было 700 */
-    padding:.6rem .9rem;    /* было .9rem 1.2rem */
-    border-width:1.5px;     /* визуально легче */
-  }
-  /* если используешь .btn-secondary — ослабим и её */
-  .hero-cta .btn-secondary{
-    font-weight:600;        /* вместо 800 */
-  }
-  /* на очень узких экранах разрешим перенос */
-  @media (max-width:360px){
-    .hero-cta{ flex-wrap:wrap; }
-    .hero-cta .btn{ flex:1 1 100%; }
-  }
-}
-/* === Mobile header: соцсети перед CTA === */
-@media (max-width:960px){
-  .header-social {
-    order: 9;   /* сначала соцсети */
-  }
-  .cta-mobile {
-    order: 10;  /* затем кнопка CTA */
-  }
-}
-@media (min-width:961px){
-  .hero-text h1{
-    margin-top: 13px;   /* было 16px */
-  }
-  .hero-cta{
-    margin-top: 15px;   /* было 18px */
-    margin-bottom: 15px; /* симметрия, можно оставить 18px если нужно */
-  }
-}
-/* MOBILE: фон изображение в hero */
-@media (max-width:960px){
-  .hero{
-    background: 
-      linear-gradient(rgba(243,231,219,0.75), rgba(243,231,219,0.85)), /* мягкое затемнение */
-      url("assets/hero-bg-mobile.jpg") center/cover no-repeat;
-    color: var(--ink);
-  }
-
- 
-}
-/* MOBILE: фон картинкой поверх full-bleed */
+/* MOBILE фон hero */
 @media (max-width:960px){
   .hero.full-bleed{
     background:
       linear-gradient(rgba(243,231,219,0.75), rgba(243,231,219,0.85)),
       url("assets/hero-bg-mobile.jpg?v=1") center / cover no-repeat !important;
     color: var(--ink);
-  }
-
-}
-@media (max-width:960px){
-  .brand-dash{
-    display: none !important;
-  }
-}
-/* === MOBILE: контакты как стилизованные кнопки под заголовком === */
-@media (max-width:960px){
-  .contact-col{
-    display:grid;
-    gap:12px;
-  }
-
-  /* сам список сразу под h3, без лишних отступов */
-  .contact-col .contacts{
-    margin: 4px 0 0;     /* ближе к заголовку */
-    padding: 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    list-style: none;
-  }
-
-  /* каждый контакт — «пилюля»/кнопка с большим тач-таргетом */
-  .contact-col .contacts li{
-    margin: 0;
-  }
-  .contact-col .contacts a{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    border: 2px solid #d8c2b2;
-    border-radius: 14px;
-    background: #fff;
-    color: var(--ink);
-    text-decoration: none;
-    font-weight: 700;
-    box-shadow: inset 0 2px 0 rgba(0,0,0,.02);
-  }
-  .contact-col .contacts a:hover{
-    background: #fff7ee;
-  }
-
-  /* поддерживаем и <i class="bi ...">, и <img> иконки */
-  .contact-col .contacts i{
-    font-size: 18px;
-    line-height: 1;
-    flex-shrink: 0;
-  }
-  .contact-col .contacts img{
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-  }
-
-  /* фото остаётся ниже и отделяется воздухом */
-  .contact-col .contact-photo{
-    margin-top: 8px;
-  }
-}
-/* === MOBILE: футер-контакты стилизованные под заголовком === */
-@media (max-width:960px){
-  .footer-head{
-    display: block;       /* убираем разнос по сторонам */
-    margin-bottom: 16px;
-  }
-
-  .footer-head h2{
-    margin-bottom: 12px;  /* заголовок от контактов */
-  }
-
-  .footer-quick{
-    display: grid;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-  }
-
-  .footer-quick li{
-    list-style: none;
-    margin: 0;
-  }
-
-  .footer-quick a{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    border: 2px solid #d8c2b2;
-    border-radius: 14px;
-    background: #fff;
-    color: var(--ink);
-    text-decoration: none;
-    font-weight: 700;
-    box-shadow: inset 0 2px 0 rgba(0,0,0,.02);
-  }
-
-  .footer-quick a:hover{
-    background: #fff7ee;
   }
 }

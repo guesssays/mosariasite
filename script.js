@@ -169,7 +169,7 @@ function parseUTM(){
 const trim = (s) => (s || '').toString().trim();
 
 // =========================
-// Form handler (отправка в Telegram через серверную функцию)
+/** Form handler (отправка в Telegram через серверную функцию) */
 // =========================
 const form = $('#leadForm');
 if (form){
@@ -179,11 +179,9 @@ if (form){
     const fd = new FormData(form);
 
     const name     = trim(fd.get('name'));
-    const phone    = trim(fd.get('phone'));     // как в вашем HTML
-    const category = trim(fd.get('category'));  // как в вашем HTML
-    const comment  = trim(fd.get('comment'));   // как в вашем HTML
-
-    // необязательное скрытое поле для темы в супергруппе TG
+    const phone    = trim(fd.get('phone'));
+    const category = trim(fd.get('category'));
+    const comment  = trim(fd.get('comment'));
     const threadId = trim(fd.get('tg_topic_id'));
 
     if (!phone && !name){
@@ -214,6 +212,9 @@ if (form){
 
       if (!res.ok){
         const t = await res.text().catch(()=>'');
+
+        // сигнал Netlify-ботам и пр. о том, что это «soft fail»
+        console.error('lead submit error:', t || `HTTP ${res.status}`);
         throw new Error(t || `HTTP ${res.status}`);
       }
 
@@ -231,6 +232,5 @@ if (form){
 }
 
 // =========================
-// ВАЖНО: НЕТ обработчиков якорей!
-// Полностью полагаемся на нативный переход по <a href="#...">
+// ВАЖНО: переход по якорям нативный
 // =========================
