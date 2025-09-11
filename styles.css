@@ -163,3 +163,46 @@ img{max-width:100%;height:auto;display:block}
     color: var(--ink);
   }
 }
+/* Логотипы партнёров — мягкий эффект наведения */
+.partners .partner {
+  filter: grayscale(1);
+  opacity: .85;
+  transition: filter .2s ease, opacity .2s ease, transform .2s ease;
+}
+.partners .partner:hover {
+  filter: none;
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+/* Галерея фото в разделе «Партнёры» */
+.partners-gallery {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+.partners-shot {
+  grid-column: span 12;
+  display: block;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0,0,0,.08);
+}
+.partners-shot img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 16 / 10; /* аккуратное кадрирование */
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+.partners-shot:hover img {
+  transform: scale(1.02);
+}
+
+/* На широких экранах — два столбца */
+@media (min-width: 720px) {
+  .partners-shot:first-child { grid-column: span 6; }
+  .partners-shot:last-child  { grid-column: span 6; }
+}
