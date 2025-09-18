@@ -1,28 +1,23 @@
+# netlify.toml — MOSARIYA (www — основное зеркало)
+
 # ---------- Redirects ----------
-# http -> https (без www)
+# http/https APEX -> https://www.mosariya.uz
 [[redirects]]
   from = "http://mosariya.uz/*"
-  to   = "https://mosariya.uz/:splat"
-  status = 301
-  force  = true
-
-# www -> без www (http и https)
-[[redirects]]
-  from = "http://www.mosariya.uz/*"
-  to   = "https://mosariya.uz/:splat"
+  to   = "https://www.mosariya.uz/:splat"
   status = 301
   force  = true
 
 [[redirects]]
-  from = "https://www.mosariya.uz/*"
-  to   = "https://mosariya.uz/:splat"
+  from = "https://mosariya.uz/*"
+  to   = "https://www.mosariya.uz/:splat"
   status = 301
   force  = true
 
-# (опционально) тех. домен Netlify -> канонический
+# Netlify subdomain -> https://www.mosariya.uz
 [[redirects]]
   from = "https://mosariademo.netlify.app/*"
-  to   = "https://mosariya.uz/:splat"
+  to   = "https://www.mosariya.uz/:splat"
   status = 301
   force  = true
 
@@ -34,7 +29,6 @@
     X-Content-Type-Options    = "nosniff"
     X-Frame-Options           = "SAMEORIGIN"
     Referrer-Policy           = "strict-origin-when-cross-origin"
-    # CSP: разрешаем self, https, data; карты — только google; шрифты/иконки — CDN
     Content-Security-Policy = """
       default-src 'self' https: data:;
       img-src 'self' https: data:;
@@ -46,13 +40,12 @@
       frame-src https://www.google.com/ https://www.google.com.uz/;
     """
 
-# ---------- Caching for HTML (ДОБАВЛЕНО) ----------
+# ---------- Caching ----------
 [[headers]]
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=300"
 
-# ---------- Caching for static assets ----------
 [[headers]]
   for = "/assets/*"
   [headers.values]
