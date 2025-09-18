@@ -22,23 +22,58 @@ window.addEventListener('load', setHeaderVar);
 window.addEventListener('resize', setHeaderVar);
 
 // =========================
-// (УДАЛЕНО) ЛОГИКА БУРГЕРА / МОБ. МЕНЮ
-// — больше не нужна, т.к. меню скрываем на мобилках
+// Навигация: подсветка текущего раздела
 // =========================
+const navLinks = $$('.main-nav a[href^="#"]');
+const sections = navLinks.map(a => $(a.getAttribute('href')));
+const navObserver = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const id = '#' + entry.target.id;
+    const link = $(`.main-nav a[href="${id}"]`);
+    if (!link) return;
+    if (entry.isIntersecting){
+      navLinks.forEach(l => l.removeAttribute('aria-current'));
+      link.setAttribute('aria-current','true');
+    }
+  });
+},{rootMargin:'-30% 0px -65% 0px', threshold:[0,1]}) : null;
+
+sections.forEach(sec => sec && navObserver && navObserver.observe(sec));
 
 // =========================
 /** Catalog filter */
 // =========================
 const chips = $$('.chip');
 const cards = $$('.card');
-chips.forEach(ch => ch.addEventListener('click', () => {
-  chips.forEach(c => c.classList.remove('is-active'));
-  ch.classList.add('is-active');
-  const filter = ch.dataset.filter;
+
+function setActiveChipByName(name){
+  chips.forEach(c => c.classList.toggle('is-active', c.dataset.filter === name || (name === 'all' && c.dataset.filter === 'all')));
+}
+
+function applyFilter(filter){
+  setActiveChipByName(filter);
   cards.forEach(card => {
     const ok = filter === 'all' || card.dataset.category === filter;
     card.style.display = ok ? '' : 'none';
   });
+  renderSearchNote(null, countVisibleCards());
+}
+
+chips.forEach(ch => ch.addEventListener('click', () => {
+  const filter = ch.dataset.filter;
+  applyFilter(filter);
+  // синхронизируем URL-хэш с фильтром популярных категорий
+  const anchorMap = {
+    'Пельмени':'#pelmeni',
+    'Манты':'#manti',
+    'Вареники':'#vareniki',
+    'Готовая еда':'#gotovaya-eda',
+    'Супы':'#supy',
+    'Горячее':'#goryachie',
+    'all':'#catalog'
+  };
+  const hash = anchorMap[filter] || '#catalog';
+  history.replaceState(null,'', hash);
 }));
 
 // Автоподстановка категории в форме при клике «Оформить заказ»
@@ -172,6 +207,17 @@ function parseUTM(){
 }
 const trim = (s) => (s || '').toString().trim();
 
+// Мини-валидация телефона/имени
+function validateLead(name, phone){
+  const phoneClean = (phone || '').replace(/[^\d+]/g,'');
+  const ok = !!name || phoneClean.length >= 9;
+  const phoneInput = document.querySelector('#leadForm input[name="phone"]');
+  const nameInput  = document.querySelector('#leadForm input[name="name"]');
+  phoneInput && phoneInput.classList.toggle('is-error', !ok && !name);
+  nameInput  && nameInput.classList.toggle('is-error', !ok && !phoneClean);
+  return ok;
+}
+
 // =========================
 /** Form handler (отправка в Telegram через серверную функцию) */
 // =========================
@@ -188,7 +234,7 @@ if (form){
     const comment  = trim(fd.get('comment'));
     const threadId = trim(fd.get('tg_topic_id'));
 
-    if (!phone && !name){
+    if (!validateLead(name, phone)){
       alert('Пожалуйста, укажите телефон или имя, чтобы мы могли связаться.');
       return;
     }
@@ -233,3 +279,125 @@ if (form){
     }
   });
 }
+
+// =========================
+// Поиск в каталоге: поддержка #catalog?q=... и фильтр по слову
+// =========================
+function ensureSearchNote(){
+  let note = $('.search-note');
+  if (!note){
+    note = document.createElement('div');
+    note.className = 'search-note';
+    note.setAttribute('role','status'); // для а11y
+    const chipsWrap = $('.chips');
+    chipsWrap && chipsWrap.insertAdjacentElement('afterend', note);
+  }
+  return note;
+}
+function renderSearchNote(query, count){
+  const note = ensureSearchNote();
+  if (!query && query !== ''){ // null → просто показать счётчик видимых карточек
+    if (count === null) { note.classList.remove('is-visible'); return; }
+    note.innerHTML = `<span>Найдено позиций: <b>${count}</b></span>`;
+    note.classList.add('is-visible');
+    return;
+  }
+  const q = (query || '').trim();
+  if (!q){
+    note.classList.remove('is-visible');
+    return;
+  }
+  note.innerHTML = `По запросу «<b>${q.replace(/[<>&"]/g,'')}</b>» найдено: <b>${count}</b>`;
+  note.classList.add('is-visible');
+}
+function countVisibleCards(){
+  return cards.filter(c => c.style.display !== 'none').length;
+}
+
+function normalize(s){ return (s || '').toString().toLowerCase(); }
+
+function applySearch(query){
+  const q = normalize(query);
+  if (!q){
+    // вернуть обычный фильтр (all)
+    applyFilter('all');
+    renderSearchNote('', 0);
+    return;
+  }
+  chips.forEach(c => c.classList.remove('is-active'));
+  let hits = 0;
+  cards.forEach(card => {
+    const title = normalize(card.querySelector('.card-title')?.textContent);
+    const desc  = normalize(card.querySelector('[itemprop="description"]')?.textContent);
+    const cat   = normalize(card.dataset.category);
+    const ok = title.includes(q) || desc.includes(q) || cat.includes(q);
+    card.style.display = ok ? '' : 'none';
+    if (ok) hits++;
+  });
+  renderSearchNote(q, hits);
+  // проскроллить к каталогу
+  const catalog = $('#catalog');
+  catalog && catalog.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// Парсинг хэша вида "#catalog?q=..." или "#pelmeni"
+function parseHash(){
+  const h = location.hash || '';
+  if (!h) return {type:'none'};
+  const [hashPath, hashQuery] = h.split('?');
+  const params = new URLSearchParams(hashQuery || '');
+  const q = params.get('q');
+
+  // популярные фильтры-якоря
+  const anchorToFilter = {
+    '#pelmeni':'Пельмени',
+    '#manti':'Манты',
+    '#vareniki':'Вареники',
+    '#gotovaya-eda':'Готовая еда',
+    '#supy':'Супы',
+    '#goryachie':'Горячее',
+    '#catalog':'all'
+  };
+
+  if (hashPath === '#catalog' && q) return {type:'search', q};
+  if (anchorToFilter[hashPath])   return {type:'filter', value:anchorToFilter[hashPath]};
+  return {type:'none'};
+}
+
+function applyFromURL(){
+  const parsed = parseHash();
+  if (parsed.type === 'search'){
+    applySearch(parsed.q);
+  } else if (parsed.type === 'filter'){
+    applyFilter(parsed.value);
+    // показать счётчик после фильтра
+    renderSearchNote(null, countVisibleCards());
+    const catalog = $('#catalog');
+    catalog && catalog.scrollIntoView({behavior:'smooth', block:'start'});
+  } else {
+    // если есть query-параметр ?q= в адресной строке (без хэша) — тоже учтём
+    const qs = new URLSearchParams(location.search);
+    const q = qs.get('q');
+    if (q){ applySearch(q); }
+  }
+}
+
+window.addEventListener('hashchange', applyFromURL);
+window.addEventListener('DOMContentLoaded', applyFromURL);
+
+// =========================
+// Мягкая прокрутка к якорям (если не подключён ваш script-smooth)
+// =========================
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  const id = a.getAttribute('href');
+  if (id.length > 1){
+    const el = $(id);
+    if (el){
+      e.preventDefault();
+      el.scrollIntoView({behavior:'smooth', block:'start'});
+      history.pushState(null,'', id);
+    }
+  }
+});
