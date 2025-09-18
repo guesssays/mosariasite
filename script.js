@@ -11,6 +11,16 @@ const isIOS = () =>
 const LEAD_ENDPOINT = window.__LEAD_ENDPOINT__ || '/.netlify/functions/lead';
 
 // =========================
+/** ГРУППЫ КАТЕГОРИЙ (инклюзивные фильтры)
+ *  — «Готовая еда» показывает и «Супы», и «Горячее»
+ *  — при желании можно добавить «Полуфабрикаты»: ['Пельмени','Манты','Вареники']
+ */
+const FILTER_GROUPS = {
+  'Готовая еда': ['Супы','Горячее'],
+  // 'Полуфабрикаты': ['Пельмени','Манты','Вареники'],
+};
+
+// =========================
 // header height → CSS var
 // =========================
 const header = $('.site-header');
@@ -50,10 +60,18 @@ function setActiveChipByName(name){
   chips.forEach(c => c.classList.toggle('is-active', c.dataset.filter === name || (name === 'all' && c.dataset.filter === 'all')));
 }
 
+function allowedCategoriesFor(filter){
+  if (filter === 'all') return null; // null → показываем всё
+  // если фильтр — группа, возвращаем её список; иначе — одиночная категория
+  return FILTER_GROUPS[filter] || [filter];
+}
+
 function applyFilter(filter){
   setActiveChipByName(filter);
+  const allow = allowedCategoriesFor(filter);
   cards.forEach(card => {
-    const ok = filter === 'all' || card.dataset.category === filter;
+    const cardCat = card.dataset.category;
+    const ok = (allow === null) || allow.includes(cardCat);
     card.style.display = ok ? '' : 'none';
   });
   renderSearchNote(null, countVisibleCards());
@@ -386,7 +404,7 @@ window.addEventListener('hashchange', applyFromURL);
 window.addEventListener('DOMContentLoaded', applyFromURL);
 
 // =========================
-// Мягкая прокрутка к якорям (если не подключён ваш script-smooth)
+/** Мягкая прокрутка к якорям (если не подключён ваш script-smooth) */
 // =========================
 document.addEventListener('click', (e) => {
   const a = e.target.closest('a[href^="#"]');
