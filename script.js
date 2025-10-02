@@ -11,13 +11,9 @@ const isIOS = () =>
 const LEAD_ENDPOINT = window.__LEAD_ENDPOINT__ || '/.netlify/functions/lead';
 
 // =========================
-/** ГРУППЫ КАТЕГОРИЙ (инклюзивные фильтры)
- *  — «Готовая еда» показывает и «Супы», и «Горячее»
- *  — при желании можно добавить «Полуфабрикаты»: ['Пельмени','Манты','Вареники']
- */
+/** ГРУППЫ КАТЕГОРИЙ (инклюзивные фильтры) */
 const FILTER_GROUPS = {
   'Готовая еда': ['Супы','Горячее'],
-  // 'Полуфабрикаты': ['Пельмени','Манты','Вареники'],
 };
 
 // =========================
@@ -47,11 +43,10 @@ const navObserver = ('IntersectionObserver' in window) ? new IntersectionObserve
     }
   });
 },{rootMargin:'-30% 0px -65% 0px', threshold:[0,1]}) : null;
-
 sections.forEach(sec => sec && navObserver && navObserver.observe(sec));
 
 // =========================
-/** Catalog filter */
+// Catalog filter
 // =========================
 const chips = $$('.chip');
 const cards = $$('.card');
@@ -62,7 +57,6 @@ function setActiveChipByName(name){
 
 function allowedCategoriesFor(filter){
   if (filter === 'all') return null; // null → показываем всё
-  // если фильтр — группа, возвращаем её список; иначе — одиночная категория
   return FILTER_GROUPS[filter] || [filter];
 }
 
@@ -77,9 +71,12 @@ function applyFilter(filter){
   renderSearchNote(null, countVisibleCards());
 }
 
-chips.forEach(ch => ch.addEventListener('click', () => {
+chips.forEach(ch => ch.addEventListener('click', (e) => {
+  // ВАЖНО: не даём браузеру переходить по ссылке
+  e.preventDefault();
   const filter = ch.dataset.filter;
   applyFilter(filter);
+
   // синхронизируем URL-хэш с фильтром популярных категорий
   const anchorMap = {
     'Пельмени':'#pelmeni',
@@ -237,7 +234,7 @@ function validateLead(name, phone){
 }
 
 // =========================
-/** Form handler (отправка в Telegram через серверную функцию) */
+// Form handler (→ Telegram)
 // =========================
 const form = $('#leadForm');
 if (form){
@@ -299,14 +296,14 @@ if (form){
 }
 
 // =========================
-// Поиск в каталоге: поддержка #catalog?q=... и фильтр по слову
+// Поиск в каталоге: #catalog?q=... и фильтр по слову
 // =========================
 function ensureSearchNote(){
   let note = $('.search-note');
   if (!note){
     note = document.createElement('div');
     note.className = 'search-note';
-    note.setAttribute('role','status'); // для а11y
+    note.setAttribute('role','status');
     const chipsWrap = $('.chips');
     chipsWrap && chipsWrap.insertAdjacentElement('afterend', note);
   }
@@ -314,7 +311,7 @@ function ensureSearchNote(){
 }
 function renderSearchNote(query, count){
   const note = ensureSearchNote();
-  if (!query && query !== ''){ // null → просто показать счётчик видимых карточек
+  if (!query && query !== ''){
     if (count === null) { note.classList.remove('is-visible'); return; }
     note.innerHTML = `<span>Найдено позиций: <b>${count}</b></span>`;
     note.classList.add('is-visible');
@@ -337,7 +334,6 @@ function normalize(s){ return (s || '').toString().toLowerCase(); }
 function applySearch(query){
   const q = normalize(query);
   if (!q){
-    // вернуть обычный фильтр (all)
     applyFilter('all');
     renderSearchNote('', 0);
     return;
@@ -353,7 +349,6 @@ function applySearch(query){
     if (ok) hits++;
   });
   renderSearchNote(q, hits);
-  // проскроллить к каталогу
   const catalog = $('#catalog');
   catalog && catalog.scrollIntoView({behavior:'smooth', block:'start'});
 }
@@ -366,7 +361,6 @@ function parseHash(){
   const params = new URLSearchParams(hashQuery || '');
   const q = params.get('q');
 
-  // популярные фильтры-якоря
   const anchorToFilter = {
     '#pelmeni':'Пельмени',
     '#manti':'Манты',
@@ -388,12 +382,10 @@ function applyFromURL(){
     applySearch(parsed.q);
   } else if (parsed.type === 'filter'){
     applyFilter(parsed.value);
-    // показать счётчик после фильтра
     renderSearchNote(null, countVisibleCards());
     const catalog = $('#catalog');
     catalog && catalog.scrollIntoView({behavior:'smooth', block:'start'});
   } else {
-    // если есть query-параметр ?q= в адресной строке (без хэша) — тоже учтём
     const qs = new URLSearchParams(location.search);
     const q = qs.get('q');
     if (q){ applySearch(q); }
@@ -404,7 +396,7 @@ window.addEventListener('hashchange', applyFromURL);
 window.addEventListener('DOMContentLoaded', applyFromURL);
 
 // =========================
-/** Мягкая прокрутка к якорям (если не подключён ваш script-smooth) */
+// Мягкая прокрутка к якорям
 // =========================
 document.addEventListener('click', (e) => {
   const a = e.target.closest('a[href^="#"]');
