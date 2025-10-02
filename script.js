@@ -71,25 +71,51 @@ function applyFilter(filter){
   renderSearchNote(null, countVisibleCards());
 }
 
+// Карта соответствия фильтра ↔ хэш ↔ путь
+const FILTER_TO_HASH = {
+  'Пельмени':'#pelmeni',
+  'Манты':'#manti',
+  'Вареники':'#vareniki',
+  'Готовая еда':'#gotovaya-eda',
+  'Супы':'#supy',
+  'Горячее':'#goryachie',
+  'all':'#catalog'
+};
+const PATH_TO_FILTER = {
+  '/pelmeni':'Пельмени',
+  '/manti':'Манты',
+  '/vareniki':'Вареники',
+  '/gotovaya-eda':'Готовая еда'
+};
+
 chips.forEach(ch => ch.addEventListener('click', (e) => {
   // ВАЖНО: не даём браузеру переходить по ссылке
   e.preventDefault();
   const filter = ch.dataset.filter;
   applyFilter(filter);
-
-  // синхронизируем URL-хэш с фильтром популярных категорий
-  const anchorMap = {
-    'Пельмени':'#pelmeni',
-    'Манты':'#manti',
-    'Вареники':'#vareniki',
-    'Готовая еда':'#gotovaya-eda',
-    'Супы':'#supy',
-    'Горячее':'#goryachie',
-    'all':'#catalog'
-  };
-  const hash = anchorMap[filter] || '#catalog';
+  const hash = FILTER_TO_HASH[filter] || '#catalog';
   history.replaceState(null,'', hash);
+  // скролл к каталогу (удобно на мобилках)
+  $('#catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
 }));
+
+// Перехват кликов по ссылкам на категории в шапке/футере (/pelmeni и т.д.)
+// чтобы не было перезагрузки страницы
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[href^="/"]');
+  if (!a) return;
+
+  // игнорируем ссылки на файлы (по расширению) и внешние протоколы
+  const url = new URL(a.href, location.origin);
+  const path = url.pathname.replace(/\/+$/,'');
+  if (PATH_TO_FILTER[path]) {
+    e.preventDefault();
+    const filter = PATH_TO_FILTER[path];
+    applyFilter(filter);
+    history.replaceState(null,'', FILTER_TO_HASH[filter] || '#catalog');
+    $('#catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+});
 
 // Автоподстановка категории в форме при клике «Оформить заказ»
 document.addEventListener('click', (e) => {
@@ -376,16 +402,32 @@ function parseHash(){
   return {type:'none'};
 }
 
+// Применение роутинга по ПУТИ (автораспознавание /pelmeni и т.п.)
+function applyFromPathIfNeeded(){
+  const path = location.pathname.replace(/\/+$/,''); // без завершающего слеша
+  const filter = PATH_TO_FILTER[path];
+  if (!filter) return false;
+
+  applyFilter(filter);
+  history.replaceState(null,'', FILTER_TO_HASH[filter] || '#catalog'); // заменяем URL на хэш-версию
+  $('#catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
+  return true;
+}
+
 function applyFromURL(){
+  // 1) приоритет — явный путь /pelmeni и т.п.
+  if (applyFromPathIfNeeded()) return;
+
+  // 2) затем обрабатываем хэш/поиск
   const parsed = parseHash();
   if (parsed.type === 'search'){
     applySearch(parsed.q);
   } else if (parsed.type === 'filter'){
     applyFilter(parsed.value);
     renderSearchNote(null, countVisibleCards());
-    const catalog = $('#catalog');
-    catalog && catalog.scrollIntoView({behavior:'smooth', block:'start'});
+    $('#catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
   } else {
+    // query-параметр ?q=...
     const qs = new URLSearchParams(location.search);
     const q = qs.get('q');
     if (q){ applySearch(q); }
