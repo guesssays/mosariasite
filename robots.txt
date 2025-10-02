@@ -1,13 +1,11 @@
-# robots.txt — MOSARIYA (www как основное зеркало)
-# Последнее изменение: 2025-09-18
+# robots.txt — МОСАРИЯ (www — основное зеркало)
+# Последнее изменение: 2025-10-02
 
 User-agent: *
 Allow: /
 
-# Карта сайта (для всех поисковиков)
 Sitemap: https://www.mosariya.uz/sitemap.xml
 
-# Специфика для Яндекса
+# Яндекс
 Host: www.mosariya.uz
-# Уберём UTM-параметры из индекса (Яндекс)
 Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content /
