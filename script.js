@@ -7,14 +7,8 @@ const isIOS = () =>
   /iPad|iPhone|iPod/.test(navigator.userAgent) ||
   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-// Конечная точка отправки
+// Точка отправки (при желании переопределите глобальной переменной)
 const LEAD_ENDPOINT = window.__LEAD_ENDPOINT__ || '/.netlify/functions/lead';
-
-// =========================
-/** ГРУППЫ КАТЕГОРИЙ (инклюзивные фильтры) */
-const FILTER_GROUPS = {
-  'Готовая еда': ['Супы','Горячее'],
-};
 
 // =========================
 // header height → CSS var
@@ -28,25 +22,7 @@ window.addEventListener('load', setHeaderVar);
 window.addEventListener('resize', setHeaderVar);
 
 // =========================
-// Навигация: подсветка текущего раздела
-// =========================
-const navLinks = $$('.main-nav a[href^="#"]');
-const sections = navLinks.map(a => $(a.getAttribute('href')));
-const navObserver = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    const id = '#' + entry.target.id;
-    const link = $(`.main-nav a[href="${id}"]`);
-    if (!link) return;
-    if (entry.isIntersecting){
-      navLinks.forEach(l => l.removeAttribute('aria-current'));
-      link.setAttribute('aria-current','true');
-    }
-  });
-},{rootMargin:'-30% 0px -65% 0px', threshold:[0,1]}) : null;
-sections.forEach(sec => sec && navObserver && navObserver.observe(sec));
-
-// =========================
-// Catalog filter
+// Catalog filter (только если есть .chip/.card)
 // =========================
 const chips = $$('.chip');
 const cards = $$('.card');
@@ -54,78 +30,29 @@ const cards = $$('.card');
 function setActiveChipByName(name){
   chips.forEach(c => c.classList.toggle('is-active', c.dataset.filter === name || (name === 'all' && c.dataset.filter === 'all')));
 }
-
-function allowedCategoriesFor(filter){
-  if (filter === 'all') return null; // null → показываем всё
-  return FILTER_GROUPS[filter] || [filter];
-}
-
 function applyFilter(filter){
   setActiveChipByName(filter);
-  const allow = allowedCategoriesFor(filter);
+  const allow = (filter === 'all') ? null : [filter];
   cards.forEach(card => {
-    const cardCat = card.dataset.category;
-    const ok = (allow === null) || allow.includes(cardCat);
+    if (!card.hasAttribute('data-category')) return;
+    const ok = (allow === null) || allow.includes(card.dataset.category);
     card.style.display = ok ? '' : 'none';
   });
-  renderSearchNote(null, countVisibleCards());
 }
-
-// Карта соответствия фильтра ↔ хэш ↔ путь
-const FILTER_TO_HASH = {
-  'Пельмени':'#pelmeni',
-  'Манты':'#manti',
-  'Вареники':'#vareniki',
-  'Готовая еда':'#gotovaya-eda',
-  'Супы':'#supy',
-  'Горячее':'#goryachie',
-  'all':'#catalog'
-};
-const PATH_TO_FILTER = {
-  '/pelmeni':'Пельмени',
-  '/manti':'Манты',
-  '/vareniki':'Вареники',
-  '/gotovaya-eda':'Готовая еда'
-};
-
 chips.forEach(ch => ch.addEventListener('click', (e) => {
-  // ВАЖНО: не даём браузеру переходить по ссылке
   e.preventDefault();
-  const filter = ch.dataset.filter;
-  applyFilter(filter);
-  const hash = FILTER_TO_HASH[filter] || '#catalog';
-  history.replaceState(null,'', hash);
-  // скролл к каталогу (удобно на мобилках)
-  $('#catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
+  applyFilter(ch.dataset.filter);
 }));
 
-// Перехват кликов по ссылкам на категории в шапке/футере (/pelmeni и т.д.)
-// чтобы не было перезагрузки страницы
-document.addEventListener('click', (e) => {
-  const a = e.target.closest('a[href^="/"]');
-  if (!a) return;
-
-  // игнорируем ссылки на файлы (по расширению) и внешние протоколы
-  const url = new URL(a.href, location.origin);
-  const path = url.pathname.replace(/\/+$/,'');
-  if (PATH_TO_FILTER[path]) {
-    e.preventDefault();
-    const filter = PATH_TO_FILTER[path];
-    applyFilter(filter);
-    history.replaceState(null,'', FILTER_TO_HASH[filter] || '#catalog');
-    $('#catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
-  }
-});
-
-// Автоподстановка категории в форме при клике «Оформить заказ»
+// Автозаполнение категории при клике «Оформить заказ»
 document.addEventListener('click', (e) => {
   const link = e.target.closest('a[href="#form"]');
   if (!link) return;
   const card = link.closest('.card');
   const sel = document.querySelector('#leadForm select[name="category"]');
   if (card && sel) {
-    const val = card.dataset.category || '';
-    if (val) sel.value = val;
+    const val = card.dataset.category || card.querySelector('.card-title')?.textContent || '';
+    if (val) sel.value = sel.querySelector(`option[value="${val}"]`) ? val : sel.value;
   }
 });
 
@@ -160,13 +87,7 @@ function lockScroll(lock){
     }
   }
 }
-
-function safeFocus(el){
-  if (!el) return;
-  try { el.focus({ preventScroll: true }); }
-  catch { try { el.focus(); } catch(_) {} }
-}
-
+function safeFocus(el){ if (!el) return; try { el.focus({ preventScroll: true }); } catch { try { el.focus(); } catch(_) {} } }
 function ensureSuccessModal(){
   if ($('#successModal')) return $('#successModal');
   const css = `
@@ -181,13 +102,9 @@ function ensureSuccessModal(){
   .modal .btn-primary:hover{background:var(--brand-2,#9c6644)}
   .modal .btn-outline{border-color:#222;color:#222;background:#fff}
   `;
-  const style = document.createElement('style');
-  style.textContent = css;
-  document.head.appendChild(style);
-
+  const style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
   const overlay = document.createElement('div');
-  overlay.className = 'modal-overlay';
-  overlay.id = 'successModal';
+  overlay.className = 'modal-overlay'; overlay.id = 'successModal';
   overlay.innerHTML = `
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="successTitle">
       <h3 id="successTitle">Заявка отправлена</h3>
@@ -195,46 +112,21 @@ function ensureSuccessModal(){
       <div class="modal-actions">
         <button class="btn btn-primary" data-close>Ок</button>
       </div>
-    </div>
-  `;
+    </div>`;
   document.body.appendChild(overlay);
-
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay || e.target.closest('[data-close]')) closeModal();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
-  });
-
+  overlay.addEventListener('click', (e) => { if (e.target === overlay || e.target.closest('[data-close]')) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal(); });
   let prevFocus = null;
-  function openModal(){
-    prevFocus = document.activeElement;
-    overlay.classList.add('is-open');
-    const btn = overlay.querySelector('[data-close]');
-    safeFocus(btn);
-    lockScroll(true);
-  }
-  function closeModal(){
-    overlay.classList.remove('is-open');
-    lockScroll(false);
-    safeFocus(prevFocus);
-  }
-
-  overlay.__open = openModal;
-  overlay.__close = closeModal;
-  return overlay;
+  function openModal(){ prevFocus = document.activeElement; overlay.classList.add('is-open'); safeFocus(overlay.querySelector('[data-close]')); lockScroll(true); }
+  function closeModal(){ overlay.classList.remove('is-open'); lockScroll(false); safeFocus(prevFocus); }
+  overlay.__open = openModal; overlay.__close = closeModal; return overlay;
 }
-
 function showSuccessModal(message){
   const m = ensureSuccessModal();
-  const p = m.querySelector('.success-text');
-  if (p && message) p.textContent = message;
+  const p = m.querySelector('.success-text'); if (p && message) p.textContent = message;
   m.__open && m.__open();
 }
-function closeModal(){
-  const m = $('#successModal');
-  m && m.__close && m.__close();
-}
+function closeModal(){ const m = $('#successModal'); m && m.__close && m.__close(); }
 
 // =========================
 // helpers for form
@@ -242,12 +134,9 @@ function closeModal(){
 function parseUTM(){
   const p = new URLSearchParams(location.search);
   const keys = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
-  const utm = {};
-  keys.forEach(k => { const v = p.get(k); if (v) utm[k] = v; });
-  return utm;
+  const utm = {}; keys.forEach(k => { const v = p.get(k); if (v) utm[k] = v; }); return utm;
 }
 const trim = (s) => (s || '').toString().trim();
-
 // Мини-валидация телефона/имени
 function validateLead(name, phone){
   const phoneClean = (phone || '').replace(/[^\d+]/g,'');
@@ -260,7 +149,7 @@ function validateLead(name, phone){
 }
 
 // =========================
-// Form handler (→ Telegram)
+// Form handler (→ сервер/Telegram через function)
 // =========================
 const form = $('#leadForm');
 if (form){
@@ -268,7 +157,6 @@ if (form){
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]');
     const fd = new FormData(form);
-
     const name     = trim(fd.get('name'));
     const phone    = trim(fd.get('phone'));
     const category = trim(fd.get('category'));
@@ -279,167 +167,31 @@ if (form){
       alert('Пожалуйста, укажите телефон или имя, чтобы мы могли связаться.');
       return;
     }
-
     btn && (btn.disabled = true);
 
     const payload = {
-      name,
-      phone,
-      category,
-      comment,
-      page: location.href,
-      ref: document.referrer || '',
-      utm: parseUTM(),
-      ts: new Date().toISOString(),
+      name, phone, category, comment,
+      page: location.href, ref: document.referrer || '',
+      utm: parseUTM(), ts: new Date().toISOString(),
       message_thread_id: threadId || undefined
     };
 
     try{
-      const res = await fetch(LEAD_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      if (!res.ok){
-        const t = await res.text().catch(()=>'');
-
-        console.error('lead submit error:', t || `HTTP ${res.status}`);
-        throw new Error(t || `HTTP ${res.status}`);
-      }
-
+      const res = await fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      if (!res.ok){ const t = await res.text().catch(()=> ''); console.error('lead submit error:', t || `HTTP ${res.status}`); throw new Error(t || `HTTP ${res.status}`); }
       form.reset();
-      const msg = name ? `Спасибо, ${name}! Мы свяжемся с вами в ближайшее время.` :
-                         'Спасибо! Мы свяжемся с вами в ближайшее время.';
+      const msg = name ? `Спасибо, ${name}! Мы свяжемся с вами в ближайшее время.` : 'Спасибо! Мы свяжемся с вами в ближайшее время.';
       showSuccessModal(msg);
     } catch (err){
       console.error('lead submit error:', err);
-      alert('Не получилось отправить заявку. Попробуйте ещё раз или свяжитесь с нами в Telegram.');
+      alert('Не получилось отправить заявку. Попробуйте ещё раз или напишите нам в Instagram.');
     } finally {
       btn && (btn.disabled = false);
     }
   });
 }
 
-// =========================
-// Поиск в каталоге: #catalog?q=... и фильтр по слову
-// =========================
-function ensureSearchNote(){
-  let note = $('.search-note');
-  if (!note){
-    note = document.createElement('div');
-    note.className = 'search-note';
-    note.setAttribute('role','status');
-    const chipsWrap = $('.chips');
-    chipsWrap && chipsWrap.insertAdjacentElement('afterend', note);
-  }
-  return note;
-}
-function renderSearchNote(query, count){
-  const note = ensureSearchNote();
-  if (!query && query !== ''){
-    if (count === null) { note.classList.remove('is-visible'); return; }
-    note.innerHTML = `<span>Найдено позиций: <b>${count}</b></span>`;
-    note.classList.add('is-visible');
-    return;
-  }
-  const q = (query || '').trim();
-  if (!q){
-    note.classList.remove('is-visible');
-    return;
-  }
-  note.innerHTML = `По запросу «<b>${q.replace(/[<>&"]/g,'')}</b>» найдено: <b>${count}</b>`;
-  note.classList.add('is-visible');
-}
-function countVisibleCards(){
-  return cards.filter(c => c.style.display !== 'none').length;
-}
-
-function normalize(s){ return (s || '').toString().toLowerCase(); }
-
-function applySearch(query){
-  const q = normalize(query);
-  if (!q){
-    applyFilter('all');
-    renderSearchNote('', 0);
-    return;
-  }
-  chips.forEach(c => c.classList.remove('is-active'));
-  let hits = 0;
-  cards.forEach(card => {
-    const title = normalize(card.querySelector('.card-title')?.textContent);
-    const desc  = normalize(card.querySelector('[itemprop="description"]')?.textContent);
-    const cat   = normalize(card.dataset.category);
-    const ok = title.includes(q) || desc.includes(q) || cat.includes(q);
-    card.style.display = ok ? '' : 'none';
-    if (ok) hits++;
-  });
-  renderSearchNote(q, hits);
-  const catalog = $('#catalog');
-  catalog && catalog.scrollIntoView({behavior:'smooth', block:'start'});
-}
-
-// Парсинг хэша вида "#catalog?q=..." или "#pelmeni"
-function parseHash(){
-  const h = location.hash || '';
-  if (!h) return {type:'none'};
-  const [hashPath, hashQuery] = h.split('?');
-  const params = new URLSearchParams(hashQuery || '');
-  const q = params.get('q');
-
-  const anchorToFilter = {
-    '#pelmeni':'Пельмени',
-    '#manti':'Манты',
-    '#vareniki':'Вареники',
-    '#gotovaya-eda':'Готовая еда',
-    '#supy':'Супы',
-    '#goryachie':'Горячее',
-    '#catalog':'all'
-  };
-
-  if (hashPath === '#catalog' && q) return {type:'search', q};
-  if (anchorToFilter[hashPath])   return {type:'filter', value:anchorToFilter[hashPath]};
-  return {type:'none'};
-}
-
-// Применение роутинга по ПУТИ (автораспознавание /pelmeni и т.п.)
-function applyFromPathIfNeeded(){
-  const path = location.pathname.replace(/\/+$/,''); // без завершающего слеша
-  const filter = PATH_TO_FILTER[path];
-  if (!filter) return false;
-
-  applyFilter(filter);
-  history.replaceState(null,'', FILTER_TO_HASH[filter] || '#catalog'); // заменяем URL на хэш-версию
-  $('#catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
-  return true;
-}
-
-function applyFromURL(){
-  // 1) приоритет — явный путь /pelmeni и т.п.
-  if (applyFromPathIfNeeded()) return;
-
-  // 2) затем обрабатываем хэш/поиск
-  const parsed = parseHash();
-  if (parsed.type === 'search'){
-    applySearch(parsed.q);
-  } else if (parsed.type === 'filter'){
-    applyFilter(parsed.value);
-    renderSearchNote(null, countVisibleCards());
-    $('#catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
-  } else {
-    // query-параметр ?q=...
-    const qs = new URLSearchParams(location.search);
-    const q = qs.get('q');
-    if (q){ applySearch(q); }
-  }
-}
-
-window.addEventListener('hashchange', applyFromURL);
-window.addEventListener('DOMContentLoaded', applyFromURL);
-
-// =========================
 // Мягкая прокрутка к якорям
-// =========================
 document.addEventListener('click', (e) => {
   const a = e.target.closest('a[href^="#"]');
   if (!a) return;

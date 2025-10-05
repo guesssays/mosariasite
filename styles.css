@@ -1,11 +1,7 @@
-/* ===== FONTS (без изменений) ===== */
-@font-face{font-family:"SegoePro";src:url("assets/fonts/SegoePro-Light.ttf") format("truetype");font-weight:300;font-style:normal;font-display:swap}
-@font-face{font-family:"SegoePro";src:url("assets/fonts/SegoePro-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"SegoePro";src:url("assets/fonts/SegoePro-Italic.ttf") format("truetype");font-weight:400;font-style:italic;font-display:swap}
-@font-face{font-family:"SegoePro";src:url("assets/fonts/SegoePro-Medium.ttf") format("truetype");font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:"SegoePro";src:url("assets/fonts/SegoePro-Semibold.ttf") format("truetype");font-weight:600;font-style:normal;font-display:swap}
-@font-face{font-family:"SegoePro";src:url("assets/fonts/SegoePro-Bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:"Marmelad";src:url("assets/fonts/Marmelad-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+/* ===== FONTS (замените путями на свои, если используете) ===== */
+/* Можно убрать, если шрифты системные */
+@font-face{font-family:"SegoePro";src:url("/assets/fonts/SegoePro-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Marmelad";src:url("/assets/fonts/Marmelad-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
 
 /* ===== TOKENS ===== */
 :root{
@@ -27,7 +23,7 @@ img{max-width:100%;height:auto;display:block}
 .full-bleed{background:radial-gradient(1000px 400px at 80% -10%, rgba(0,0,0,.06), transparent 60%) no-repeat,var(--bg)}
 :where([id]){scroll-margin-top:calc(var(--header,56px) + 12px)}
 
-/* Доступность: единый фокус */
+/* Доступность: фокус */
 :where(a,button,input,select,textarea,.chip,.social-btn){outline:none}
 :where(a,button,input,select,textarea,.chip,.social-btn):focus-visible{
   box-shadow:0 0 0 3px rgba(31,58,147,.25);
@@ -36,7 +32,7 @@ img{max-width:100%;height:auto;display:block}
   border-radius:12px;
 }
 
-/* Снижение анимации для INP/а11y */
+/* Снижение анимации */
 @media (prefers-reduced-motion: reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
@@ -46,19 +42,13 @@ img{max-width:100%;height:auto;display:block}
 .site-header .container{display:flex;align-items:center;gap:20px;padding:10px 0}
 .logo{font-family:var(--ff-brand);font-weight:400;letter-spacing:.5px;text-decoration:none;color:var(--ink);font-size:26px}
 
-/* Десктоп-меню */
+/* Навигация */
 .main-nav{display:flex;gap:18px;margin-left:auto}
 .main-nav a{color:var(--muted);text-decoration:none;font-weight:600}
 .main-nav a:hover{color:var(--ink)}
-.main-nav a[aria-current="true"]{color:var(--ink);text-decoration:underline}
+.main-nav a[aria-current="page"]{color:var(--ink);text-decoration:underline}
 
-/* Соцсети */
-.header-social{display:flex;gap:10px;margin-left:8px}
-.social-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;border:2px dashed #cdb29f;color:var(--ink);text-decoration:none;transition:background .15s ease,color .15s ease,border-color .15s ease}
-.social-btn:hover{background:#fff3e7}
-.social-btn--ig .bi-instagram{background:linear-gradient(45deg,#f58529,#feda77,#dd2a7b,#8134af,#515bd4);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
-
-/* Кнопки */
+/* CTA mobile */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem 1.2rem;border-radius:999px;border:2px solid transparent;font-weight:700;text-decoration:none;cursor:pointer}
 .btn-sm{padding:.5rem .9rem;font-size:.9rem}
 .btn-primary{background:var(--brand);color:#fff}
@@ -68,26 +58,27 @@ img{max-width:100%;height:auto;display:block}
 .btn-secondary{background:#ead5c4;color:#3b2b22;font-weight:800}
 
 /* ===== HERO ===== */
-.hero{position:relative;overflow:hidden;padding:88px 0 56px;background:#E6CCB2 !important}
+.hero{position:relative;overflow:hidden;padding:88px 0 56px;background:#E6CCB2}
 .hero .container{position:relative}
 .hero-text{max-width:720px;text-align:left}
 .hero-text h1{font-size:48px;line-height:1.1;margin:16px 0 0;font-weight:700}
-.hero-text h1 span{color:var(--brand-2)}
-.brand-word{font-family:var(--ff-brand);font-weight:400}
-.hero-text .brand-word{font-family:var(--ff-brand);font-weight:400;color:var(--ink);font-size:72px;line-height:1.05;display:inline-block}
 .lead{color:var(--muted);max-width:52ch}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}
 .hero-badges{display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:12px 0 0;list-style:none}
 .hero-badges li{font-size:.9rem;padding:.45rem .8rem;border:1.5px dashed #cdb29f;border-radius:999px;color:#5a4639;background:#fff3e7}
-.hero-media{position:absolute;top:50%;left:50% !important;transform:translateX(-1%) translateY(-50%) !important;width:min(32vw,520px) !important;pointer-events:none;z-index:1}
+.hero-media{position:absolute;top:50%;left:50%;transform:translate(-1%,-50%);width:min(32vw,520px);pointer-events:none;z-index:1}
 .hero-media img{width:100%;height:auto;object-fit:contain}
-.hero::after{content:none !important}
 
 /* ===== SECTIONS ===== */
 .section{padding:48px 0}
 .tinted{background:var(--paper)}
 .h2{font-size:28px;margin:0 0 16px;font-weight:700}
 .h3{font-size:20px;margin:6px 0;font-weight:700}
+
+/* Категории-карточки */
+.cat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;list-style:none;padding:0;margin:12px 0 0}
+.cat-card{display:block;background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:28px;text-align:center;text-decoration:none;color:var(--ink);font-weight:800}
+.cat-card:hover{transform:translateY(-2px);transition:transform .15s ease}
 
 /* Chips */
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
@@ -104,19 +95,7 @@ img{max-width:100%;height:auto;display:block}
 .card-cta{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
 .price{font-weight:900;color:#3b2b22}
 
-/* ===== BADGES ===== */
-.badges3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:0;margin:24px 0 0;list-style:none}
-.badges3 li{display:flex;flex-direction:column;align-items:center;text-align:center;background:transparent;box-shadow:none;padding:0}
-.badge-head{display:inline-block;margin:0;padding:14px 32px;border:2.5px dashed #d0b096;border-radius:24px;font-weight:700;font-size:22px;line-height:1.1;color:#3b2b22}
-.badge-desc{display:block;margin:12px auto 0;max-width:36ch;font-size:14px;line-height:1.35;color:#2b211a;font-weight:600}
-
-/* ===== QUALITY / DELIVERY ===== */
-.quality-grid,.delivery-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
-.list{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}
-.list li{display:flex;align-items:flex-start;gap:10px}
-.list li img{width:20px;height:20px;flex:0 0 20px}
-
-/* ===== FORM ===== */
+/* ===== FORMS ===== */
 .form-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start}
 .lead-form{display:grid;gap:12px}
 .lead-form label{display:grid;gap:6px;font-weight:700}
@@ -129,115 +108,46 @@ img{max-width:100%;height:auto;display:block}
 .partner{background:#fff;border:2px dashed #d6b8a5;border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:center;min-height:84px;box-shadow:var(--shadow)}
 .partner img{display:block;height:auto;max-height:56px;width:auto}
 
-/* ===== SEARCH NOTE (для #catalog?q=...) ===== */
-.search-note{display:none;margin:10px 0 18px;padding:10px 14px;border-radius:12px;border:2px dashed #d0b096;background:#fff}
-.search-note.is-visible{display:block}
-.search-note b{color:#3b2b22}
-
 /* ===== FOOTER ===== */
-.site-footer{background:#e6d2c1;color:var(--ink);padding:36px 0;font-family:var(--ff-body)}
+.site-footer{background:#e6d2c1;color:var(--ink);padding:36px 0}
 .footer-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:12px}
 .footer-quick{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:14px 22px;font-weight:600}
 .footer-quick a{color:inherit;text-decoration:none}
 .footer-map{grid-column:1/-1}
-.footer-map .map-embed{position:relative;width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;box-shadow:var(--shadow);background:#fff}
-.footer-map .map-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.footer-map iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:8px;box-shadow:var(--shadow);background:#fff}
 .copyright{margin:16px 0 0;opacity:.9;font-size:14px}
-
-/* Видимый NAP */
 .nap{margin:12px 0 0;font-style:normal;background:#fff;border:2px dashed #d6b8a5;border-radius:12px;padding:10px 14px;box-shadow:var(--shadow)}
 .nap a{color:inherit}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:960px){
-  /* скрываем десктоп-меню; оставляем соцсети + CTA */
   .main-nav{display:none}
   .site-header .container{display:flex;align-items:center;justify-content:space-between}
-  .header-social{margin-left:8px;order:10;display:flex;gap:8px}
-  .cta-mobile{order:11;margin-left:6px}
-
-  /* hero */
   .hero{padding-top:28px;padding-bottom:28px}
-  .hero-media{display:none !important}
+  .hero-media{display:none}
   .hero .container{display:grid}
   .hero-text{text-align:center;margin-inline:auto}
   .hero-text h1{font-size:36px}
-  .hero-text .brand-word{font-size:44px}
   .lead{margin-inline:auto}
   .hero-cta{display:flex;flex-wrap:nowrap;justify-content:center;gap:10px}
   .hero-cta .btn{flex:1 1 48%;min-width:0;font-size:.95rem;font-weight:600;padding:.6rem .9rem;border-width:1.5px}
   .hero-badges{justify-content:center}
-
-  /* гриды */
+  .cat-cards{grid-template-columns:1fr 1fr}
   .cards{grid-template-columns:1fr 1fr}
-  .quality-grid,.delivery-grid,.form-grid{grid-template-columns:1fr}
-  .badges3{grid-template-columns:1fr 1fr}
+  .form-grid{grid-template-columns:1fr}
   .partners{grid-template-columns:repeat(2,minmax(120px,1fr))}
 }
 
 @media (max-width:640px){
   .cards{grid-template-columns:1fr}
-  .badges3{grid-template-columns:1fr;gap:18px}
+  .cat-cards{grid-template-columns:1fr}
   .partner{min-height:76px}
 }
 
-/* MOBILE фон hero */
-@media (max-width:960px){
-  .hero.full-bleed{
-    background:
-      linear-gradient(rgba(243,231,219,0.75), rgba(243,231,219,0.85)),
-      url("assets/hero-bg-mobile.jpg?v=1") center / cover no-repeat !important;
-    color: var(--ink);
-  }
-}
-/* Логотипы партнёров — мягкий эффект наведения */
-.partners .partner {
-  filter: grayscale(1);
-  opacity: .85;
-  transition: filter .2s ease, opacity .2s ease, transform .2s ease;
-}
-.partners .partner:hover {
-  filter: none;
-  opacity: 1;
-  transform: translateY(-2px);
-}
-
-/* Галерея фото в разделе «Партнёры» */
-.partners-gallery {
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 16px;
-}
-.partners-shot {
-  grid-column: span 12;
-  display: block;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 28px rgba(0,0,0,.08);
-}
-.partners-shot img {
-  width: 100%;
-  height: auto;
-  display: block;
-  aspect-ratio: 16 / 10; /* аккуратное кадрирование */
-  object-fit: cover;
-  transition: transform .35s ease;
-}
-.partners-shot:hover img {
-  transform: scale(1.02);
-}
-
-/* На широких экранах — два столбца */
-@media (min-width: 720px) {
-  .partners-shot:first-child { grid-column: span 6; }
-  .partners-shot:last-child  { grid-column: span 6; }
-}
-
-/* ===== PRINT (полезно для прайса/контактов) ===== */
+/* PRINT */
 @media print{
   body{background:#fff;color:#000}
-  .site-header,.hero,.partners,.partners-gallery,.chips{display:none!important}
-  .btn,.social-btn{display:none!important}
+  .site-header,.hero,.partners,.chips{display:none!important}
+  .btn{display:none!important}
   .site-footer{border-top:1px solid #000}
 }

@@ -4,594 +4,151 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- META: статика по умолчанию; дальше script.js подменит под маршрут -->
   <title>МОСАРИЯ — полуфабрикаты и готовая еда в Ташкенте: пельмени, манты, вареники, доставка</title>
-  <meta name="description" content="Производство и доставка полуфабрикатов в Ташкенте: пельмени, манты, вареники, котлеты, готовые блюда. Ручная лепка, без сои и усилителей, быстрая доставка по городу и оптом.">
+  <meta name="description" content="Производство и доставка полуфабрикатов в Ташкенте: пельмени, манты, вареники, котлеты, супы и горячее. Ручная лепка, без сои и усилителей. Доставка по городу и оптом.">
   <meta name="robots" content="index,follow,max-image-preview:large" />
-
   <meta name="google-site-verification" content="1LAadiCp-661HPJH6LSRYJJsh75WU5kHKjEs8QQIF_k" />
-
-  <!-- Canonical / hreflang (canonical подменяется клиентом под маршрут) -->
   <link rel="canonical" href="https://www.mosariya.uz/" />
   <link rel="alternate" hreflang="ru-UZ" href="https://www.mosariya.uz/" />
   <link rel="alternate" hreflang="x-default" href="https://www.mosariya.uz/" />
 
-  <!-- Preconnect -->
-  <link rel="dns-prefetch" href="//www.google.com">
-  <link rel="preconnect" href="https://www.google.com" crossorigin>
+  <!-- LCP preload только на главной -->
+  <link rel="preload" href="/assets/hero.webp" as="image" imagesrcset="/assets/hero.webp 1x, /assets/hero@2x.webp 2x" fetchpriority="high">
 
-  <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png?v=4">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png?v=4">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png?v=4">
-  <link rel="manifest" href="/assets/icons/site.webmanifest?v=4">
-  <link rel="shortcut icon" href="/favicon.ico?v=4">
-  <meta name="theme-color" content="#9c6644">
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/icons/site.webmanifest">
 
-  <!-- Open Graph -->
-  <meta property="og:locale" content="ru_RU">
-  <meta property="og:type" content="website">
+  <!-- OG/Twitter -->
+  <meta property="og:type" content="website"><meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="МОСАРИЯ — полуфабрикаты ручной работы и готовая еда с доставкой">
   <meta property="og:description" content="Пельмени, манты, вареники, супы и горячее. Ручная лепка, собственное производство, доставка по Ташкенту.">
   <meta property="og:url" content="https://www.mosariya.uz/">
   <meta property="og:site_name" content="МОСАРИЯ">
   <meta property="og:image" content="https://www.mosariya.uz/assets/hero.webp">
-  <meta property="og:image:alt" content="Упаковка и продукция МОСАРИЯ">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:type" content="image/webp">
-
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="МОСАРИЯ — полуфабрикаты ручной работы">
-  <meta name="twitter:description" content="Вкусно, быстро и надёжно: пельмени, манты, вареники и домашние блюда. Доставка.">
-  <meta name="twitter:image" content="https://www.mosariya.uz/assets/hero.webp">
+  <meta name="theme-color" content="#9c6644">
 
-  <!-- Критичный preload LCP-изображения -->
-  <link rel="preload" href="/assets/hero.webp" as="image" imagesrcset="/assets/hero.webp 1x, /assets/hero@2x.webp 2x" fetchpriority="high">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-  <!-- JSON-LD: Organization (E-E-A-T/бренд) -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"МОСАРИЯ",
-    "url":"https://www.mosariya.uz/",
+  <!-- JSON-LD -->
+  <script type="application/ld+json">{
+    "@context":"https://schema.org","@type":"Organization",
+    "name":"МОСАРИЯ","url":"https://www.mosariya.uz/",
     "logo":"https://www.mosariya.uz/assets/icons/android-chrome-192x192.png",
     "sameAs":["https://www.instagram.com/mosariya.uz"]
-  }
-  </script>
-
-  <!-- JSON-LD: WebSite (поиск по странице) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "url": "https://www.mosariya.uz/",
-    "name": "МОСАРИЯ",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://www.mosariya.uz/#catalog?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
-
-  <!-- JSON-LD: Local / FoodEstablishment -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FoodEstablishment",
-    "name": "МОСАРИЯ",
-    "url": "https://www.mosariya.uz/",
-    "image": "https://www.mosariya.uz/assets/hero.webp",
-    "logo": "https://www.mosariya.uz/assets/icons/android-chrome-192x192.png",
-    "telephone": "+998903166170",
-    "priceRange": "$$",
-    "servesCuisine": ["Русская", "Узбекская", "Домашняя"],
-    "sameAs": ["https://www.instagram.com/mosariya.uz"],
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "ул. (Сайрам, Мирзо- Улугбекский район.)",
-      "addressLocality": "Ташкент",
-      "postalCode": "100000",
-      "addressCountry": "UZ"
-    },
-    "geo": { "@type": "GeoCoordinates", "latitude": 41.336176, "longitude": 69.320007 },
-    "areaServed": { "@type": "City", "name": "Ташкент" },
-    "hasMap": "https://maps.app.goo.gl/FQvejDyaYDQh4azp7",
-    "openingHoursSpecification": [{
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-      "opens": "09:00",
-      "closes": "20:00"
-    }]
-  }
-  </script>
-
-  <!-- JSON-LD: OfferCatalog (категории) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "OfferCatalog",
-    "name": "Каталог полуфабрикатов и готовых блюд",
-    "url": "https://www.mosariya.uz/#catalog",
-    "itemListElement": [
-      { "@type": "OfferCatalog", "name": "Пельмени",   "url": "https://www.mosariya.uz/pelmeni" },
-      { "@type": "OfferCatalog", "name": "Манты",      "url": "https://www.mosariya.uz/manti" },
-      { "@type": "OfferCatalog", "name": "Вареники",   "url": "https://www.mosariya.uz/vareniki" },
-      { "@type": "OfferCatalog", "name": "Готовая еда","url": "https://www.mosariya.uz/gotovaya-eda" }
-    ]
-  }
-  </script>
-
-  <!-- JSON-LD: FAQ -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [{
-      "@type": "Question",
-      "name": "Как оформить заказ на готовую еду и полуфабрикаты?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Оставьте заявку на сайте или позвоните по телефону. Менеджер уточнит состав, объём и условия доставки." }
-    },{
-      "@type": "Question",
-      "name": "Доставляете ли вы по Ташкенту?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Да. Бесплатная доставка по городу при заказе от 400 тыс. сум. Также доступен самовывоз." }
-    },{
-      "@type": "Question",
-      "name": "Какие ингредиенты вы используете?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Мясо от проверенных поставщиков, специи и мука высшего сорта. Без сои и усилителей вкуса." }
-    }]
-  }
-  </script>
-
-  <!-- JSON-LD: Breadcrumbs -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    "itemListElement":[
-      {"@type":"ListItem","position":1,"name":"Главная","item":"https://www.mosariya.uz/"},
-      {"@type":"ListItem","position":2,"name":"Каталог","item":"https://www.mosariya.uz/#catalog"}
-    ]
-  }
-  </script>
+  }</script>
+  <script type="application/ld+json">{
+    "@context":"https://schema.org","@type":"WebSite","url":"https://www.mosariya.uz/","name":"МОСАРИЯ",
+    "potentialAction":{"@type":"SearchAction",
+      "target":"https://www.mosariya.uz/polufabrikaty.html?q={search_term_string}",
+      "query-input":"required name=search_term_string"}
+  }</script>
+  <script type="application/ld+json">{
+    "@context":"https://schema.org","@type":"FoodEstablishment",
+    "name":"МОСАРИЯ","url":"https://www.mosariya.uz/","image":"https://www.mosariya.uz/assets/hero.webp",
+    "telephone":"+998903166170","priceRange":"$$","servesCuisine":["Русская","Узбекская","Домашняя"],
+    "address":{"@type":"PostalAddress","streetAddress":"ул. (Сайрам, Мирзо-Улугбекский район.)","addressLocality":"Ташкент","postalCode":"100000","addressCountry":"UZ"},
+    "geo":{"@type":"GeoCoordinates","latitude":41.336176,"longitude":69.320007},
+    "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:00","closes":"20:00"}]
+  }</script>
 </head>
-
 <body>
 <header class="site-header">
   <div class="container">
-    <!-- Лого -->
-    <a class="logo" href="#top" aria-label="МОСАРИЯ — на главную">МОСАРИЯ</a>
-
-    <!-- Навигация (якоря) -->
+    <a class="logo" href="/" aria-label="МОСАРИЯ — на главную">МОСАРИЯ</a>
     <nav class="main-nav" aria-label="Главное меню">
-      <a href="#pelmeni">Пельмени</a>
-      <a href="#manti">Манты</a>
-      <a href="#vareniki">Вареники</a>
-      <a href="#gotovaya-eda">Готовая еда</a>
-      <a href="#delivery">Доставка</a>
-      <a href="#partners">Партнёры</a>
-      <a href="#form">Заявка</a>
-      <a href="#contacts">Контакты</a>
+      <a href="/pelmeni.html">Пельмени</a><a href="/manti.html">Манты</a><a href="/vareniki.html">Вареники</a><a href="/gotovaya-eda.html">Готовая еда</a><a href="/polufabrikaty.html">Полуфабрикаты</a><a href="/dostavka.html">Доставка</a><a href="#form">Заявка</a>
     </nav>
-
-    <!-- Контакты -->
-    <div class="header-social" aria-label="Контакты">
-      <a class="social-btn" href="tel:+998903166170" aria-label="Позвонить менеджеру">
-        <i class="bi bi-telephone"></i>
-      </a>
-      <a class="social-btn social-btn--ig" href="https://www.instagram.com/mosariya.uz?igsh=dWR1ZGM0cjc4NDQ3" target="_blank" rel="noopener" aria-label="Instagram">
-        <i class="bi bi-instagram" aria-hidden="true"></i>
-        <span class="sr-only">Instagram</span>
-      </a>
-    </div>
-
-    <!-- МОБИЛЬНАЯ CTA -->
     <a class="btn btn-primary btn-sm cta-mobile" href="#form">Заказать</a>
   </div>
 </header>
 
 <main id="top" class="page">
-  <!-- HERO -->
-  <section class="hero full-bleed" id="hero">
+  <section class="hero full-bleed">
     <div class="hero-media" aria-hidden="true">
       <picture>
-        <source srcset="assets/hero.avif" type="image/avif">
-        <source srcset="assets/hero.webp" type="image/webp">
-        <img src="assets/hero.jpg"
-             alt="Упаковка «МОСАРИЯ»"
-             width="1040" height="780"
-             loading="eager" decoding="async" fetchpriority="high">
+        <source srcset="/assets/hero.avif" type="image/avif">
+        <source srcset="/assets/hero.webp" type="image/webp">
+        <img src="/assets/hero.jpg" alt="Упаковка продукции «МОСАРИЯ»" width="1040" height="780" loading="eager" decoding="async" fetchpriority="high">
       </picture>
     </div>
     <div class="container">
       <div class="hero-text">
-        <h1 id="dynamic-h1">Полуфабрикаты и готовая еда в Ташкенте — ручная лепка, доставка</h1>
-        <p class="lead" id="dynamic-lead">Пельмени, манты, вареники, котлеты, супы и горячее. Производим сами. Без сои и усилителей. Доставка по городу.</p>
+        <h1>Полуфабрикаты и готовая еда в Ташкенте — ручная лепка, доставка</h1>
+        <p class="lead">Пельмени, манты, вареники, котлеты, супы и горячее. Производим сами. Без сои и усилителей. Доставка по городу.</p>
         <div class="hero-cta">
-          <a class="btn btn-outline" href="#catalog">Смотреть каталог</a>
+          <a class="btn btn-outline" href="/polufabrikaty.html">Смотреть каталог</a>
           <a class="btn btn-primary" href="#form">Оставить заявку</a>
         </div>
         <ul class="hero-badges" aria-label="Преимущества">
-          <li>Ручная лепка</li>
-          <li>Без сои и Е-добавок</li>
-          <li>Шоковая заморозка</li>
-          <li>Собственное производство</li>
+          <li>Ручная лепка</li><li>Без сои и Е-добавок</li><li>Шоковая заморозка</li><li>Собственное производство</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- ПАРТНЁРЫ -->
-  <section id="partners" class="section tinted" aria-labelledby="partners-title">
+  <section class="section" id="categories">
     <div class="container">
-      <h2 class="h2" id="partners-title">Наши партнёры</h2>
-      <p class="muted">Нас выбирают крупнейшие сети — это про стабильность качества и поставок.</p>
-
-      <ul class="partners">
-        <li class="partner">
-          <a href="https://korzinka.uz/" target="_blank" rel="noopener nofollow" aria-label="Korzinka">
-            <img src="/assets/partners/korzinka.png" alt="Korzinka" width="180" height="56" loading="lazy" decoding="async">
-          </a>
-        </li>
-        <li class="partner">
-          <a href="https://makromarket.uz/" target="_blank" rel="noopener nofollow" aria-label="Makro Market">
-            <img src="/assets/partners/makromarket.png" alt="Makro Market" width="200" height="56" loading="lazy" decoding="async">
-          </a>
-        </li>
-      </ul>
-
-      <div class="partners-gallery" aria-label="Фотографии продукции для партнёров" role="list">
-        <a class="partners-shot" href="/assets/partners/partner-photo-1.jpg" target="_blank" rel="noopener" role="listitem" aria-label="Упаковка вареников 500 г">
-          <img
-            src="/assets/partners/partner-photo-1.jpg"
-            alt="Упаковка вареников 500 г в лотке с бандеролью «МОСАРИЯ»"
-            width="920" height="600" loading="lazy" decoding="async">
-        </a>
-
-        <a class="partners-shot" href="/assets/partners/partner-photo-2.jpg" target="_blank" rel="noopener" role="listitem" aria-label="Упаковки вареников и пельменей 500 г">
-          <img
-            src="/assets/partners/partner-photo-2.jpg"
-            alt="Вареники и пельмени «МОСАРИЯ» в лотках 500 г"
-            width="920" height="600" loading="lazy" decoding="async">
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- КАТАЛОГ -->
-  <section id="catalog" class="section">
-    <div class="container">
-      <h2 class="h2">Каталог</h2>
-
-      <div class="chips" role="tablist" aria-label="Фильтр каталога">
-        <a class="chip is-active" data-filter="all" role="tab" aria-selected="true" href="#catalog">Все</a>
-        <a class="chip" data-filter="Пельмени" role="tab" href="#pelmeni" id="pelmeni">Пельмени</a>
-        <a class="chip" data-filter="Манты" role="tab" href="#manti" id="manti">Манты</a>
-        <a class="chip" data-filter="Вареники" role="tab" href="#vareniki" id="vareniki">Вареники</a>
-        <a class="chip" data-filter="Готовая еда" role="tab" href="#gotovaya-eda" id="gotovaya-eda">Готовая еда</a>
-        <a class="chip" data-filter="Супы" role="tab" href="#supy">Супы</a>
-        <a class="chip" data-filter="Горячее" role="tab" href="#goryachie">Горячее</a>
-      </div>
-
-      <div class="cards" itemscope itemtype="https://schema.org/ItemList">
-        <meta itemprop="name" content="Каталог готовых блюд и полуфабрикатов">
-
-        <!-- СУПЫ -->
-        <article class="card" data-category="Супы" itemscope itemtype="https://schema.org/Product">
-          <img src="assets/sup-frikadelki.jpg" alt="Суп из фрикаделек" width="800" height="600" loading="lazy" decoding="async" itemprop="image" />
-          <div class="card-body">
-            <h3 class="card-title" itemprop="name">Суп из фрикаделек</h3>
-            <p class="muted" itemprop="description">Состав: фарш говяжий, картофель, лук, домашняя лапша, зелень. Подаётся с хлебом и салатом.</p>
-            <div itemprop="brand" itemscope itemtype="https://schema.org/Brand"><meta itemprop="name" content="МОСАРИЯ"></div>
-            <meta itemprop="sku" content="SUP-FRI-300" />
-            <div class="card-cta" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-              <span class="price"><span itemprop="price">25000</span> сум · 300 г</span>
-              <meta itemprop="priceCurrency" content="UZS" />
-              <link itemprop="availability" href="https://schema.org/InStock" />
-              <a href="#form" class="btn btn-secondary">Оформить заказ</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="card" data-category="Супы" itemscope itemtype="https://schema.org/Product">
-          <img src="assets/lapsha-kurinaya-domashnyaya.jpg" alt="Лапша куриная (домашняя)" width="800" height="600" loading="lazy" decoding="async" itemprop="image" />
-          <div class="card-body">
-            <h3 class="card-title" itemprop="name">Лапша куриная (домашняя)</h3>
-            <p class="muted" itemprop="description">Бульон куриный, лапша, лук, морковь, картофель, зелень. Без специй. С хлебом и салатом.</p>
-            <div itemprop="brand" itemscope itemtype="https://schema.org/Brand"><meta itemprop="name" content="МОСАРИЯ"></div>
-            <meta itemprop="sku" content="SUP-LAP-300" />
-            <div class="card-cta" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-              <span class="price"><span itemprop="price">25000</span> сум · 300 г</span>
-              <meta itemprop="priceCurrency" content="UZS" />
-              <link itemprop="availability" href="https://schema.org/InStock" />
-              <a href="#form" class="btn btn-secondary">Оформить заказ</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="card" data-category="Супы" itemscope itemtype="https://schema.org/Product">
-          <img src="assets/krem-sup-chechevichnyy.jpg" alt="Крем-суп чечевичный" width="800" height="600" loading="lazy" decoding="async" itemprop="image" />
-          <div class="card-body">
-            <h3 class="card-title" itemprop="name">Крем-суп чечевичный</h3>
-            <p class="muted" itemprop="description">Чечевица, морковь, лук, сливки, чёрный перец. С хлебом и салатом.</p>
-            <div itemprop="brand" itemscope itemtype="https://schema.org/Brand"><meta itemprop="name" content="МОСАРИЯ"></div>
-            <meta itemprop="sku" content="SUP-CHE-300" />
-            <div class="card-cta" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-              <span class="price"><span itemprop="price">25000</span> сум · 300 г</span>
-              <meta itemprop="priceCurrency" content="UZS" />
-              <link itemprop="availability" href="https://schema.org/InStock" />
-              <a href="#form" class="btn btn-secondary">Оформить заказ</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="card" data-category="Супы" itemscope itemtype="https://schema.org/Product">
-          <img src="assets/borshch.jpg" alt="Борщ" width="800" height="600" loading="lazy" decoding="async" itemprop="image" />
-          <div class="card-body">
-            <h3 class="card-title" itemprop="name">Борщ</h3>
-            <p class="muted" itemprop="description">Говядина, капуста, свёкла, картофель, морковь, лук, специи. С хлебом, салатом и сметаной.</p>
-            <div itemprop="brand" itemscope itemtype="https://schema.org/Brand"><meta itemprop="name" content="МОСАРИЯ"></div>
-            <meta itemprop="sku" content="SUP-BOR-300" />
-            <div class="card-cta" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-              <span class="price"><span itemprop="price">30000</span> сум · 300 г</span>
-              <meta itemprop="priceCurrency" content="UZS" />
-              <link itemprop="availability" href="https://schema.org/InStock" />
-              <a href="#form" class="btn btn-secondary">Оформить заказ</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- ГОРЯЧЕЕ -->
-        <article class="card" data-category="Горячее" itemscope itemtype="https://schema.org/Product">
-          <img src="assets/nozhka-kurinaya-pyure-yayca.jpg" alt="Ножка куриная с пюре и яйцами" width="800" height="600" loading="lazy" decoding="async" itemprop="image" />
-          <div class="card-body">
-            <h3 class="card-title" itemprop="name">Ножка куриная с пюре и яйцами</h3>
-            <p class="muted" itemprop="description">Куриная ножка, пюре, 2 яйца. Подаётся с хлебом и салатом.</p>
-            <div itemprop="brand" itemscope itemtype="https://schema.org/Brand"><meta itemprop="name" content="МОСАРИЯ"></div>
-            <meta itemprop="sku" content="HOT-LEG-300" />
-            <div class="card-cta" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-              <span class="price"><span itemprop="price">30000</span> сум · 300 г</span>
-              <meta itemprop="priceCurrency" content="UZS" />
-              <link itemprop="availability" href="https://schema.org/InStock" />
-              <a href="#form" class="btn btn-secondary">Оформить заказ</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="card" data-category="Горячее" itemscope itemtype="https://schema.org/Product">
-          <img src="assets/perets-farshirovannyy.jpg" alt="Фаршированный перец" width="800" height="600" loading="lazy" decoding="async" itemprop="image" />
-          <div class="card-body">
-            <h3 class="card-title" itemprop="name">Фаршированный перец</h3>
-            <p class="muted" itemprop="description">Перец, рис, говяжий фарш, овощи, специи. Со сметаной.</p>
-            <div itemprop="brand" itemscope itemtype="https://schema.org/Brand"><meta itemprop="name" content="МОСАРИЯ"></div>
-            <meta itemprop="sku" content="HOT-PPR-300" />
-            <div class="card-cta" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-              <span class="price"><span itemprop="price">30000</span> сум · 300 г</span>
-              <meta itemprop="priceCurrency" content="UZS" />
-              <link itemprop="availability" href="https://schema.org/InStock" />
-              <a href="#form" class="btn btn-secondary">Оформить заказ</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="card" data-category="Горячее" itemscope itemtype="https://schema.org/Product">
-          <img src="assets/otbivnaya-kurinaya-garnir.jpg" alt="Куриная отбивная с гарниром" width="800" height="600" loading="lazy" decoding="async" itemprop="image" />
-          <div class="card-body">
-            <h3 class="card-title" itemprop="name">Куриная отбивная с гарниром</h3>
-            <p class="muted" itemprop="description">Куриное бедро, яйцо, мука, сметана, перец, соль. Гарнир: рис/гречка/макароны.</p>
-            <div itemprop="brand" itemscope itemtype="https://schema.org/Brand"><meta itemprop="name" content="МОСАРИЯ"></div>
-            <meta itemprop="sku" content="HOT-OTB-300" />
-            <div class="card-cta" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-              <span class="price"><span itemprop="price">30000</span> сум · 300 г</span>
-              <meta itemprop="priceCurrency" content="UZS" />
-              <link itemprop="availability" href="https://schema.org/InStock" />
-              <a href="#form" class="btn btn-secondary">Оформить заказ</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- МАНТЫ -->
-        <article class="card" data-category="Манты" itemscope itemtype="https://schema.org/Product">
-          <img src="assets/manty.jpg" alt="Манты" width="800" height="600" loading="lazy" decoding="async" itemprop="image" />
-          <div class="card-body">
-            <h3 class="card-title" itemprop="name">Манты</h3>
-            <p class="muted" itemprop="description">Ручная лепка. Подаются с салатом, сметаной и томатным соусом.</p>
-            <div itemprop="brand" itemscope itemtype="https://schema.org/Brand"><meta itemprop="name" content="МОСАРИЯ"></div>
-            <meta itemprop="sku" content="MNT-4PC" />
-            <div class="card-cta" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-              <span class="price"><span itemprop="price">30000</span> сум · 4 шт</span>
-              <meta itemprop="priceCurrency" content="UZS" />
-              <link itemprop="availability" href="https://schema.org/InStock" />
-              <a href="#form" class="btn btn-secondary">Оформить заказ</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- ПЕЛЬМЕНИ -->
-        <article class="card" data-category="Пельмени" itemscope itemtype="https://schema.org/Product">
-          <img src="assets/pelmeni-domashnie.jpg" alt="Пельмени" width="800" height="600" loading="lazy" decoding="async" itemprop="image" />
-          <div class="card-body">
-            <h3 class="card-title" itemprop="name">Пельмени</h3>
-            <p class="muted" itemprop="description">Говядина, мука пшеничная, вода, яйца, лук, перец. С зеленью и сметаной.</p>
-            <div itemprop="brand" itemscope itemtype="https://schema.org/Brand"><meta itemprop="name" content="МОСАРИЯ"></div>
-            <meta itemprop="sku" content="PEL-300G" />
-            <div class="card-cta" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-              <span class="price"><span itemprop="price">25000</span> сум · 300 г</span>
-              <meta itemprop="priceCurrency" content="UZS" />
-              <link itemprop="availability" href="https://schema.org/InStock" />
-              <a href="#form" class="btn btn-secondary">Оформить заказ</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- ВАРЕНИКИ -->
-        <article class="card" data-category="Вареники" itemscope itemtype="https://schema.org/Product">
-          <img src="assets/vareniki-kartofel.jpg" alt="Вареники" width="800" height="600" loading="lazy" decoding="async" itemprop="image" />
-          <div class="card-body">
-            <h3 class="card-title" itemprop="name">Вареники</h3>
-            <p class="muted" itemprop="description">Тесто: вода, яйца, мука, соль. Начинка: картофель, жареный лук, масло.</p>
-            <div itemprop="brand" itemscope itemtype="https://schema.org/Brand"><meta itemprop="name" content="МОСАРИЯ"></div>
-            <meta itemprop="sku" content="VAR-300G" />
-            <div class="card-cta" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-              <span class="price"><span itemprop="price">25000</span> сум · 300 г</span>
-              <meta itemprop="priceCurrency" content="UZS" />
-              <link itemprop="availability" href="https://schema.org/InStock" />
-              <a href="#form" class="btn btn-secondary">Оформить заказ</a>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <ul class="badges3" aria-label="Почему нас выбирают">
-        <li>
-          <div class="badge-head">Натуральный состав</div>
-          <p class="badge-desc">Мясо от проверенных поставщиков, специи и мука высшего сорта. Без сои и Е-добавок.</p>
-        </li>
-        <li>
-          <div class="badge-head">Ручная лепка</div>
-          <p class="badge-desc">Каждый продукт изготовлен вручную — лучшее качество начинки и теста.</p>
-        </li>
-        <li>
-          <div class="badge-head">Стабильные поставки</div>
-          <p class="badge-desc">Собственная логистика по городу и области. Заморозка −18°C, сохранность 100%.</p>
-        </li>
+      <h2 class="h2">Популярные категории</h2>
+      <ul class="cat-cards">
+        <li><a class="cat-card" href="/pelmeni.html"><span>Пельмени</span></a></li>
+        <li><a class="cat-card" href="/manti.html"><span>Манты</span></a></li>
+        <li><a class="cat-card" href="/vareniki.html"><span>Вареники</span></a></li>
+        <li><a class="cat-card" href="/gotovaya-eda.html"><span>Готовая еда</span></a></li>
       </ul>
     </div>
   </section>
 
-  <!-- КАЧЕСТВО -->
-  <section id="quality" class="section tinted">
-    <div class="container quality-grid">
-      <div class="quality-text">
-        <h2 class="h2">Качество на первом месте</h2>
-        <p class="muted">Мы соблюдаем стандарты безопасности пищевой продукции и используем технологию шоковой заморозки для сохранения вкуса и структуры.</p>
-        <ul class="list">
-          <li><img src="assets/icon-check.svg" alt="" aria-hidden="true" />Трассируемость сырья и партии</li>
-          <li><img src="assets/icon-check.svg" alt="" aria-hidden="true" />Температурные журналы хранения</li>
-          <li><img src="assets/icon-check.svg" alt="" aria-hidden="true" />Регулярные лабораторные анализы</li>
-        </ul>
-      </div>
-      <div class="quality-cta">
-        <p class="h3">Сертификаты и протоколы доступны по запросу.</p>
-        <a class="btn btn-primary" href="#form">Запросить документы</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ДОСТАВКА -->
-  <section id="delivery" class="section">
-    <div class="container delivery-grid">
-      <div>
-        <h2 class="h2">Доставка и условия</h2>
-        <ul class="list">
-          <li><img src="assets/icon-truck.svg" alt="" aria-hidden="true" />Минимальный заказ от 3 кг</li>
-          <li><img src="assets/icon-truck.svg" alt="" aria-hidden="true" />Бесплатная доставка по городу на сумму от 400 тыс. сум</li>
-          <li><img src="assets/icon-truck.svg" alt="" aria-hidden="true" />Самовывоз: см. карту ниже</li>
-        </ul>
-      </div>
-      <div class="delivery-cta">
-        <p class="h3">Работаем с НДС и безналом, также есть PayMe.</p>
-        <a class="btn btn-outline" href="#form">Узнать условия</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ФОРМА -->
   <section id="form" class="section tinted">
     <div class="container form-grid">
       <div class="form-col">
         <h2 class="h2">Оставить заявку</h2>
-        <p class="muted">Оставьте свои контакты — менеджер свяжется, расскажет условия и сформирует предложение.</p>
         <form id="leadForm" class="lead-form" novalidate>
-          <label>Имя
-            <input type="text" name="name" placeholder="Ваше имя" required />
-          </label>
-          <label>Телефон
-            <input type="tel" name="phone" placeholder="Ваш номер телефона" required />
-          </label>
-          <label>Категория
-            <select name="category" aria-label="Категория блюда">
-              <option>Супы</option>
-              <option>Горячее</option>
-              <option>Манты</option>
-              <option>Пельмени</option>
-              <option>Вареники</option>
+          <label>Имя <input type="text" name="name" required placeholder="Ваше имя"></label>
+          <label>Телефон <input type="tel" name="phone" required placeholder="+998 (__) ___-__-__"></label>
+          <label>Что интересует?
+            <select name="category">
+              <option>Пельмени</option><option>Манты</option><option>Вареники</option><option>Готовая еда</option><option>Полуфабрикаты</option>
             </select>
           </label>
-          <label>Комментарий
-            <textarea name="comment" rows="4" placeholder="Сообщение к заказу (объём, кол-во и т.д.)"></textarea>
-          </label>
-          <button class="btn btn-primary" type="submit">Отправить заявку</button>
+          <label>Комментарий <textarea name="comment" rows="3" placeholder="Объём, желаемая дата/время"></textarea></label>
+          <button class="btn btn-primary" type="submit">Отправить</button>
           <p class="form-note muted">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p>
         </form>
       </div>
       <div class="contact-col">
-        <h3 class="h3">Нужна консультация?</h3>
-        <p class="muted">Менеджер Ирина ответит в рабочее время.</p>
         <ul class="contacts">
-          <li><i class="bi bi-telephone"></i> <a href="tel:+998903166170">+998 (90) 316-61-70 (Ирина)</a></li>
-          <li><i class="bi bi-instagram"></i> <a href="https://www.instagram.com/mosariya.uz?igsh=dWR1ZGM0cjc4NDQ3" target="_blank">@mosariya.uz</a></li>
+          <li>Тел.: <a href="tel:+998903166170">+998 (90) 316-61-70</a></li>
+          <li>Instagram: <a href="https://www.instagram.com/mosariya.uz" target="_blank" rel="noopener">@mosariya.uz</a></li>
         </ul>
-        <div class="contact-photo">
-          <img src="assets/forma.jpg" alt="Продукция" width="900" height="600" loading="lazy" decoding="async" />
-        </div>
+        <img class="contact-photo" src="/assets/forma.jpg" alt="Продукция МОСАРИЯ" width="900" height="600" loading="lazy" decoding="async">
       </div>
     </div>
   </section>
 
-  <!-- ФУТЕР -->
   <footer id="contacts" class="site-footer">
     <div class="container">
       <div class="footer-head">
         <h2 class="h2">Контакты</h2>
         <ul class="footer-quick">
-          <li><a href="tel:+998903166170">Телефон: +998 (90) 316-61-70 (Ирина)</a></li>
-          <li><a href="https://www.instagram.com/mosariya.uz?igsh=dWR1ZGM0cjc4NDQ3" target="_blank" rel="noopener">Instagram: @mosariya.uz</a></li>
+          <li><a href="tel:+998903166170">+998 (90) 316-61-70 (Ирина)</a></li>
+          <li><a href="https://www.instagram.com/mosariya.uz" target="_blank" rel="noopener">Instagram: @mosariya.uz</a></li>
         </ul>
       </div>
-
-      <!-- Видимый NAP-блок -->
       <address class="nap">
-        <strong>МОСАРИЯ</strong><br>
-        г. Ташкент, ул. (Сайрам, Мирзо- Улугбекский район.)<br>
-        Тел.: <a href="tel:+998903166170">+998 (90) 316-61-70</a><br>
-        Время работы: Пн–Сб 09:00–20:00
+        <strong>МОСАРИЯ</strong><br> г. Ташкент, ул. (Сайрам, Мирзо-Улугбекский район.)<br>
+        Тел.: <a href="tel:+998903166170">+998 (90) 316-61-70</a><br> Время работы: Пн–Сб 09:00–20:00
       </address>
-
-      <!-- Быстрые ссылки для краулеров (ведут на якоря) -->
-      <nav class="footer-silo">
-        <a href="#pelmeni">Пельмени купить в Ташкенте</a> ·
-        <a href="#vareniki">Вареники домашние полуфабрикаты</a> ·
-        <a href="#manti">Манты ручная лепка</a> ·
-        <a href="#gotovaya-eda">Готовая еда с доставкой</a>
-      </nav>
-
       <div class="footer-map">
-        <div class="map-embed">
-          <iframe
-            title="Карта проезда к МОСАРИЯ, Ташкент"
-            src="https://www.google.com/maps?q=41.336176,69.320007&z=16&hl=ru&output=embed"
-            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
-        </div>
-        <p class="muted" style="margin-top:8px">
-          Открыть в приложении: <a href="https://maps.app.goo.gl/FQvejDyaYDQh4azp7" target="_blank" rel="noopener">Google Maps</a>
-        </p>
+        <iframe title="МОСАРИЯ на карте" src="https://www.google.com/maps?q=41.336176,69.320007&z=16&hl=ru&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p class="muted">Открыть в приложении: <a href="https://maps.app.goo.gl/FQvejDyaYDQh4azp7" target="_blank" rel="noopener">Google Maps</a></p>
       </div>
-
       <p class="copyright">© 2025 МОСАРИЯ — Производство полуфабрикатов, готовые блюда и доставка</p>
     </div>
   </footer>
 </main>
 
-<!-- Скрипты -->
 <script src="/script.js" defer></script>
 </body>
 </html>

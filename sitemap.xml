@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-
-  <!-- Одностраничник: индексируем только главную.
-       Внутренние разделы SPA обслуживаются index.html и меняют мета на клиенте. -->
-  <url>
-    <loc>https://www.mosariya.uz/</loc>
-    <lastmod>2025-10-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://www.mosariya.uz/assets/hero.webp</image:loc>
-      <image:title>МОСАРИЯ — полуфабрикаты и готовая еда</image:title>
-    </image:image>
-  </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.mosariya.uz/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.mosariya.uz/pelmeni.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.mosariya.uz/manti.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.mosariya.uz/vareniki.html</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.mosariya.uz/polufabrikaty.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.mosariya.uz/gotovaya-eda.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.mosariya.uz/dostavka.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

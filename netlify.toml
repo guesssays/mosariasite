@@ -1,6 +1,8 @@
-# ========== MOSARIYA Netlify config ==========
+# ========= MOSARIYA Netlify config =========
+[build]
+  publish = "."
 
-# ---------- Canonical domain redirects ----------
+# ---------- Canonical, HTTPS, www ----------
 [[redirects]]
   from = "http://mosariya.uz/*"
   to   = "https://www.mosariya.uz/:splat"
@@ -13,86 +15,26 @@
   status = 301
   force  = true
 
+# ---------- Trailing slash normalization (keep slashless) ----------
 [[redirects]]
-  from = "https://mosariademo.netlify.app/*"
-  to   = "https://www.mosariya.uz/:splat"
+  from = "/:page/"
+  to   = "/:page"
   status = 301
   force  = true
+  conditions = {Country = ["*"]}
 
-# ---------- SPA routes (200 → index.html) ----------
-# Явные карточки
-[[redirects]]
-  from = "/pelmeni"
-  to   = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/manti"
-  to   = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/vareniki"
-  to   = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/gotovaya-eda"
-  to   = "/index.html"
-  status = 200
-
-# Общий SPA-фоллбек (кроме статических файлов/карт/роботов/сайткарты)
-[[redirects]]
-  from = "/*"
-  to   = "/index.html"
-  status = 200
-  conditions = { Cookie = [] }
-
-# ---------- Security & SEO Headers ----------
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    X-Content-Type-Options    = "nosniff"
-    X-Frame-Options           = "SAMEORIGIN"
-    Referrer-Policy           = "strict-origin-when-cross-origin"
-    Permissions-Policy        = "geolocation=(), microphone=(), camera=()"
-    Content-Security-Policy = """
-      default-src 'self' https: data:;
-      img-src 'self' https: data:;
-      style-src 'self' 'unsafe-inline' https:;
-      script-src 'self' https: 'unsafe-inline';
-      connect-src 'self' https:;
-      font-src 'self' https: data:;
-      frame-ancestors 'self';
-      frame-src https://www.google.com/ https://www.google.com.uz/;
-      base-uri 'self';
-      form-action 'self';
-    """
-
-# ---------- Caching ----------
-[[headers]]
-  for = "/index.html"
-  [headers.values]
-    Cache-Control = "public, max-age=300"
-
-[[headers]]
-  for = "/robots.txt"
-  [headers.values]
-    Cache-Control = "public, max-age=3600"
-
-[[headers]]
-  for = "/sitemap.xml"
-  [headers.values]
-    Cache-Control = "public, max-age=3600"
-
+# ---------- Cache headers ----------
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# 404 (запрет индексации)
 [[headers]]
-  for = "/404.html"
+  for = "/styles.css"
   [headers.values]
-    X-Robots-Tag = "noindex"
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/script.js"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
