@@ -40,7 +40,7 @@
   <script type="application/ld+json">{
     "@context":"https://schema.org","@type":"WebSite","url":"https://www.mosariya.uz/","name":"МОСАРИЯ",
     "potentialAction":{"@type":"SearchAction",
-      "target":"https://www.mosariya.uz/polufabrikaty.html?q={search_term_string}",
+      "target":"https://www.mosariya.uz/katalog.html?q={search_term_string}",
       "query-input":"required name=search_term_string"}
   }</script>
   <script type="application/ld+json">{
@@ -59,6 +59,7 @@
 
     <!-- desktop nav -->
     <nav class="main-nav" aria-label="Главное меню">
+      <a href="/katalog.html">Каталог</a>
       <a href="/pelmeni.html">Пельмени</a>
       <a href="/manti.html">Манты</a>
       <a href="/vareniki.html">Вареники</a>
@@ -68,30 +69,12 @@
       <a href="#form">Заявка</a>
     </nav>
 
-    <!-- mobile controls -->
+    <!-- mobile controls (панель добавит script.js) -->
     <button class="menu-toggle" aria-label="Меню" aria-expanded="false" aria-controls="mobileNav">
       <span class="menu-bar"></span><span class="menu-bar"></span><span class="menu-bar"></span>
     </button>
     <a class="btn btn-primary btn-sm cta-mobile" href="#form">Заказать</a>
   </div>
-
-  <!-- mobile nav -->
-  <nav id="mobileNav" class="mobile-nav" aria-label="Мобильное меню">
-    <div class="mobile-nav__inner">
-      <button class="mobile-nav__close" aria-label="Закрыть меню">&times;</button>
-      <a href="/pelmeni.html">Пельмени</a>
-      <a href="/manti.html">Манты</a>
-      <a href="/vareniki.html">Вареники</a>
-      <a href="/gotovaya-eda.html">Готовая еда</a>
-      <a href="/polufabrikaty.html">Полуфабрикаты</a>
-      <a href="/dostavka.html">Доставка</a>
-      <a href="#form">Заявка</a>
-      <div class="mobile-nav__contacts">
-        <a href="tel:+998903166170">+998 (90) 316-61-70</a>
-        <a href="https://www.instagram.com/mosariya.uz" target="_blank" rel="noopener">@mosariya.uz</a>
-      </div>
-    </div>
-  </nav>
 </header>
 
 <main id="top" class="page">
@@ -108,7 +91,7 @@
         <h1>Полуфабрикаты и готовая еда в Ташкенте — ручная лепка, доставка</h1>
         <p class="lead">Пельмени, манты, вареники, котлеты, супы и горячее. Производим сами. Без сои и усилителей. Доставка по городу.</p>
         <div class="hero-cta">
-          <a class="btn btn-outline" href="/polufabrikaty.html">Смотреть каталог</a>
+          <a class="btn btn-outline" href="/katalog.html">Смотреть каталог</a>
           <a class="btn btn-primary" href="#form">Оставить заявку</a>
         </div>
         <ul class="hero-badges" aria-label="Преимущества">
@@ -121,7 +104,6 @@
     </div>
   </section>
 
-  <!-- Блок доверия (возвращён) -->
   <section class="section tinted" id="trust">
     <div class="container">
       <h2 class="h2">Нам доверяют</h2>
@@ -165,15 +147,14 @@
     </div>
   </section>
 
-  <!-- инфо-блоки для заполнения пустот -->
   <section class="section" id="howto">
     <div class="container quality-grid">
       <div>
         <h2 class="h2">Как сделать заказ</h2>
         <ol class="list num">
-          <li>Выберите товары в <a href="/polufabrikaty.html">каталоге</a>.</li>
+          <li>Выберите товары в <a href="/katalog.html">каталоге</a>.</li>
           <li>Оставьте заявку или позвоните <a href="tel:+998903166170">+998 (90) 316-61-70</a>.</li>
-          <li>Договоримся о времени. Доставим за 60–90 минут по Ташкенту.</li>
+          <li>Доставим за 60–90 минут по Ташкенту.</li>
         </ol>
       </div>
       <div>
@@ -202,6 +183,8 @@
               <option value="Вареники">Вареники</option>
               <option value="Полуфабрикаты">Полуфабрикаты</option>
               <option value="Готовая еда">Готовая еда</option>
+              <option value="Супы">Супы</option>
+              <option value="Горячее">Горячее</option>
             </select>
           </label>
           <label>Комментарий <textarea name="comment" rows="3" placeholder="Объём, желаемая дата/время"></textarea></label>

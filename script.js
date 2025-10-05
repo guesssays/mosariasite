@@ -37,18 +37,20 @@ window.addEventListener('resize', setHeaderVar);
     btn.setAttribute('aria-label','Открыть меню');
     btn.setAttribute('aria-expanded','false');
     btn.innerHTML = '<span class="menu-bar"></span><span class="menu-bar"></span><span class="menu-bar"></span>';
-    container.insertBefore(btn, container.lastElementChild); // перед CTA-кнопкой, если есть
+    container.appendChild(btn);
   }
 
   // Панель (если не существует)
-  let overlay = $('.mobile-nav');
+  let overlay = $('#mobileNav');
   if (!overlay){
-    overlay = document.createElement('div');
+    overlay = document.createElement('nav');
+    overlay.id = 'mobileNav';
     overlay.className = 'mobile-nav';
+    overlay.setAttribute('aria-label','Мобильное меню');
     overlay.innerHTML = `
       <div class="mobile-nav__inner" role="dialog" aria-modal="true" aria-label="Мобильное меню">
         <button class="mobile-nav__close" aria-label="Закрыть меню">×</button>
-        <nav class="mobile-nav__links"></nav>
+        <div class="mobile-nav__links"></div>
         <div class="mobile-nav__contacts">
           <a href="tel:+998903166170" class="btn btn-primary btn-sm">Позвонить: +998 (90) 316-61-70</a>
           <a href="#form" class="btn btn-outline btn-sm">Оставить заявку</a>
@@ -71,6 +73,13 @@ window.addEventListener('resize', setHeaderVar);
   // Управление открытием/закрытием
   let lastFocus = null;
   const closeBtn = overlay.querySelector('.mobile-nav__close');
+
+  function lockScroll(lock){
+    const root = document.documentElement;
+    if (lock) root.classList.add('no-scroll');
+    else root.classList.remove('no-scroll');
+  }
+
   function open(){
     lastFocus = document.activeElement;
     overlay.classList.add('is-open');
@@ -82,14 +91,13 @@ window.addEventListener('resize', setHeaderVar);
     overlay.classList.remove('is-open');
     btn.setAttribute('aria-expanded','false');
     lockScroll(false);
-    if (lastFocus) try{ lastFocus.focus({preventScroll:true}); }catch{}
+    try{ lastFocus?.focus({preventScroll:true}); }catch{}
   }
 
   btn.addEventListener('click', open);
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) close();
     if (e.target.closest('.mobile-nav__close')) close();
-    // Клик по пункту меню — закрываем
     const link = e.target.closest('a');
     if (link) close();
   });
@@ -99,7 +107,7 @@ window.addEventListener('resize', setHeaderVar);
 })();
 
 // =========================
-// Catalog filter + поиск
+// Catalog filter + поиск (работает на страницах, где есть .chip/.card)
 // =========================
 const chips = $$('.chip');
 const cards = $$('.card');
@@ -108,6 +116,7 @@ function setActiveChipByName(name){
   chips.forEach(c => c.classList.toggle('is-active', c.dataset.filter === name || (name === 'all' && c.dataset.filter === 'all')));
 }
 function applyFilter(filter){
+  if (!chips.length) return;
   setActiveChipByName(filter);
   const allow = (filter === 'all') ? null : [filter];
   cards.forEach(card => {
@@ -128,11 +137,9 @@ document.addEventListener('click', (e) => {
   if (!link) return;
   const card = link.closest('.card');
   const sel = document.querySelector('#leadForm select[name="category"]');
-  if (card && sel) {
-    const val = card.dataset.category || card.querySelector('.card-title')?.textContent || '';
-    if (!val) return;
-    // если есть точное совпадение option[value], выбираем его, иначе оставляем текущее
-    const opt = sel.querySelector(`option[value="${val}"], option:contains("${val}")`);
+  if (card && sel && card.dataset.category) {
+    const val = card.dataset.category;
+    const opt = sel.querySelector(`option[value="${val}"]`);
     if (opt) sel.value = opt.value;
   }
 });
@@ -140,7 +147,7 @@ document.addEventListener('click', (e) => {
 // ===== Поиск в каталоге по ?q= и #catalog?q=
 function ensureSearchNote(){
   let note = $('.search-note');
-  if (!note){
+  if (!note && $('.chips')){
     note = document.createElement('div');
     note.className = 'search-note';
     note.setAttribute('role','status');
@@ -151,7 +158,8 @@ function ensureSearchNote(){
 }
 function renderSearchNote(query, count){
   const note = ensureSearchNote();
-  if (!query && query !== ''){
+  if (!note) return;
+  if (query == null){
     if (count == null) { note.classList.remove('is-visible'); return; }
     note.innerHTML = `<span>Найдено позиций: <b>${count}</b></span>`;
     note.classList.add('is-visible');
@@ -165,6 +173,7 @@ function renderSearchNote(query, count){
 function countVisibleCards(){ return cards.filter(c => c.style.display !== 'none').length; }
 function normalize(s){ return (s || '').toString().toLowerCase(); }
 function applySearch(query){
+  if (!cards.length) return;
   const q = normalize(query);
   if (!q){
     applyFilter('all');
@@ -184,7 +193,7 @@ function applySearch(query){
   renderSearchNote(q, hits);
   $('#catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
 }
-// парсинг хэша вида "#catalog?q=..."
+// хэш "#catalog?q=..."
 function parseHash(){
   const h = location.hash || '';
   if (!h) return {type:'none'};
@@ -197,7 +206,6 @@ function parseHash(){
 function applyFromURL(){
   const parsed = parseHash();
   if (parsed.type === 'search'){ applySearch(parsed.q); return; }
-  // query-параметр ?q=...
   const qs = new URLSearchParams(location.search);
   const q = qs.get('q');
   if (q){ applySearch(q); }
@@ -208,35 +216,6 @@ window.addEventListener('DOMContentLoaded', applyFromURL);
 // =========================
 // Success Modal (после отправки формы)
 // =========================
-let scrollY = 0;
-function lockScroll(lock){
-  if (lock){
-    scrollY = window.scrollY || window.pageYOffset || 0;
-    if (isIOS()){
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.width = '100%';
-    } else {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
-    }
-  } else {
-    if (isIOS()){
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.width = '';
-      window.scrollTo(0, scrollY || 0);
-    } else {
-      document.documentElement.style.overflow = '';
-      document.body.style.overflow = '';
-    }
-  }
-}
-function safeFocus(el){ if (!el) return; try { el.focus({ preventScroll: true }); } catch { try { el.focus(); } catch(_) {} } }
 function ensureSuccessModal(){
   if ($('#successModal')) return $('#successModal');
   const css = `
@@ -263,11 +242,18 @@ function ensureSuccessModal(){
       </div>
     </div>`;
   document.body.appendChild(overlay);
+
+  const root = document.documentElement;
+  function lockScroll(lock){
+    if (lock) root.classList.add('no-scroll');
+    else root.classList.remove('no-scroll');
+  }
+
+  function openModal(){ overlay.classList.add('is-open'); lockScroll(true); }
+  function closeModal(){ overlay.classList.remove('is-open'); lockScroll(false); }
+
   overlay.addEventListener('click', (e) => { if (e.target === overlay || e.target.closest('[data-close]')) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal(); });
-  let prevFocus = null;
-  function openModal(){ prevFocus = document.activeElement; overlay.classList.add('is-open'); safeFocus(overlay.querySelector('[data-close]')); lockScroll(true); }
-  function closeModal(){ overlay.classList.remove('is-open'); lockScroll(false); safeFocus(prevFocus); }
   overlay.__open = openModal; overlay.__close = closeModal; return overlay;
 }
 function showSuccessModal(message){
@@ -275,7 +261,6 @@ function showSuccessModal(message){
   const p = m.querySelector('.success-text'); if (p && message) p.textContent = message;
   m.__open && m.__open();
 }
-function closeModal(){ const m = $('#successModal'); m && m.__close && m.__close(); }
 
 // =========================
 // helpers for form
@@ -286,6 +271,7 @@ function parseUTM(){
   const utm = {}; keys.forEach(k => { const v = p.get(k); if (v) utm[k] = v; }); return utm;
 }
 const trim = (s) => (s || '').toString().trim();
+
 // Мини-валидация телефона/имени
 function validateLead(name, phone){
   const phoneClean = (phone || '').replace(/[^\d+]/g,'');
