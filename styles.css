@@ -20,7 +20,7 @@
 /* ===== BASE ===== */
 *{box-sizing:border-box}
 html{overflow-x:hidden}
-html.no-scroll,html.no-scroll body{overflow:hidden}
+html.no-scroll,html.no-scroll body{overflow:hidden} /* Лок скролла для модалок/меню */
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--ff-body);letter-spacing:.2px}
 img{max-width:100%;height:auto;display:block}
 .container{width:min(var(--container),100% - 24px);margin-inline:auto}
@@ -55,13 +55,23 @@ img{max-width:100%;height:auto;display:block}
 
 /* Кнопка-гамбургер */
 .menu-toggle{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border:0;background:transparent;cursor:pointer;margin-left:8px}
-.menu-bar{display:block;width:22px;height:2px;background:var(--ink);margin:3px 0;border-radius:2px}
+.menu-toggle .menu-bar{display:block;width:22px;height:2px;background:var(--ink);margin:3px 0;border-radius:2px}
 @media (min-width:961px){.menu-toggle{display:none}}
 
 /* Мобильная панель */
-.mobile-nav{position:fixed;inset:0;display:none;background:rgba(0,0,0,.35);z-index:2000}
+.mobile-nav{
+  position:fixed;inset:0;
+  display:none; /* скрыто по умолчанию */
+  background:rgba(0,0,0,.35);z-index:2000
+}
 .mobile-nav.is-open{display:block}
-.mobile-nav__inner{position:absolute;top:0;right:0;height:100%;width:min(86vw,380px);background:#fff7ee;box-shadow:-8px 0 28px rgba(0,0,0,.12);padding:16px;overflow:auto}
+.mobile-nav__inner{
+  position:absolute;top:0;right:0;min-height:100%;
+  width:min(86vw,380px);background:#fff7ee;
+  box-shadow:-8px 0 28px rgba(0,0,0,.12);padding:16px;
+  overflow-y:auto; /* было overflow:auto — чтобы не появлялся лишний скролл */
+  -webkit-overflow-scrolling:touch;
+}
 .mobile-nav__close{position:absolute;top:8px;right:10px;width:40px;height:40px;border:0;background:transparent;font-size:32px;line-height:1;cursor:pointer;color:#3b2b22}
 .mobile-nav__links{display:grid;gap:10px;margin-top:36px}
 .mobile-nav__links a{padding:10px 12px;border-radius:12px;text-decoration:none;color:#3b2b22;background:#fff;border:1.5px dashed #d6b8a5;font-weight:700}
@@ -129,7 +139,7 @@ img{max-width:100%;height:auto;display:block}
 .cat-card:hover{background:#3d2f26;color:#fff}
 
 /* ===== QUALITY / DELIVERY ===== */
-.quality-grid,.delivery-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+.quality-grid,.delivery-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center} /* гарантирует 2 колонки на десктопе */
 .list{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}
 .list.num{counter-reset:step}
 .list.num li{position:relative;padding-left:28px}

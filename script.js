@@ -34,10 +34,14 @@ window.addEventListener('resize', setHeaderVar);
   if (!btn){
     btn = document.createElement('button');
     btn.className = 'menu-toggle';
+    btn.type = 'button'; // важно для формы
     btn.setAttribute('aria-label','Открыть меню');
     btn.setAttribute('aria-expanded','false');
     btn.innerHTML = '<span class="menu-bar"></span><span class="menu-bar"></span><span class="menu-bar"></span>';
     container.appendChild(btn);
+  } else {
+    // гарантируем тип
+    if (!btn.getAttribute('type')) btn.setAttribute('type','button');
   }
 
   // Панель (если не существует)
@@ -49,7 +53,7 @@ window.addEventListener('resize', setHeaderVar);
     overlay.setAttribute('aria-label','Мобильное меню');
     overlay.innerHTML = `
       <div class="mobile-nav__inner" role="dialog" aria-modal="true" aria-label="Мобильное меню">
-        <button class="mobile-nav__close" aria-label="Закрыть меню">×</button>
+        <button class="mobile-nav__close" aria-label="Закрыть меню" type="button">×</button>
         <div class="mobile-nav__links"></div>
         <div class="mobile-nav__contacts">
           <a href="tel:+998903166170" class="btn btn-primary btn-sm">Позвонить: +998 (90) 316-61-70</a>
@@ -94,7 +98,8 @@ window.addEventListener('resize', setHeaderVar);
     try{ lastFocus?.focus({preventScroll:true}); }catch{}
   }
 
-  btn.addEventListener('click', open);
+  // гарантируем, что не будет дубль-листенеров
+  btn.addEventListener('click', open, { once: false });
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) close();
     if (e.target.closest('.mobile-nav__close')) close();
@@ -238,7 +243,7 @@ function ensureSuccessModal(){
       <h3 id="successTitle">Заявка отправлена</h3>
       <p class="success-text">Спасибо! Мы свяжемся с вами в ближайшее время.</p>
       <div class="modal-actions">
-        <button class="btn btn-primary" data-close>Ок</button>
+        <button class="btn btn-primary" data-close type="button">Ок</button>
       </div>
     </div>`;
   document.body.appendChild(overlay);
