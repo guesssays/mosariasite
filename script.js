@@ -22,7 +22,84 @@ window.addEventListener('load', setHeaderVar);
 window.addEventListener('resize', setHeaderVar);
 
 // =========================
-// Catalog filter (только если есть .chip/.card)
+// MOBILE NAV (автовставка)
+// =========================
+(function initMobileNav(){
+  const container = header?.querySelector('.container');
+  const mainNav = $('.main-nav');
+  if (!container || !mainNav) return;
+
+  // Кнопка-гамбургер (если не существует)
+  let btn = $('.menu-toggle');
+  if (!btn){
+    btn = document.createElement('button');
+    btn.className = 'menu-toggle';
+    btn.setAttribute('aria-label','Открыть меню');
+    btn.setAttribute('aria-expanded','false');
+    btn.innerHTML = '<span class="menu-bar"></span><span class="menu-bar"></span><span class="menu-bar"></span>';
+    container.insertBefore(btn, container.lastElementChild); // перед CTA-кнопкой, если есть
+  }
+
+  // Панель (если не существует)
+  let overlay = $('.mobile-nav');
+  if (!overlay){
+    overlay = document.createElement('div');
+    overlay.className = 'mobile-nav';
+    overlay.innerHTML = `
+      <div class="mobile-nav__inner" role="dialog" aria-modal="true" aria-label="Мобильное меню">
+        <button class="mobile-nav__close" aria-label="Закрыть меню">×</button>
+        <nav class="mobile-nav__links"></nav>
+        <div class="mobile-nav__contacts">
+          <a href="tel:+998903166170" class="btn btn-primary btn-sm">Позвонить: +998 (90) 316-61-70</a>
+          <a href="#form" class="btn btn-outline btn-sm">Оставить заявку</a>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+  }
+
+  // Синхронизация ссылок с .main-nav
+  const mobLinks = overlay.querySelector('.mobile-nav__links');
+  if (mobLinks && mainNav){
+    mobLinks.innerHTML = '';
+    $$('.main-nav a').forEach(a => {
+      const clone = a.cloneNode(true);
+      clone.removeAttribute('aria-current');
+      mobLinks.appendChild(clone);
+    });
+  }
+
+  // Управление открытием/закрытием
+  let lastFocus = null;
+  const closeBtn = overlay.querySelector('.mobile-nav__close');
+  function open(){
+    lastFocus = document.activeElement;
+    overlay.classList.add('is-open');
+    btn.setAttribute('aria-expanded','true');
+    lockScroll(true);
+    closeBtn?.focus({preventScroll:true});
+  }
+  function close(){
+    overlay.classList.remove('is-open');
+    btn.setAttribute('aria-expanded','false');
+    lockScroll(false);
+    if (lastFocus) try{ lastFocus.focus({preventScroll:true}); }catch{}
+  }
+
+  btn.addEventListener('click', open);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) close();
+    if (e.target.closest('.mobile-nav__close')) close();
+    // Клик по пункту меню — закрываем
+    const link = e.target.closest('a');
+    if (link) close();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) close();
+  });
+})();
+
+// =========================
+// Catalog filter + поиск
 // =========================
 const chips = $$('.chip');
 const cards = $$('.card');
@@ -38,6 +115,7 @@ function applyFilter(filter){
     const ok = (allow === null) || allow.includes(card.dataset.category);
     card.style.display = ok ? '' : 'none';
   });
+  renderSearchNote(null, countVisibleCards());
 }
 chips.forEach(ch => ch.addEventListener('click', (e) => {
   e.preventDefault();
@@ -52,9 +130,80 @@ document.addEventListener('click', (e) => {
   const sel = document.querySelector('#leadForm select[name="category"]');
   if (card && sel) {
     const val = card.dataset.category || card.querySelector('.card-title')?.textContent || '';
-    if (val) sel.value = sel.querySelector(`option[value="${val}"]`) ? val : sel.value;
+    if (!val) return;
+    // если есть точное совпадение option[value], выбираем его, иначе оставляем текущее
+    const opt = sel.querySelector(`option[value="${val}"], option:contains("${val}")`);
+    if (opt) sel.value = opt.value;
   }
 });
+
+// ===== Поиск в каталоге по ?q= и #catalog?q=
+function ensureSearchNote(){
+  let note = $('.search-note');
+  if (!note){
+    note = document.createElement('div');
+    note.className = 'search-note';
+    note.setAttribute('role','status');
+    const chipsWrap = $('.chips');
+    chipsWrap && chipsWrap.insertAdjacentElement('afterend', note);
+  }
+  return note;
+}
+function renderSearchNote(query, count){
+  const note = ensureSearchNote();
+  if (!query && query !== ''){
+    if (count == null) { note.classList.remove('is-visible'); return; }
+    note.innerHTML = `<span>Найдено позиций: <b>${count}</b></span>`;
+    note.classList.add('is-visible');
+    return;
+  }
+  const q = (query || '').trim();
+  if (!q){ note.classList.remove('is-visible'); return; }
+  note.innerHTML = `По запросу «<b>${q.replace(/[<>&"]/g,'')}</b>» найдено: <b>${count}</b>`;
+  note.classList.add('is-visible');
+}
+function countVisibleCards(){ return cards.filter(c => c.style.display !== 'none').length; }
+function normalize(s){ return (s || '').toString().toLowerCase(); }
+function applySearch(query){
+  const q = normalize(query);
+  if (!q){
+    applyFilter('all');
+    renderSearchNote('', 0);
+    return;
+  }
+  chips.forEach(c => c.classList.remove('is-active'));
+  let hits = 0;
+  cards.forEach(card => {
+    const title = normalize(card.querySelector('.card-title')?.textContent);
+    const desc  = normalize(card.querySelector('[itemprop="description"]')?.textContent);
+    const cat   = normalize(card.dataset.category);
+    const ok = (title && title.includes(q)) || (desc && desc.includes(q)) || (cat && cat.includes(q));
+    card.style.display = ok ? '' : 'none';
+    if (ok) hits++;
+  });
+  renderSearchNote(q, hits);
+  $('#catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
+}
+// парсинг хэша вида "#catalog?q=..."
+function parseHash(){
+  const h = location.hash || '';
+  if (!h) return {type:'none'};
+  const [hashPath, hashQuery] = h.split('?');
+  const params = new URLSearchParams(hashQuery || '');
+  const q = params.get('q');
+  if (hashPath === '#catalog' && q) return {type:'search', q};
+  return {type:'none'};
+}
+function applyFromURL(){
+  const parsed = parseHash();
+  if (parsed.type === 'search'){ applySearch(parsed.q); return; }
+  // query-параметр ?q=...
+  const qs = new URLSearchParams(location.search);
+  const q = qs.get('q');
+  if (q){ applySearch(q); }
+}
+window.addEventListener('hashchange', applyFromURL);
+window.addEventListener('DOMContentLoaded', applyFromURL);
 
 // =========================
 // Success Modal (после отправки формы)

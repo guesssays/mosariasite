@@ -3,19 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>МОСАРИЯ — полуфабрикаты и готовая еда в Ташкенте: пельмени, манты, вареники, доставка</title>
   <meta name="description" content="Производство и доставка полуфабрикатов в Ташкенте: пельмени, манты, вареники, котлеты, супы и горячее. Ручная лепка, без сои и усилителей. Доставка по городу и оптом.">
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="google-site-verification" content="1LAadiCp-661HPJH6LSRYJJsh75WU5kHKjEs8QQIF_k" />
+
   <link rel="canonical" href="https://www.mosariya.uz/" />
   <link rel="alternate" hreflang="ru-UZ" href="https://www.mosariya.uz/" />
   <link rel="alternate" hreflang="x-default" href="https://www.mosariya.uz/" />
 
-  <!-- LCP preload только на главной -->
   <link rel="preload" href="/assets/hero.webp" as="image" imagesrcset="/assets/hero.webp 1x, /assets/hero@2x.webp 2x" fetchpriority="high">
-
   <link rel="stylesheet" href="/styles.css" />
+
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
@@ -57,11 +56,42 @@
 <header class="site-header">
   <div class="container">
     <a class="logo" href="/" aria-label="МОСАРИЯ — на главную">МОСАРИЯ</a>
+
+    <!-- desktop nav -->
     <nav class="main-nav" aria-label="Главное меню">
-      <a href="/pelmeni.html">Пельмени</a><a href="/manti.html">Манты</a><a href="/vareniki.html">Вареники</a><a href="/gotovaya-eda.html">Готовая еда</a><a href="/polufabrikaty.html">Полуфабрикаты</a><a href="/dostavka.html">Доставка</a><a href="#form">Заявка</a>
+      <a href="/pelmeni.html">Пельмени</a>
+      <a href="/manti.html">Манты</a>
+      <a href="/vareniki.html">Вареники</a>
+      <a href="/gotovaya-eda.html">Готовая еда</a>
+      <a href="/polufabrikaty.html">Полуфабрикаты</a>
+      <a href="/dostavka.html">Доставка</a>
+      <a href="#form">Заявка</a>
     </nav>
+
+    <!-- mobile controls -->
+    <button class="menu-toggle" aria-label="Меню" aria-expanded="false" aria-controls="mobileNav">
+      <span class="menu-bar"></span><span class="menu-bar"></span><span class="menu-bar"></span>
+    </button>
     <a class="btn btn-primary btn-sm cta-mobile" href="#form">Заказать</a>
   </div>
+
+  <!-- mobile nav -->
+  <nav id="mobileNav" class="mobile-nav" aria-label="Мобильное меню">
+    <div class="mobile-nav__inner">
+      <button class="mobile-nav__close" aria-label="Закрыть меню">&times;</button>
+      <a href="/pelmeni.html">Пельмени</a>
+      <a href="/manti.html">Манты</a>
+      <a href="/vareniki.html">Вареники</a>
+      <a href="/gotovaya-eda.html">Готовая еда</a>
+      <a href="/polufabrikaty.html">Полуфабрикаты</a>
+      <a href="/dostavka.html">Доставка</a>
+      <a href="#form">Заявка</a>
+      <div class="mobile-nav__contacts">
+        <a href="tel:+998903166170">+998 (90) 316-61-70</a>
+        <a href="https://www.instagram.com/mosariya.uz" target="_blank" rel="noopener">@mosariya.uz</a>
+      </div>
+    </div>
+  </nav>
 </header>
 
 <main id="top" class="page">
@@ -82,8 +112,43 @@
           <a class="btn btn-primary" href="#form">Оставить заявку</a>
         </div>
         <ul class="hero-badges" aria-label="Преимущества">
-          <li>Ручная лепка</li><li>Без сои и Е-добавок</li><li>Шоковая заморозка</li><li>Собственное производство</li>
+          <li>Ручная лепка</li>
+          <li>Без сои и Е-добавок</li>
+          <li>Шоковая заморозка</li>
+          <li>Собственное производство</li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Блок доверия (возвращён) -->
+  <section class="section tinted" id="trust">
+    <div class="container">
+      <h2 class="h2">Нам доверяют</h2>
+      <ul class="trust-stats">
+        <li><b>7+</b><span>лет делаем полуфабрикаты</span></li>
+        <li><b>10&nbsp;000+</b><span>довольных семей</span></li>
+        <li><b>20+</b><span>партнёров и магазинов</span></li>
+        <li><b>100%</b><span>натуральный состав</span></li>
+      </ul>
+      <ul class="partners">
+        <li class="partner"><img src="/assets/partners/korzinka.png" alt="Korzinka" width="180" height="56" loading="lazy" decoding="async"></li>
+        <li class="partner"><img src="/assets/partners/makromarket.png" alt="Makro Market" width="200" height="56" loading="lazy" decoding="async"></li>
+      </ul>
+
+      <div class="reviews">
+        <article class="review">
+          <p>«Пельмени как домашние! Дети в восторге, варятся быстро. Спасибо за сервис!»</p>
+          <span>— Ольга, Ташкент</span>
+        </article>
+        <article class="review">
+          <p>«Быстрая доставка, аккуратная упаковка. Борщ и лапша — прямо как у мамы.»</p>
+          <span>— Тимур</span>
+        </article>
+        <article class="review">
+          <p>«Берём манты на праздники — стабильно вкусно и сочно. Рекомендую.»</p>
+          <span>— Гульнара</span>
+        </article>
       </div>
     </div>
   </section>
@@ -100,16 +165,43 @@
     </div>
   </section>
 
+  <!-- инфо-блоки для заполнения пустот -->
+  <section class="section" id="howto">
+    <div class="container quality-grid">
+      <div>
+        <h2 class="h2">Как сделать заказ</h2>
+        <ol class="list num">
+          <li>Выберите товары в <a href="/polufabrikaty.html">каталоге</a>.</li>
+          <li>Оставьте заявку или позвоните <a href="tel:+998903166170">+998 (90) 316-61-70</a>.</li>
+          <li>Договоримся о времени. Доставим за 60–90 минут по Ташкенту.</li>
+        </ol>
+      </div>
+      <div>
+        <h2 class="h2">Гарантия качества</h2>
+        <ul class="list">
+          <li>Шоковая заморозка — сохраняет вкус и пользу.</li>
+          <li>Без сои, без усилителей вкуса.</li>
+          <li>Чистая этикетка: состав на упаковке.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <section id="form" class="section tinted">
     <div class="container form-grid">
       <div class="form-col">
         <h2 class="h2">Оставить заявку</h2>
         <form id="leadForm" class="lead-form" novalidate>
+          <input type="text" name="_hp" autocomplete="off" tabindex="-1" class="sr-only" aria-hidden="true">
           <label>Имя <input type="text" name="name" required placeholder="Ваше имя"></label>
           <label>Телефон <input type="tel" name="phone" required placeholder="+998 (__) ___-__-__"></label>
           <label>Что интересует?
             <select name="category">
-              <option>Пельмени</option><option>Манты</option><option>Вареники</option><option>Готовая еда</option><option>Полуфабрикаты</option>
+              <option value="Пельмени">Пельмени</option>
+              <option value="Манты">Манты</option>
+              <option value="Вареники">Вареники</option>
+              <option value="Полуфабрикаты">Полуфабрикаты</option>
+              <option value="Готовая еда">Готовая еда</option>
             </select>
           </label>
           <label>Комментарий <textarea name="comment" rows="3" placeholder="Объём, желаемая дата/время"></textarea></label>

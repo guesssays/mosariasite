@@ -23,6 +23,9 @@
   force  = true
   conditions = {Country = ["*"]}
 
+# ---------- Default 404 ----------
+# Netlify сам отдаёт /404.html как кастомную страницу, отдельный редирект не обязателен.
+
 # ---------- Cache headers ----------
 [[headers]]
   for = "/assets/*"
@@ -38,3 +41,13 @@
   for = "/script.js"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# ---------- Security headers ----------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "no-referrer-when-downgrade"
+    X-XSS-Protection = "0"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=()"
