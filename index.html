@@ -13,8 +13,7 @@
   <link rel="alternate" hreflang="x-default" href="https://www.mosariya.uz/" />
 
   <link rel="preload" href="/assets/hero.webp" as="image" imagesrcset="/assets/hero.webp 1x, /assets/hero@2x.webp 2x" fetchpriority="high">
-<link rel="stylesheet" href="/styles.css?v=2">
-
+  <link rel="stylesheet" href="/styles.css?v=3" />
 
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
@@ -69,26 +68,6 @@
       <a href="/dostavka.html">Доставка</a>
     </nav>
 
-    <!-- mobile off-canvas (используется, не создаётся повторно скриптом) -->
-    <nav class="mobile-nav" id="mobileNav" aria-label="Мобильное меню" hidden>
-      <div class="mobile-nav__inner" role="dialog" aria-modal="true">
-        <button class="mobile-nav__close" type="button" aria-label="Закрыть меню">×</button>
-        <div class="mobile-nav__links">
-          <a href="/katalog.html">Каталог</a>
-          <a href="/pelmeni.html">Пельмени</a>
-          <a href="/manti.html">Манты</a>
-          <a href="/vareniki.html">Вареники</a>
-          <a href="/gotovaya-eda.html">Готовая еда</a>
-          <a href="/polufabrikaty.html">Полуфабрикаты</a>
-          <a href="/dostavka.html">Доставка</a>
-        </div>
-        <div class="mobile-nav__contacts">
-          <a class="btn btn-primary" href="tel:+998903166170">Позвонить</a>
-          <a class="btn btn-outline" href="#form">Оставить заявку</a>
-        </div>
-      </div>
-    </nav>
-
     <!-- mobile controls -->
     <button class="menu-toggle" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mobileNav">
       <span class="menu-bar"></span><span class="menu-bar"></span><span class="menu-bar"></span>
@@ -96,6 +75,26 @@
     <a class="btn btn-primary btn-sm cta-mobile" href="#form">Заказать</a>
   </div>
 </header>
+
+<!-- mobile off-canvas (вынесено из .site-header для стабильности слоёв) -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Мобильное меню" hidden>
+  <div class="mobile-nav__inner" role="dialog" aria-modal="true">
+    <button class="mobile-nav__close" type="button" aria-label="Закрыть меню">×</button>
+    <div class="mobile-nav__links">
+      <a href="/katalog.html">Каталог</a>
+      <a href="/pelmeni.html">Пельмени</a>
+      <a href="/manti.html">Манты</a>
+      <a href="/vareniki.html">Вареники</a>
+      <a href="/gotovaya-eda.html">Готовая еда</a>
+      <a href="/polufabrikaty.html">Полуфабрикаты</a>
+      <a href="/dostavka.html">Доставка</a>
+    </div>
+    <div class="mobile-nav__contacts">
+      <a class="btn btn-primary" href="tel:+998903166170">Позвонить</a>
+      <a class="btn btn-outline" href="#form">Оставить заявку</a>
+    </div>
+  </div>
+</nav>
 
 <main id="top" class="page">
   <section class="hero full-bleed">
@@ -126,48 +125,52 @@
 
   <section class="section tinted" id="trust">
     <div class="container trust-grid">
-<div class="trust-left">
-  <h2 class="h2">Нам доверяют</h2>
+      <!-- Левая колонка -->
+      <div class="trust-left">
+        <h2 class="h2">Нам доверяют</h2>
 
-  <ul class="trust-stats trust-stats--pretty">
-    <li class="stat">
-      <b class="stat-num">2</b> <span class="stat-label">года радуем вас</span>
-    </li>
-    <li class="stat">
-      <b class="stat-num">100+</b> <span class="stat-label">довольных семей</span>
-    </li>
-    <li class="stat">
-      <b class="stat-num">2</b> <span class="stat-label">крупных партнёра</span>
-    </li>
-    <li class="stat">
-      <b class="stat-num">100%</b> <span class="stat-label">натуральный состав</span>
-    </li>
-  </ul>
-</div>
-
-
-
-        <ul class="partners">
-          <li class="partner"><img src="/assets/partners/korzinka.png" alt="Korzinka" width="180" height="56" loading="lazy" decoding="async"></li>
-          <li class="partner"><img src="/assets/partners/makromarket.png" alt="Makro Market" width="200" height="56" loading="lazy" decoding="async"></li>
+        <!-- Статистика -->
+        <ul class="trust-stats trust-block">
+          <li class="trust-card">
+            <b class="trust-num">2</b> <span class="trust-label">года радуем вас</span>
+          </li>
+          <li class="trust-card">
+            <b class="trust-num">100+</b> <span class="trust-label">довольных семей</span>
+          </li>
+          <li class="trust-card">
+            <b class="trust-num">2</b> <span class="trust-label">крупных партнёра</span>
+          </li>
+          <li class="trust-card">
+            <b class="trust-num">100%</b> <span class="trust-label">натуральный состав</span>
+          </li>
         </ul>
 
-        <!-- две фотографии партнёров -->
-        <div class="partners-photos">
-          <figure class="partner-shot">
+        <!-- Логотипы партнёров -->
+        <ul class="partners trust-block">
+          <li class="trust-card partner-card">
+            <img src="/assets/partners/korzinka.png" alt="Korzinka" width="180" height="56" loading="lazy" decoding="async">
+          </li>
+          <li class="trust-card partner-card">
+            <img src="/assets/partners/makromarket.png" alt="Makro Market" width="200" height="56" loading="lazy" decoding="async">
+          </li>
+        </ul>
+
+        <!-- Фото у партнёров -->
+        <div class="partners-photos trust-block">
+          <figure class="trust-card photo-card">
             <img src="/assets/partners/partner-photo-1.jpg" alt="Фото продукции у партнёра 1" loading="lazy" width="900" height="600">
           </figure>
-          <figure class="partner-shot">
+          <figure class="trust-card photo-card">
             <img src="/assets/partners/partner-photo-2.jpg" alt="Фото продукции у партнёра 2" loading="lazy" width="900" height="600">
           </figure>
         </div>
       </div>
 
-      <!-- отзывы — справа на десктопе -->
-      <div class="reviews">
-        <article class="review">
+      <!-- Правая колонка: отзывы -->
+      <div class="reviews trust-block">
+        <article class="trust-card review-card">
           <header class="review-head">
-       
+     
             <div class="review-meta">
               <b>Ольга</b>
               <span>Ташкент</span>
@@ -176,9 +179,9 @@
           <p>Пельмени как домашние! Дети в восторге, варятся быстро. Спасибо за сервис!</p>
         </article>
 
-        <article class="review">
+        <article class="trust-card review-card">
           <header class="review-head">
-         
+      
             <div class="review-meta">
               <b>Тимур</b>
               <span>Доставка</span>
@@ -187,9 +190,9 @@
           <p>Быстрая доставка, аккуратная упаковка. Борщ и лапша — прямо как у мамы.</p>
         </article>
 
-        <article class="review">
+        <article class="trust-card review-card">
           <header class="review-head">
-         
+ 
             <div class="review-meta">
               <b>Гульнара</b>
               <span>Праздники</span>
@@ -274,7 +277,7 @@
         <h2 class="h2">Контакты</h2>
         <ul class="footer-quick">
           <li><a href="tel:+998903166170">+998 (90) 316-61-70 (Ирина)</a></li>
-          <li><a href="https://www.instagram.com/mosariya.uz" target="_blank" rel="noopener">Instagram: @mosariya.uz</a></li>
+          <li><a href="https://www.instagram.com/mosariya.uz" target="_blank" rel="noopener">Instagram: @mosariya.уз</a></li>
         </ul>
       </div>
       <address class="nap">
@@ -290,6 +293,6 @@
   </footer>
 </main>
 
-<script src="/script.js" defer></script>
+<script src="/script.js?v=3" defer></script>
 </body>
 </html>

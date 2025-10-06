@@ -22,14 +22,14 @@ window.addEventListener('load', setHeaderVar);
 window.addEventListener('resize', setHeaderVar);
 
 // =========================
-// MOBILE NAV (используем существующий HTML #mobileNav)
+/* MOBILE NAV (используем существующий HTML #mobileNav) */
 // =========================
 (function initMobileNav(){
   const container = header?.querySelector('.container');
   const mainNav = $('.main-nav');
   if (!container || !mainNav) return;
 
-  // Кнопка-гамбургер (если не существует)
+  // Кнопка-гамбургер (создадим при необходимости)
   let btn = $('.menu-toggle');
   if (!btn){
     btn = document.createElement('button');
@@ -45,11 +45,16 @@ window.addEventListener('resize', setHeaderVar);
     if (!btn.getAttribute('aria-controls')) btn.setAttribute('aria-controls','mobileNav');
   }
 
-  // Используем уже размеченную панель
-  const overlay = $('#mobileNav') || $('.mobile-nav');
+  // Панель
+  let overlay = $('#mobileNav') || $('.mobile-nav');
   if (!overlay) return;
 
-  // Синхронизация ссылок с .main-nav (на всякий случай)
+  // Если вдруг меню оказалось в .site-header — перенесём в body для надёжности
+  if (overlay.parentElement.closest('.site-header')) {
+    document.body.appendChild(overlay);
+  }
+
+  // Синхронизация ссылок с .main-nav
   const mobLinks = overlay.querySelector('.mobile-nav__links');
   if (mobLinks && mainNav){
     mobLinks.innerHTML = '';
@@ -71,7 +76,7 @@ window.addEventListener('resize', setHeaderVar);
 
   function open(){
     lastFocus = document.activeElement;
-    overlay.hidden = false;                 // важно
+    overlay.hidden = false;
     overlay.classList.add('is-open');
     btn.setAttribute('aria-expanded','true');
     lockScroll(true);
@@ -79,13 +84,12 @@ window.addEventListener('resize', setHeaderVar);
   }
   function close(){
     overlay.classList.remove('is-open');
-    overlay.hidden = true;                  // важно
+    overlay.hidden = true;
     btn.setAttribute('aria-expanded','false');
     lockScroll(false);
     try{ lastFocus?.focus({preventScroll:true}); }catch{}
   }
 
-  // обработчики
   btn.addEventListener('click', () => {
     if (overlay.classList.contains('is-open')) close();
     else open();
@@ -102,7 +106,7 @@ window.addEventListener('resize', setHeaderVar);
 })();
 
 // =========================
-// Catalog filter + поиск (работает на страницах, где есть .chip/.card)
+// Catalog filter + поиск (работает на страницах с .chip/.card)
 // =========================
 const chips = $$('.chip');
 const cards = $$('.card');
@@ -126,7 +130,7 @@ chips.forEach(ch => ch.addEventListener('click', (e) => {
   applyFilter(ch.dataset.filter);
 }));
 
-// Автозаполнение категории при клике «Оформить заказ»
+// Автозаполнение категории при клике «Оставить заявку»
 document.addEventListener('click', (e) => {
   const link = e.target.closest('a[href="#form"]');
   if (!link) return;
