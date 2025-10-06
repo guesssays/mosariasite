@@ -60,7 +60,21 @@ img{max-width:100%;height:auto;display:block}
 .main-nav a:hover{color:var(--ink)}
 .main-nav a[aria-current="page"], .main-nav a[aria-current="true"]{color:var(--ink);text-decoration:underline}
 
-/* ===== MOBILE BUTTON / NAV (финальные правила) ===== */
+/* Соцсети в шапке */
+.header-social{display:flex;gap:10px;margin-left:8px}
+.social-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;border:2px dashed #cdb29f;color:var(--ink);text-decoration:none;transition:background .15s ease,color .15s ease,border-color .15s ease}
+.social-btn:hover{background:#fff3e7}
+
+/* ===== КНОПКИ ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem 1.2rem;border-radius:999px;border:2px solid transparent;font-weight:700;text-decoration:none;cursor:pointer}
+.btn-sm{padding:.5rem .9rem;font-size:.9rem}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-2)}
+.btn-outline{border-color:var(--ink);background:transparent;color:var(--ink)}
+.btn-outline:hover{background:var(--ink);color:#fff}
+.btn-secondary{background:#ead5c4;color:#3b2b22;font-weight:800}
+
+/* ===== MOBILE BUTTON / NAV ===== */
 .menu-toggle{
   display:inline-flex; align-items:center; justify-content:center;
   flex-direction:column; gap:6px;
@@ -136,6 +150,31 @@ img{max-width:100%;height:auto;display:block}
 .card-cta{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
 .price{font-weight:900;color:#3b2b22}
 
+/* ===== QUALITY / DELIVERY ===== */
+.quality-grid,.delivery-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+.list{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}
+.list.num{counter-reset:step}
+.list.num li{position:relative;padding-left:28px}
+.list.num li::before{counter-increment:step;content:counter(step) ".";position:absolute;left:0;top:0;font-weight:800}
+.list li{display:flex;align-items:flex-start;gap:10px}
+.list li img{width:20px;height:20px;flex:0 0 20px}
+
+/* ===== POPULAR CATEGORIES ===== */
+.cat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;list-style:none;margin:0;padding:0}
+.cat-card{display:flex;align-items:center;justify-content:center;border:2px dashed #d6b8a5;border-radius:16px;background:#fff;padding:18px;text-decoration:none;color:#3d2f26;font-weight:800;box-shadow:var(--shadow)}
+.cat-card:hover{background:#3d2f26;color:#fff}
+
+/* ===== PARTNERS (в общем стиле карточек) ===== */
+.partners{display:grid; grid-template-columns:repeat(6, minmax(120px,1fr)); gap:var(--trust-gap); list-style:none; padding:0; margin:0}
+.partner-card{min-height:96px; display:flex; align-items:center; justify-content:center; padding:14px; filter:grayscale(1); opacity:.9; transition:filter .2s ease, opacity .2s ease, transform .2s ease}
+.partner-card:hover{filter:none;opacity:1;transform:translateY(-2px)}
+.partner-card img{max-height:56px; width:auto; display:block}
+
+/* ===== SEARCH NOTE (для каталога) ===== */
+.search-note{display:none;margin:10px 0 18px;padding:10px 14px;border-radius:12px;border:2px dashed #d0b096;background:#fff}
+.search-note.is-visible{display:block}
+.search-note b{color:#3b2b22}
+
 /* ===== TRUST: единый стиль блока ===== */
 .trust-grid{display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:start}
 .trust-left > *:not(:last-child){margin-bottom:16px}
@@ -143,62 +182,40 @@ img{max-width:100%;height:auto;display:block}
 
 /* Базовая карточка */
 .trust-card{
-  position:relative;
-  background:var(--trust-bg);
-  border:var(--trust-bdr);
-  border-radius:var(--trust-radius);
-  box-shadow:var(--trust-shadow);
-  overflow:hidden;
+  position:relative;background:var(--trust-bg);border:var(--trust-bdr);
+  border-radius:var(--trust-radius);box-shadow:var(--trust-shadow);overflow:hidden;
 }
 .trust-card::after{
-  content:"";
-  position:absolute; right:-18%; top:-18%;
-  width:160px; height:160px;
-  background:radial-gradient(60% 60% at 50% 50%, rgba(212,178,154,.18), transparent 70%);
-  pointer-events:none;
+  content:"";position:absolute;right:-18%;top:-18%;width:160px;height:160px;
+  background:radial-gradient(60% 60% at 50% 50%, rgba(212,178,154,.18), transparent 70%);pointer-events:none;
 }
 
 /* Статистика */
-.trust-stats{
-  display:grid;
-  grid-template-columns:repeat(4, minmax(0,1fr));
-  gap:var(--trust-gap);
-  list-style:none; padding:0; margin:0;
-}
-.trust-stats .trust-card{
-  display:grid; justify-items:center; align-content:center;
-  min-height:112px; padding:16px 14px; text-align:center;
-}
-.trust-num{font-weight:800; font-size:26px; line-height:1; color:#3b2b22}
-.trust-label{margin-top:8px; font-size:14px; line-height:1.25; color:var(--muted)}
-
-/* Партнёры */
-.partners{
-  display:grid; grid-template-columns:repeat(6, minmax(120px,1fr));
-  gap:var(--trust-gap); list-style:none; padding:0; margin:0;
-}
-.partner-card{
-  min-height:96px; display:flex; align-items:center; justify-content:center;
-  padding:14px; filter:grayscale(1); opacity:.9;
-  transition:filter .2s ease, opacity .2s ease, transform .2s ease;
-}
-.partner-card:hover{filter:none;opacity:1;transform:translateY(-2px)}
-.partner-card img{max-height:56px; width:auto; display:block}
+.trust-stats{display:grid;grid-template-columns:repeat(4, minmax(0,1fr));gap:var(--trust-gap);list-style:none;padding:0;margin:0}
+.trust-stats .trust-card{display:grid;justify-items:center;align-content:center;min-height:112px;padding:16px 14px;text-align:center}
+.trust-num{font-weight:800;font-size:26px;line-height:1;color:#3b2b22}
+.trust-label{margin-top:8px;font-size:14px;line-height:1.25;color:var(--muted)}
 
 /* Фото у партнёров */
 .partners-photos{display:grid; grid-template-columns:1fr 1fr; gap:var(--trust-gap)}
-.photo-card img{display:block; width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; transition:transform .35s ease}
+.photo-card img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;transition:transform .35s ease}
 .photo-card:hover img{transform:scale(1.02)}
 
 /* Отзывы */
-.reviews{display:grid; gap:var(--trust-gap); position:sticky; top:calc(var(--header,56px) + 16px)}
+.reviews{display:grid;gap:var(--trust-gap);position:sticky;top:calc(var(--header,56px) + 16px)}
 .review-card{padding:14px}
-.review-card::before{content:"“"; position:absolute; right:12px; bottom:8px; font-size:40px; line-height:1; color:#e2cbbb; opacity:.7}
-.review-head{display:flex; align-items:center; gap:10px; margin-bottom:6px}
+.review-card::before{content:"“";position:absolute;right:12px;bottom:8px;font-size:40px;line-height:1;color:#e2cbbb;opacity:.7}
+.review-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .review-avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:#ead5c4;color:#3b2b22}
 .review-meta b{display:block;font-size:14px}
 .review-meta span{font-size:12px;color:var(--muted)}
 .reviews p{margin:0;color:#3b2b22}
+
+/* ===== PARTNERS GALLERY (доп. блок) ===== */
+.partners-gallery{margin-top:20px;display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.partners-shot{grid-column:span 12;display:block;border-radius:16px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.partners-shot img{width:100%;height:auto;display:block;aspect-ratio:16 / 10;object-fit:cover;transition:transform .35s ease}
+.partners-shot:hover img{transform:scale(1.02)}
 
 /* ===== FORM ===== */
 .form-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start}
@@ -245,12 +262,24 @@ img{max-width:100%;height:auto;display:block}
   .trust-stats{grid-template-columns:repeat(2, minmax(0,1fr))}
   .partners{grid-template-columns:repeat(2,minmax(120px,1fr))}
   .partners-photos{grid-template-columns:1fr}
+  .cat-cards{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:640px){
   .cards{grid-template-columns:1fr}
+  .cat-cards{grid-template-columns:1fr;gap:18px}
 }
 @media (max-width:420px){
   .trust-stats{grid-template-columns:1fr}
+}
+
+/* MOBILE фон hero */
+@media (max-width:960px){
+  .hero.full-bleed{
+    background:
+      linear-gradient(rgba(243,231,219,0.75), rgba(243,231,219,0.85)),
+      url("assets/hero-bg-mobile.jpg?v=1") center / cover no-repeat !important;
+    color: var(--ink);
+  }
 }
 
 /* ===== PRINT ===== */
