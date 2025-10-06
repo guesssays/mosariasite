@@ -68,7 +68,27 @@
       <a href="/dostavka.html">Доставка</a>
     </nav>
 
-    <!-- mobile controls (панель добавит script.js) -->
+    <!-- mobile off-canvas (используется, не создаётся повторно скриптом) -->
+    <nav class="mobile-nav" id="mobileNav" aria-label="Мобильное меню" hidden>
+      <div class="mobile-nav__inner" role="dialog" aria-modal="true">
+        <button class="mobile-nav__close" type="button" aria-label="Закрыть меню">×</button>
+        <div class="mobile-nav__links">
+          <a href="/katalog.html">Каталог</a>
+          <a href="/pelmeni.html">Пельмени</a>
+          <a href="/manti.html">Манты</a>
+          <a href="/vareniki.html">Вареники</a>
+          <a href="/gotovaya-eda.html">Готовая еда</a>
+          <a href="/polufabrikaty.html">Полуфабрикаты</a>
+          <a href="/dostavka.html">Доставка</a>
+        </div>
+        <div class="mobile-nav__contacts">
+          <a class="btn btn-primary" href="tel:+998903166170">Позвонить</a>
+          <a class="btn btn-outline" href="#form">Оставить заявку</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- mobile controls -->
     <button class="menu-toggle" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mobileNav">
       <span class="menu-bar"></span><span class="menu-bar"></span><span class="menu-bar"></span>
     </button>
@@ -82,7 +102,7 @@
       <picture>
         <source srcset="/assets/hero.avif" type="image/avif">
         <source srcset="/assets/hero.webp" type="image/webp">
-        <img src="/assets/hero.jpg" alt="Упаковка продукции «МОСАРИЯ»" width="1040" height="780" loading="eager" decoding="async" fetchpriority="high">
+        <img src="/assets/hero.png" alt="Упаковка продукции «МОСАРИЯ»" width="1040" height="780" loading="eager" decoding="async" fetchpriority="high">
       </picture>
     </div>
     <div class="container">
@@ -104,31 +124,66 @@
   </section>
 
   <section class="section tinted" id="trust">
-    <div class="container">
-      <h2 class="h2">Нам доверяют</h2>
-      <ul class="trust-stats">
-        <li><b>7+</b><span>лет делаем полуфабрикаты</span></li>
-        <li><b>10&nbsp;000+</b><span>довольных семей</span></li>
-        <li><b>20+</b><span>партнёров и магазинов</span></li>
-        <li><b>100%</b><span>натуральный состав</span></li>
-      </ul>
-      <ul class="partners">
-        <li class="partner"><img src="/assets/partners/korzinka.png" alt="Korzinka" width="180" height="56" loading="lazy" decoding="async"></li>
-        <li class="partner"><img src="/assets/partners/makromarket.png" alt="Makro Market" width="200" height="56" loading="lazy" decoding="async"></li>
-      </ul>
+    <div class="container trust-grid">
+      <div class="trust-left">
+        <h2 class="h2">Нам доверяют</h2>
 
+        <ul class="trust-stats">
+          <li><b>Более 2</b><span>лет делаем полуфабрикаты</span></li>
+          <li><b>1&nbsp;000+</b><span>довольных семей</span></li>
+          <li><b>Множество</b><span>партнёров и магазинов</span></li>
+          <li><b>100%</b><span>натуральный состав</span></li>
+        </ul>
+
+        <ul class="partners">
+          <li class="partner"><img src="/assets/partners/korzinka.png" alt="Korzinka" width="180" height="56" loading="lazy" decoding="async"></li>
+          <li class="partner"><img src="/assets/partners/makromarket.png" alt="Makro Market" width="200" height="56" loading="lazy" decoding="async"></li>
+        </ul>
+
+        <!-- две фотографии партнёров -->
+        <div class="partners-photos">
+          <figure class="partner-shot">
+            <img src="/assets/partners/partner-photo-1.jpg" alt="Фото продукции у партнёра 1" loading="lazy" width="900" height="600">
+          </figure>
+          <figure class="partner-shot">
+            <img src="/assets/partners/partner-photo-2.jpg" alt="Фото продукции у партнёра 2" loading="lazy" width="900" height="600">
+          </figure>
+        </div>
+      </div>
+
+      <!-- отзывы — справа на десктопе -->
       <div class="reviews">
         <article class="review">
-          <p>«Пельмени как домашние! Дети в восторге, варятся быстро. Спасибо за сервис!»</p>
-          <span>— Ольга, Ташкент</span>
+          <header class="review-head">
+            <div class="review-avatar" aria-hidden="true">О</div>
+            <div class="review-meta">
+              <b>Ольга</b>
+              <span>Ташкент</span>
+            </div>
+          </header>
+          <p>Пельмени как домашние! Дети в восторге, варятся быстро. Спасибо за сервис!</p>
         </article>
+
         <article class="review">
-          <p>«Быстрая доставка, аккуратная упаковка. Борщ и лапша — прямо как у мамы.»</p>
-          <span>— Тимур</span>
+          <header class="review-head">
+            <div class="review-avatar" aria-hidden="true">Т</div>
+            <div class="review-meta">
+              <b>Тимур</b>
+              <span>Доставка</span>
+            </div>
+          </header>
+          <p>Быстрая доставка, аккуратная упаковка. Борщ и лапша — прямо как у мамы.</p>
         </article>
+
         <article class="review">
-          <p>«Берём манты на праздники — стабильно вкусно и сочно. Рекомендую.»</p>
-          <span>— Гульнара</span>
+          <header class="review-head">
+            <div class="review-avatar" aria-hidden="true">Г</div>
+            <div class="review-meta">
+              <b>Гульнара</b>
+              <span>Праздники</span>
+            </div>
+          </header>
+          <p>Берём манты на праздники — стабильно вкусно и сочно. Рекомендую.</p>
         </article>
       </div>
     </div>

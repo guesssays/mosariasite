@@ -238,3 +238,48 @@ img{max-width:100%;height:auto;display:block}
   .btn,.social-btn{display:none!important}
   .site-footer{border-top:1px solid #000}
 }
+/* ===== TRUST LAYOUT ===== */
+.trust-grid{display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:start}
+.trust-left > *:not(:last-child){margin-bottom:16px}
+
+/* Партнёрские фото */
+.partners-photos{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.partner-shot{margin:0;border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.partner-shot img{aspect-ratio:16/10;object-fit:cover;display:block}
+
+/* Отзывы — карточки */
+.reviews{display:grid;gap:12px;position:sticky;top:calc(var(--header,56px) + 16px)}
+.review{background:#fff;border:2px dashed #d6b8a5;border-radius:16px;padding:14px;box-shadow:var(--shadow);position:relative}
+.review::before{content:"“";position:absolute;inset:auto 12px 8px auto;font-size:40px;line-height:1;color:#e2cbbb;opacity:.7}
+.review-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.review-avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
+  font-weight:800;background:#ead5c4;color:#3b2b22}
+.review-meta b{display:block;font-size:14px}
+.review-meta span{font-size:12px;color:var(--muted)}
+.review p{margin:0;color:#3b2b22}
+
+/* ===== MOBILE NAV (переполировка) ===== */
+.menu-toggle{position:relative}
+.menu-toggle[aria-expanded="true"] .menu-bar:nth-child(1){transform:translateY(5px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] .menu-bar:nth-child(2){opacity:0}
+.menu-toggle[aria-expanded="true"] .menu-bar:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+.menu-toggle .menu-bar{transition:transform .18s ease,opacity .18s ease}
+
+.mobile-nav{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:2000;display:none}
+.mobile-nav.is-open{display:block}
+.mobile-nav[hidden]{display:none!important}
+.mobile-nav__inner{position:absolute;top:0;right:0;min-height:100%;width:min(86vw,380px);
+  background:#fff7ee;box-shadow:-8px 0 28px rgba(0,0,0,.12);padding:16px 16px 24px;overflow-y:auto}
+.mobile-nav__close{position:absolute;top:8px;right:10px;width:40px;height:40px;border:0;background:transparent;
+  font-size:32px;line-height:1;cursor:pointer;color:#3b2b22}
+.mobile-nav__links{display:grid;gap:10px;margin-top:36px}
+.mobile-nav__links a{padding:10px 12px;border-radius:12px;text-decoration:none;color:#3b2b22;background:#fff;
+  border:1.5px dashed #d6b8a5;font-weight:700}
+.mobile-nav__links a:hover{background:#3b2b22;color:#fff}
+.mobile-nav__contacts{display:grid;gap:10px;margin-top:16px}
+
+@media (max-width:960px){
+  .trust-grid{grid-template-columns:1fr}
+  .partners-photos{grid-template-columns:1fr}
+  .reviews{position:static}
+}

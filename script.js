@@ -22,7 +22,7 @@ window.addEventListener('load', setHeaderVar);
 window.addEventListener('resize', setHeaderVar);
 
 // =========================
-// MOBILE NAV (автовставка)
+// MOBILE NAV (используем существующий HTML #mobileNav)
 // =========================
 (function initMobileNav(){
   const container = header?.querySelector('.container');
@@ -34,36 +34,22 @@ window.addEventListener('resize', setHeaderVar);
   if (!btn){
     btn = document.createElement('button');
     btn.className = 'menu-toggle';
-    btn.type = 'button'; // важно для формы
+    btn.type = 'button';
     btn.setAttribute('aria-label','Открыть меню');
     btn.setAttribute('aria-expanded','false');
+    btn.setAttribute('aria-controls','mobileNav');
     btn.innerHTML = '<span class="menu-bar"></span><span class="menu-bar"></span><span class="menu-bar"></span>';
     container.appendChild(btn);
   } else {
-    // гарантируем тип
     if (!btn.getAttribute('type')) btn.setAttribute('type','button');
+    if (!btn.getAttribute('aria-controls')) btn.setAttribute('aria-controls','mobileNav');
   }
 
-  // Панель (если не существует)
-  let overlay = $('#mobileNav');
-  if (!overlay){
-    overlay = document.createElement('nav');
-    overlay.id = 'mobileNav';
-    overlay.className = 'mobile-nav';
-    overlay.setAttribute('aria-label','Мобильное меню');
-    overlay.innerHTML = `
-      <div class="mobile-nav__inner" role="dialog" aria-modal="true" aria-label="Мобильное меню">
-        <button class="mobile-nav__close" aria-label="Закрыть меню" type="button">×</button>
-        <div class="mobile-nav__links"></div>
-        <div class="mobile-nav__contacts">
-          <a href="tel:+998903166170" class="btn btn-primary btn-sm">Позвонить: +998 (90) 316-61-70</a>
-          <a href="#form" class="btn btn-outline btn-sm">Оставить заявку</a>
-        </div>
-      </div>`;
-    document.body.appendChild(overlay);
-  }
+  // Используем уже размеченную панель
+  const overlay = $('#mobileNav') || $('.mobile-nav');
+  if (!overlay) return;
 
-  // Синхронизация ссылок с .main-nav
+  // Синхронизация ссылок с .main-nav (на всякий случай)
   const mobLinks = overlay.querySelector('.mobile-nav__links');
   if (mobLinks && mainNav){
     mobLinks.innerHTML = '';
@@ -74,7 +60,6 @@ window.addEventListener('resize', setHeaderVar);
     });
   }
 
-  // Управление открытием/закрытием
   let lastFocus = null;
   const closeBtn = overlay.querySelector('.mobile-nav__close');
 
@@ -86,20 +71,25 @@ window.addEventListener('resize', setHeaderVar);
 
   function open(){
     lastFocus = document.activeElement;
+    overlay.hidden = false;                 // важно
     overlay.classList.add('is-open');
     btn.setAttribute('aria-expanded','true');
     lockScroll(true);
-    closeBtn?.focus({preventScroll:true});
+    closeBtn?.focus?.({preventScroll:true});
   }
   function close(){
     overlay.classList.remove('is-open');
+    overlay.hidden = true;                  // важно
     btn.setAttribute('aria-expanded','false');
     lockScroll(false);
     try{ lastFocus?.focus({preventScroll:true}); }catch{}
   }
 
-  // гарантируем, что не будет дубль-листенеров
-  btn.addEventListener('click', open, { once: false });
+  // обработчики
+  btn.addEventListener('click', () => {
+    if (overlay.classList.contains('is-open')) close();
+    else open();
+  });
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) close();
     if (e.target.closest('.mobile-nav__close')) close();
