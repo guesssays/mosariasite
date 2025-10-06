@@ -283,3 +283,18 @@ img{max-width:100%;height:auto;display:block}
   .partners-photos{grid-template-columns:1fr}
   .reviews{position:static}
 }
+/* кнопка-бургер */
+.menu-toggle{
+  display:inline-flex;
+  flex-direction: column;      /* <— вот это главное */
+  align-items:center;
+  justify-content:center;
+  width:42px;height:42px;
+  border:0;background:transparent;cursor:pointer;margin-left:8px;
+  gap:6px;                     /* вместо margin у полосок */
+}
+.menu-toggle .menu-bar{
+  width:22px;height:2px;background:var(--ink);border-radius:2px;
+  margin:0;                    /* не нужен, т.к. используем gap */
+  transition:transform .18s ease,opacity .18s ease;
+}
