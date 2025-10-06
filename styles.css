@@ -300,3 +300,66 @@ img{max-width:100%;height:auto;display:block}
 }
 header .menu-toggle{ flex-direction: column; gap: 6px; }
 header .menu-toggle .menu-bar{ margin: 0; }
+/* ——— TRUST: аккуратные карточки со статистикой ——— */
+#trust .trust-stats--pretty{
+  --gap: 14px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: var(--gap);
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+#trust .trust-stats--pretty .stat{
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto;
+  justify-items: center;
+  align-content: center;
+  min-height: 112px;
+  padding: 16px 14px;
+  background: #fff;
+  border: 2px dashed #d6b8a5;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* лёгкий декоративный фон-пятно */
+#trust .trust-stats--pretty .stat::after{
+  content: "";
+  position: absolute;
+  inset: -40% -30% auto auto;
+  width: 140px; height: 140px;
+  background: radial-gradient(60% 60% at 50% 50%, rgba(212,178,154,.22), transparent 70%);
+  pointer-events: none;
+}
+
+/* число */
+#trust .trust-stats--pretty .stat-num{
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1;
+  color: #3b2b22;
+  letter-spacing: .3px;
+}
+
+/* подпись */
+#trust .trust-stats--pretty .stat-label{
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.25;
+  color: var(--muted);
+}
+
+/* адаптив: в 2 колонки на планшете/мобилке */
+@media (max-width: 960px){
+  #trust .trust-stats--pretty{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+/* совсем узкие — по одной */
+@media (max-width: 420px){
+  #trust .trust-stats--pretty{ grid-template-columns: 1fr; }
+}
