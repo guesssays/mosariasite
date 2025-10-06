@@ -298,3 +298,5 @@ img{max-width:100%;height:auto;display:block}
   margin:0;                    /* не нужен, т.к. используем gap */
   transition:transform .18s ease,opacity .18s ease;
 }
+header .menu-toggle{ flex-direction: column; gap: 6px; }
+header .menu-toggle .menu-bar{ margin: 0; }
