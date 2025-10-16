@@ -12,13 +12,13 @@
   <link rel="alternate" hreflang="ru-UZ" href="https://www.mosariya.uz/" />
   <link rel="alternate" hreflang="x-default" href="https://www.mosariya.uz/" />
 
-  <link rel="preload" href="/assets/hero.webp" as="image" imagesrcset="/assets/hero.webp 1x, /assets/hero@2x.webp 2x" fetchpriority="high">
-  <link rel="stylesheet" href="/styles.css?v=7" />
+  <link rel="preload" href="assets/hero.webp" as="image" imagesrcset="assets/hero.webp 1x, assets/hero@2x.webp 2x" fetchpriority="high">
+  <link rel="stylesheet" href="styles.css?v=8" />
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
-  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-  <link rel="manifest" href="/assets/icons/site.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="assets/icons/site.webmanifest">
 
   <!-- OG/Twitter -->
   <meta property="og:type" content="website"><meta property="og:locale" content="ru_RU">
@@ -57,7 +57,6 @@
   <div class="container">
     <a class="logo" href="/" aria-label="МОСАРИЯ — на главную">МОСАРИЯ</a>
 
-    <!-- desktop nav -->
     <nav class="main-nav" aria-label="Главное меню">
       <a href="/katalog.html">Каталог</a>
       <a href="/pelmeni.html">Пельмени</a>
@@ -68,7 +67,6 @@
       <a href="/dostavka.html">Доставка</a>
     </nav>
 
-    <!-- соцкнопки (десктоп) -->
     <div class="header-social" aria-label="Мы в соцсетях">
       <a class="social-btn" href="https://www.instagram.com/mosariya.uz" target="_blank" rel="noopener" aria-label="Instagram">
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z" fill="currentColor"/></svg>
@@ -78,7 +76,6 @@
       </a>
     </div>
 
-    <!-- mobile controls -->
     <button class="menu-toggle" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mobileNav">
       <span class="menu-bar"></span><span class="menu-bar"></span><span class="menu-bar"></span>
     </button>
@@ -86,7 +83,6 @@
   </div>
 </header>
 
-<!-- mobile off-canvas -->
 <nav class="mobile-nav" id="mobileNav" aria-label="Мобильное меню" hidden>
   <div class="mobile-nav__inner" role="dialog" aria-modal="true">
     <button class="mobile-nav__close" type="button" aria-label="Закрыть меню">×</button>
@@ -110,9 +106,9 @@
   <section class="hero full-bleed">
     <div class="hero-media" aria-hidden="true">
       <picture>
-        <source srcset="/assets/hero.avif" type="image/avif">
-        <source srcset="/assets/hero.webp" type="image/webp">
-        <img src="/assets/hero.png" alt="Упаковка продукции «МОСАРИЯ»" width="1040" height="780" loading="eager" decoding="async" fetchpriority="high">
+        <source srcset="assets/hero.avif" type="image/avif">
+        <source srcset="assets/hero.webp" type="image/webp">
+        <img src="assets/hero.png" alt="Упаковка продукции «МОСАРИЯ»" width="1040" height="780" loading="eager" decoding="async" fetchpriority="high">
       </picture>
     </div>
     <div class="container">
@@ -147,22 +143,22 @@
 
         <ul class="partners trust-block">
           <li class="trust-card partner-card">
-            <img src="/assets/partners/korzinka.png" alt="Korzinka" width="180" height="56" loading="lazy" decoding="async">
+            <img src="assets/partners/korzinka.png" alt="Korzinka" width="180" height="56" loading="lazy" decoding="async">
           </li>
           <li class="trust-card partner-card">
-            <img src="/assets/partners/makromarket.png" alt="Makro Market" width="200" height="56" loading="lazy" decoding="async">
+            <img src="assets/partners/makromarket.png" alt="Makro Market" width="200" height="56" loading="lazy" decoding="async">
           </li>
           <li class="trust-card partner-card">
-            <img src="/assets/partners/dominos.png" alt="Domino’s Pizza" width="190" height="56" loading="lazy" decoding="async">
+            <img src="assets/partners/dominos.png" alt="Domino’s Pizza" width="190" height="56" loading="lazy" decoding="async">
           </li>
         </ul>
 
         <div class="partners-photos trust-block">
           <figure class="trust-card photo-card">
-            <img src="/assets/partners/partner-photo-1.jpg" alt="Фото продукции у партнёра 1" loading="lazy" width="900" height="600">
+            <img src="assets/partners/partner-photo-1.jpg" alt="Фото продукции у партнёра 1" loading="lazy" width="900" height="600">
           </figure>
           <figure class="trust-card photo-card">
-            <img src="/assets/partners/partner-photo-2.jpg" alt="Фото продукции у партнёра 2" loading="lazy" width="900" height="600">
+            <img src="assets/partners/partner-photo-2.jpg" alt="Фото продукции у партнёра 2" loading="lazy" width="900" height="600">
           </figure>
         </div>
       </div>
@@ -186,14 +182,14 @@
 
   <!-- B2B -->
   <section class="section" id="b2b">
-    <div class="container quality-grid">
+    <div class="container quality-grid b2b-grid">
       <div class="feature-card">
         <h2 class="h2">Готовая еда для организаций</h2>
         <ul class="list">
           <li>Обеды для сотрудников: индивидуальные ланч-боксы или сет-меню.</li>
           <li>Доставка по расписанию в офисы и на производства.</li>
           <li>Безналичный расчёт с НДС, закрывающие документы.</li>
-          <li>Меню под бюджет и предпочтения (без свинины, острое/неострое и т.д.).</li>
+          <li>Меню под бюджет и предпочтения.</li>
         </ul>
         <div class="hero-cta">
           <a class="btn btn-outline" href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram-группа с обедами</a>
@@ -201,7 +197,11 @@
         </div>
       </div>
       <div>
-        <img src="/assets/b2b-lunch.jpg" alt="Корпоративные обеды МОСАРИЯ" class="contact-photo" width="900" height="600" loading="lazy" decoding="async">
+        <img src="assets/b2b-lunch.jpg"
+             alt="Корпоративные обеды МОСАРИЯ"
+             class="contact-photo b2b-photo"
+             width="900" height="600" loading="lazy" decoding="async"
+             onerror="this.src='assets/forma.jpg'; this.removeAttribute('onerror');">
       </div>
     </div>
   </section>
@@ -297,7 +297,7 @@
           <li>Instagram: <a href="https://www.instagram.com/mosariya.uz" target="_blank" rel="noopener">@mosariya.uz</a></li>
           <li>Telegram: <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">t.me/mosariyafud</a></li>
         </ul>
-        <img class="contact-photo" src="/assets/forma.jpg" alt="Продукция МОСАРИЯ" width="900" height="600" loading="lazy" decoding="async">
+        <img class="contact-photo" src="assets/forma.jpg" alt="Продукция МОСАРИЯ" width="900" height="600" loading="lazy" decoding="async">
       </div>
     </div>
   </section>
@@ -325,6 +325,6 @@
   </footer>
 </main>
 
-<script src="/script.js?v=6" defer></script>
+<script src="script.js?v=7" defer></script>
 </body>
 </html>

@@ -93,7 +93,7 @@ window.addEventListener('resize', setHeaderVar);
 })();
 
 // =========================
-// Catalog filter + поиск (на страницах с .chip/.card)
+// Catalog filter + поиск
 // =========================
 const chips = $$('.chip');
 const cards = $$('.card');
@@ -288,9 +288,9 @@ document.addEventListener('click', (e) => {
 });
 
 // =========================
-// MEDIA CAROUSEL (из /assets/media/)
+// MEDIA CAROUSEL (из assets/media/)
 // =========================
-const MEDIA_BASE = '/assets/media/';
+const MEDIA_BASE = 'assets/media/';
 const READY_MEDIA = [
   '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg',
   {src:'10.mp4', type:'video', poster:'1.jpg'},

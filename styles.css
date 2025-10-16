@@ -22,6 +22,9 @@
   --trust-bg:#fff;
   --trust-shadow:var(--shadow);
   --trust-gap:14px;
+
+  /* carousel */
+  --carousel-ratio: 4/3; /* выше на десктопе */
 }
 
 /* ===== BASE ===== */
@@ -30,7 +33,7 @@ html{overflow-x:hidden}
 html.no-scroll,html.no-scroll body{overflow:hidden}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--ff-body);letter-spacing:.2px}
 img{max-width:100%;height:auto;display:block}
-.container{width:min(var(--container), calc(100% - 24px)); margin-inline:auto} /* FIX overflow on mobile */
+.container{width:min(var(--container), calc(100% - 24px)); margin-inline:auto}
 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 .full-bleed{background:radial-gradient(1000px 400px at 80% -10%, rgba(0,0,0,.06), transparent 60%) no-repeat,var(--bg)}
 :where([id]){scroll-margin-top:calc(var(--header,56px) + 12px)}
@@ -45,11 +48,6 @@ h2,.h2{font-size:28px;margin:0 0 16px;font-weight:700}
   box-shadow:0 0 0 3px rgba(31,58,147,.25);
   outline:2px solid var(--outline);
   outline-offset:2px; border-radius:12px;
-}
-
-/* ===== REDUCED MOTION ===== */
-@media (prefers-reduced-motion: reduce){
-  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 
 /* ===== HEADER ===== */
@@ -114,12 +112,10 @@ h2,.h2{font-size:28px;margin:0 0 16px;font-weight:700}
 .section{padding:48px 0}
 .tinted{background:var(--paper)}
 
-/* Chips */
+/* ===== CARDS / LISTS (unchanged) ===== */
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
 .chip{padding:.5rem 1rem;border-radius:999px;border:2px solid #d6b8a5;background:#fff;color:#3d2f26;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
 .chip.is-active,.chip:hover{background:#3d2f26;color:#fff;border-color:#3d2f26}
-
-/* ===== CARDS ===== */
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
 .card img{aspect-ratio:4/3;object-fit:cover}
@@ -129,27 +125,20 @@ h2,.h2{font-size:28px;margin:0 0 16px;font-weight:700}
 .card-cta{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:10px}
 .price{font-weight:900;color:#3b2b22}
 
-/* ===== QUALITY / DELIVERY ===== */
-.quality-grid,.delivery-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
-.list{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}
-.list.num{counter-reset:step}
-.list.num li{position:relative;padding-left:28px}
-.list.num li::before{counter-increment:step;content:counter(step) ".";position:absolute;left:0;top:0;font-weight:800}
-.list li{display:flex;align-items:flex-start;gap:10px}
-.list li img{width:20px;height:20px;flex:0 0 20px}
+/* ===== QUALITY / B2B GRID ===== */
+.quality-grid,.delivery-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}
+.b2b-grid{grid-template-columns:1fr 1fr}
+.feature-card{min-width:0} /* предотвращает распирание длинным контентом */
+.b2b-photo{width:100%;height:auto;display:block}
 
-/* ===== POPULAR CATEGORIES ===== */
+/* ===== POPULAR CATEGORIES / TRUST (unchanged) ===== */
 .cat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;list-style:none;margin:0;padding:0}
 .cat-card{display:flex;align-items:center;justify-content:center;border:2px dashed #d6b8a5;border-radius:16px;background:#fff;padding:18px;text-decoration:none;color:#3d2f26;font-weight:800;box-shadow:var(--shadow)}
 .cat-card:hover{background:#3d2f26;color:#fff}
-
-/* ===== PARTNERS ===== */
 .partners{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:var(--trust-gap);list-style:none;padding:0;margin:0}
 .partner-card{min-height:96px;display:flex;align-items:center;justify-content:center;padding:14px;filter:grayscale(1);opacity:.9;transition:filter .2s ease,opacity .2s ease,transform .2s ease;background:#fff}
 .partner-card:hover{filter:none;opacity:1;transform:translateY(-2px)}
 .partner-card img{max-height:56px;width:auto;display:block}
-
-/* ===== TRUST ===== */
 .trust-grid{display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:start}
 .trust-left > *:not(:last-child){margin-bottom:16px}
 .trust-block{margin-top:14px}
@@ -171,36 +160,30 @@ h2,.h2{font-size:28px;margin:0 0 16px;font-weight:700}
 .review-meta span{font-size:12px;color:var(--muted)}
 .reviews p{margin:0;color:#3b2b22}
 
-/* ===== PARTNERS GALLERY ===== */
-.partners-gallery{margin-top:20px;display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-.partners-shot{grid-column:span 12;display:block;border-radius:16px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.08)}
-.partners-shot img{width:100%;height:auto;display:block;aspect-ratio:16/10;object-fit:cover;transition:transform .35s ease}
-.partners-shot:hover img{transform:scale(1.02)}
-
 /* ===== MEDIA CAROUSEL ===== */
 .carousel{position:relative;border-radius:16px;background:#fff;padding:10px;box-shadow:var(--shadow);border:2px dashed #d6b8a5}
 .carousel-viewport{overflow:hidden;border-radius:10px}
 .carousel-track{display:flex;touch-action:pan-y;will-change:transform;transition:transform .38s ease}
 .carousel-slide{flex:0 0 100%;position:relative}
-.carousel-slide img,.carousel-slide video{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
+.carousel-slide img,.carousel-slide video{width:100%;height:auto;display:block;aspect-ratio:var(--carousel-ratio);object-fit:cover}
 .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;border:0;background:#fff;border-radius:999px;box-shadow:var(--shadow);width:40px;height:40px;cursor:pointer}
 .carousel-btn:hover{background:#f6eee5}
 .carousel-btn.prev{left:8px}
 .carousel-btn.next{right:8px}
-.carousel-dots{display:flex;justify-content:center;gap:6px;margin-top:10px}
-.carousel-dot{width:8px;height:8px;border-radius:50%;background:#d0b096;cursor:pointer;border:0}
+.carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:10px}
+.carousel-dot{display:inline-block;width:10px;height:10px;aspect-ratio:1/1;border-radius:50%;background:#d0b096;cursor:pointer;border:0;padding:0;line-height:0}
 .carousel-dot[aria-selected="true"]{background:#7f5539}
 
 /* ===== INFO CARDS (howto) ===== */
-.info-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start}
-.info-card{background:#fff;border:2px dashed #d6b8a5;border-radius:16px;box-shadow:var(--shadow);padding:16px}
+.info-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start}
+.info-card{background:#fff;border:2px dashed #d6b8a5;border-radius:16px;box-shadow:var(--shadow);padding:14px;min-width:0;overflow:hidden}
 .info-card-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.info-card-ico{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:10px;background:#ead5c4;font-size:18px}
-.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.steps li{display:flex;gap:10px;align-items:flex-start}
-.step-num{flex:0 0 26px;height:26px;display:inline-grid;place-items:center;border-radius:999px;background:#3d2f26;color:#fff;font-weight:800}
-.checks{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.checks li{position:relative;padding-left:26px}
+.info-card-ico{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:10px;background:#ead5c4;font-size:18px}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.steps li{display:flex;gap:8px;align-items:flex-start;word-break:break-word}
+.step-num{flex:0 0 24px;height:24px;display:inline-grid;place-items:center;border-radius:999px;background:#3d2f26;color:#fff;font-weight:800}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.checks li{position:relative;padding-left:26px;word-break:break-word}
 .checks li::before{content:"";position:absolute;left:0;top:4px;width:16px;height:16px;border-radius:4px;background:#3d2f26}
 .checks li::after{content:"";position:absolute;left:4px;top:8px;width:8px;height:4px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg)}
 
@@ -227,7 +210,7 @@ h2,.h2{font-size:28px;margin:0 0 16px;font-weight:700}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:1200px){
-  .carousel-slide img,.carousel-slide video{aspect-ratio:16/10}
+  :root{ --carousel-ratio: 16/10; } /* тоже выше, чем 16/9 */
 }
 @media (max-width:960px){
   .main-nav{display:none}
@@ -251,6 +234,7 @@ h2,.h2{font-size:28px;margin:0 0 16px;font-weight:700}
   .price{margin-bottom:4px}
 
   .quality-grid,.delivery-grid,.form-grid,.info-grid{grid-template-columns:1fr}
+  .b2b-grid .hero-cta .btn{width:100%} /* кнопки в столбик */
   .trust-grid{grid-template-columns:1fr}
   .reviews{position:static}
   .trust-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
