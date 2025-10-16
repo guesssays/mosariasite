@@ -22,14 +22,13 @@ window.addEventListener('load', setHeaderVar);
 window.addEventListener('resize', setHeaderVar);
 
 // =========================
-/* MOBILE NAV (используем существующий HTML #mobileNav) */
+// MOBILE NAV
 // =========================
 (function initMobileNav(){
   const container = header?.querySelector('.container');
   const mainNav = $('.main-nav');
   if (!container || !mainNav) return;
 
-  // Кнопка-гамбургер (создадим при необходимости)
   let btn = $('.menu-toggle');
   if (!btn){
     btn = document.createElement('button');
@@ -45,16 +44,10 @@ window.addEventListener('resize', setHeaderVar);
     if (!btn.getAttribute('aria-controls')) btn.setAttribute('aria-controls','mobileNav');
   }
 
-  // Панель
   let overlay = $('#mobileNav') || $('.mobile-nav');
   if (!overlay) return;
+  if (overlay.parentElement.closest('.site-header')) document.body.appendChild(overlay);
 
-  // Если вдруг меню оказалось в .site-header — перенесём в body для надёжности
-  if (overlay.parentElement.closest('.site-header')) {
-    document.body.appendChild(overlay);
-  }
-
-  // Синхронизация ссылок с .main-nav
   const mobLinks = overlay.querySelector('.mobile-nav__links');
   if (mobLinks && mainNav){
     mobLinks.innerHTML = '';
@@ -90,23 +83,17 @@ window.addEventListener('resize', setHeaderVar);
     try{ lastFocus?.focus({preventScroll:true}); }catch{}
   }
 
-  btn.addEventListener('click', () => {
-    if (overlay.classList.contains('is-open')) close();
-    else open();
-  });
+  btn.addEventListener('click', () => overlay.classList.contains('is-open') ? close() : open());
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) close();
     if (e.target.closest('.mobile-nav__close')) close();
-    const link = e.target.closest('a');
-    if (link) close();
+    const link = e.target.closest('a'); if (link) close();
   });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay.classList.contains('is-open')) close();
-  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('is-open')) close(); });
 })();
 
 // =========================
-// Catalog filter + поиск (работает на страницах с .chip/.card)
+// Catalog filter + поиск (на страницах с .chip/.card)
 // =========================
 const chips = $$('.chip');
 const cards = $$('.card');
@@ -125,12 +112,9 @@ function applyFilter(filter){
   });
   renderSearchNote(null, countVisibleCards());
 }
-chips.forEach(ch => ch.addEventListener('click', (e) => {
-  e.preventDefault();
-  applyFilter(ch.dataset.filter);
-}));
+chips.forEach(ch => ch.addEventListener('click', (e) => { e.preventDefault(); applyFilter(ch.dataset.filter); }));
 
-// Автозаполнение категории при клике «Оставить заявку»
+// Автозаполнение категории в форме
 document.addEventListener('click', (e) => {
   const link = e.target.closest('a[href="#form"]');
   if (!link) return;
@@ -143,26 +127,23 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// ===== Поиск в каталоге по ?q= и #catalog?q=
+// ===== Поиск
 function ensureSearchNote(){
   let note = $('.search-note');
   if (!note && $('.chips')){
     note = document.createElement('div');
     note.className = 'search-note';
     note.setAttribute('role','status');
-    const chipsWrap = $('.chips');
-    chipsWrap && chipsWrap.insertAdjacentElement('afterend', note);
+    const chipsWrap = $('.chips'); chipsWrap && chipsWrap.insertAdjacentElement('afterend', note);
   }
   return note;
 }
 function renderSearchNote(query, count){
-  const note = ensureSearchNote();
-  if (!note) return;
+  const note = ensureSearchNote(); if (!note) return;
   if (query == null){
     if (count == null) { note.classList.remove('is-visible'); return; }
     note.innerHTML = `<span>Найдено позиций: <b>${count}</b></span>`;
-    note.classList.add('is-visible');
-    return;
+    note.classList.add('is-visible'); return;
   }
   const q = (query || '').trim();
   if (!q){ note.classList.remove('is-visible'); return; }
@@ -174,11 +155,7 @@ function normalize(s){ return (s || '').toString().toLowerCase(); }
 function applySearch(query){
   if (!cards.length) return;
   const q = normalize(query);
-  if (!q){
-    applyFilter('all');
-    renderSearchNote('', 0);
-    return;
-  }
+  if (!q){ applyFilter('all'); renderSearchNote('', 0); return; }
   chips.forEach(c => c.classList.remove('is-active'));
   let hits = 0;
   cards.forEach(card => {
@@ -192,28 +169,23 @@ function applySearch(query){
   renderSearchNote(q, hits);
   $('#catalog')?.scrollIntoView({behavior:'smooth', block:'start'});
 }
-// хэш "#catalog?q=..."
 function parseHash(){
-  const h = location.hash || '';
-  if (!h) return {type:'none'};
+  const h = location.hash || ''; if (!h) return {type:'none'};
   const [hashPath, hashQuery] = h.split('?');
   const params = new URLSearchParams(hashQuery || '');
-  const q = params.get('q');
-  if (hashPath === '#catalog' && q) return {type:'search', q};
+  const q = params.get('q'); if (hashPath === '#catalog' && q) return {type:'search', q};
   return {type:'none'};
 }
 function applyFromURL(){
   const parsed = parseHash();
   if (parsed.type === 'search'){ applySearch(parsed.q); return; }
-  const qs = new URLSearchParams(location.search);
-  const q = qs.get('q');
-  if (q){ applySearch(q); }
+  const qs = new URLSearchParams(location.search); const q = qs.get('q'); if (q){ applySearch(q); }
 }
 window.addEventListener('hashchange', applyFromURL);
 window.addEventListener('DOMContentLoaded', applyFromURL);
 
 // =========================
-// Success Modal (после отправки формы)
+// Success Modal
 // =========================
 function ensureSuccessModal(){
   if ($('#successModal')) return $('#successModal');
@@ -243,11 +215,7 @@ function ensureSuccessModal(){
   document.body.appendChild(overlay);
 
   const root = document.documentElement;
-  function lockScroll(lock){
-    if (lock) root.classList.add('no-scroll');
-    else root.classList.remove('no-scroll');
-  }
-
+  function lockScroll(lock){ if (lock) root.classList.add('no-scroll'); else root.classList.remove('no-scroll'); }
   function openModal(){ overlay.classList.add('is-open'); lockScroll(true); }
   function closeModal(){ overlay.classList.remove('is-open'); lockScroll(false); }
 
@@ -262,16 +230,15 @@ function showSuccessModal(message){
 }
 
 // =========================
-// helpers for form
+// Form handler
 // =========================
+const form = $('#leadForm');
+function trim(s){ return (s || '').toString().trim(); }
 function parseUTM(){
   const p = new URLSearchParams(location.search);
   const keys = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
   const utm = {}; keys.forEach(k => { const v = p.get(k); if (v) utm[k] = v; }); return utm;
 }
-const trim = (s) => (s || '').toString().trim();
-
-// Мини-валидация телефона/имени
 function validateLead(name, phone){
   const phoneClean = (phone || '').replace(/[^\d+]/g,'');
   const ok = !!name || phoneClean.length >= 9;
@@ -281,11 +248,6 @@ function validateLead(name, phone){
   nameInput  && nameInput.classList.toggle('is-error', !ok && !phoneClean);
   return ok;
 }
-
-// =========================
-// Form handler (→ сервер/Telegram через function)
-// =========================
-const form = $('#leadForm');
 if (form){
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -297,22 +259,14 @@ if (form){
     const comment  = trim(fd.get('comment'));
     const threadId = trim(fd.get('tg_topic_id'));
 
-    if (!validateLead(name, phone)){
-      alert('Пожалуйста, укажите телефон или имя, чтобы мы могли связаться.');
-      return;
-    }
+    if (!validateLead(name, phone)){ alert('Пожалуйста, укажите телефон или имя.'); return; }
     btn && (btn.disabled = true);
 
-    const payload = {
-      name, phone, category, comment,
-      page: location.href, ref: document.referrer || '',
-      utm: parseUTM(), ts: new Date().toISOString(),
-      message_thread_id: threadId || undefined
-    };
+    const payload = { name, phone, category, comment, page: location.href, ref: document.referrer || '', utm: parseUTM(), ts: new Date().toISOString(), message_thread_id: threadId || undefined };
 
     try{
-      const res = await fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      if (!res.ok){ const t = await res.text().catch(()=> ''); console.error('lead submit error:', t || `HTTP ${res.status}`); throw new Error(t || `HTTP ${res.status}`); }
+      const res = await fetch(LEAD_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+      if (!res.ok){ const t = await res.text().catch(()=> ''); throw new Error(t || `HTTP ${res.status}`); }
       form.reset();
       const msg = name ? `Спасибо, ${name}! Мы свяжемся с вами в ближайшее время.` : 'Спасибо! Мы свяжемся с вами в ближайшее время.';
       showSuccessModal(msg);
@@ -327,16 +281,9 @@ if (form){
 
 // Мягкая прокрутка к якорям
 document.addEventListener('click', (e) => {
-  const a = e.target.closest('a[href^="#"]');
-  if (!a) return;
-  const id = a.getAttribute('href');
-  if (id.length > 1){
-    const el = $(id);
-    if (el){
-      e.preventDefault();
-      el.scrollIntoView({behavior:'smooth', block:'start'});
-      history.pushState(null,'', id);
-    }
+  const a = e.target.closest('a[href^="#"]'); if (!a) return;
+  const id = a.getAttribute('href'); if (id.length > 1){
+    const el = $(id); if (el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); history.pushState(null,'', id); }
   }
 });
 
@@ -344,12 +291,13 @@ document.addEventListener('click', (e) => {
 // MEDIA GALLERY (из /assets/media/)
 // =========================
 const MEDIA_BASE = '/assets/media/';
-const DEFAULT_POSTER = MEDIA_BASE + '1.jpg'; // превью для видео, если нет отдельного постера
+const DEFAULT_POSTER = MEDIA_BASE + '1.jpg';
 
-// Перечисли файлы, которые лежат в /assets/media/
 const READY_MEDIA = [
   '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg',
-  {src:'10.mp4', type:'video'}, {src:'11.mp4', type:'video'}, {src:'12.mp4', type:'video'},
+  {src:'10.mp4', type:'video', poster:'1.jpg'},
+  {src:'11.mp4', type:'video', poster:'1.jpg'},
+  {src:'12.mp4', type:'video', poster:'1.jpg'},
   '13.jpg'
 ];
 
@@ -385,7 +333,7 @@ const READY_MEDIA = [
 
   grid.innerHTML = tiles;
 
-  // Лайтбокс (просмотр)
+  // Лайтбокс
   let box = document.querySelector('.lightbox');
   if (!box){
     box = document.createElement('div');
@@ -410,16 +358,13 @@ const READY_MEDIA = [
     document.documentElement.classList.remove('no-scroll');
   }
 
-  box.addEventListener('click', (e) => {
-    if (e.target === box || e.target.closest('.lightbox-close')) close();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && box.classList.contains('is-open')) close();
-  });
+  box.addEventListener('click', (e) => { if (e.target === box || e.target.closest('.lightbox-close')) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && box.classList.contains('is-open')) close(); });
 
   grid.addEventListener('click', (e) => {
-    const tile = e.target.closest('.media-tile');
-    if (!tile) return;
+    const tile = e.target.closest('.media-tile'); if (!tile) return;
     open(tile.dataset.src, tile.dataset.type);
   });
+
+  console.log('[gallery] tiles:', grid.querySelectorAll('.media-tile').length);
 })();
