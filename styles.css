@@ -275,3 +275,4 @@ html, body, .page { overflow-x: hidden; }
   .btn,.social-btn{display:none!important}
   .site-footer{border-top:1px solid #000}
 }
+.btn{ text-align:center; }
