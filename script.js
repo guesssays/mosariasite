@@ -288,11 +288,9 @@ document.addEventListener('click', (e) => {
 });
 
 // =========================
-// MEDIA GALLERY (из /assets/media/)
+// MEDIA CAROUSEL (из /assets/media/)
 // =========================
 const MEDIA_BASE = '/assets/media/';
-const DEFAULT_POSTER = MEDIA_BASE + '1.jpg';
-
 const READY_MEDIA = [
   '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg',
   {src:'10.mp4', type:'video', poster:'1.jpg'},
@@ -301,70 +299,128 @@ const READY_MEDIA = [
   '13.jpg'
 ];
 
-(function renderMedia(){
-  const grid = document.getElementById('mediaGrid');
-  if (!grid) return;
+(function initCarousel(){
+  const track = $('#carouselTrack');
+  const dotsWrap = $('#carouselDots');
+  const carousel = $('#mediaCarousel');
+  if (!track || !carousel) return;
 
-  if (!READY_MEDIA.length){
-    grid.innerHTML = '<p class="muted">Галерея обновляется. Больше фото — в <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram</a>.</p>';
-    return;
-  }
-
-  const tiles = READY_MEDIA.map(item => {
+  // Render slides
+  track.innerHTML = READY_MEDIA.map(item => {
     const isObj = typeof item === 'object';
     const file  = isObj ? item.src : item;
     const type  = isObj ? (item.type || (/\.(mp4)$/i.test(file) ? 'video' : 'image')) : (/\.(mp4)$/i.test(item) ? 'video' : 'image');
     const src   = MEDIA_BASE + file;
 
     if (type === 'video'){
-      const poster = (isObj && item.poster) ? MEDIA_BASE + item.poster : DEFAULT_POSTER;
-      return `
-        <button class="media-tile" data-src="${src}" data-type="video" aria-label="Открыть видео">
-          <span class="badge">Видео</span>
-          <img src="${poster}" alt="Видео — готовые обеды МОСАРИЯ">
-        </button>`;
-    } else {
-      return `
-        <button class="media-tile" data-src="${src}" data-type="image" aria-label="Открыть фото">
-          <img src="${src}" alt="Готовые обеды МОСАРИЯ">
-        </button>`;
+      const poster = (isObj && item.poster) ? (MEDIA_BASE + item.poster) : '';
+      return `<div class="carousel-slide" role="group">
+        <video preload="metadata" ${poster ? `poster="${poster}"` : ''} muted playsinline></video>
+        <link rel="preload" as="video" href="${src}">
+        <span data-src="${src}" hidden></span>
+      </div>`;
     }
+    return `<div class="carousel-slide" role="group">
+      <img src="${src}" alt="Готовые обеды МОСАРИЯ">
+    </div>`;
   }).join('');
 
-  grid.innerHTML = tiles;
+  // Dots
+  dotsWrap.innerHTML = READY_MEDIA.map((_, i) => `<button class="carousel-dot" role="tab" aria-selected="${i===0?'true':'false'}" aria-label="Слайд ${i+1}"></button>`).join('');
 
-  // Лайтбокс
-  let box = document.querySelector('.lightbox');
-  if (!box){
-    box = document.createElement('div');
-    box.className = 'lightbox';
-    box.innerHTML = `
-      <button class="lightbox-close" aria-label="Закрыть">×</button>
-      <div class="lightbox-inner" id="lightboxInner" role="dialog" aria-modal="true"></div>`;
-    document.body.appendChild(box);
-  }
-  const inner = document.getElementById('lightboxInner');
+  const slides = $$('.carousel-slide', track);
+  const dots = $$('.carousel-dot', dotsWrap);
+  const prev = $('.carousel-btn.prev', carousel);
+  const next = $('.carousel-btn.next', carousel);
 
-  function open(src, type){
-    document.documentElement.classList.add('no-scroll');
-    inner.innerHTML = type === 'video'
-      ? `<video src="${src}" controls autoplay playsinline></video>`
-      : `<img src="${src}" alt="Готовые обеды МОСАРИЯ">`;
-    box.classList.add('is-open');
-  }
-  function close(){
-    box.classList.remove('is-open');
-    inner.innerHTML = '';
-    document.documentElement.classList.remove('no-scroll');
+  let index = 0;
+  let autoplayTimer = null;
+  const AUTO_MS = 5000;
+
+  function loadVideoIfNeeded(i){
+    const slide = slides[i];
+    const v = slide.querySelector('video');
+    if (v && !v.src){
+      const holder = slide.querySelector('[data-src]');
+      v.src = holder.dataset.src;
+    }
+    return v || null;
   }
 
-  box.addEventListener('click', (e) => { if (e.target === box || e.target.closest('.lightbox-close')) close(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && box.classList.contains('is-open')) close(); });
+  function setActiveDot(i){
+    dots.forEach((d, k) => d.setAttribute('aria-selected', String(k===i)));
+  }
 
-  grid.addEventListener('click', (e) => {
-    const tile = e.target.closest('.media-tile'); if (!tile) return;
-    open(tile.dataset.src, tile.dataset.type);
-  });
+  function go(i, opts={autoplay:true}){
+    index = (i + slides.length) % slides.length;
+    const offset = -index * 100;
+    track.style.transform = `translateX(${offset}%)`;
+    setActiveDot(index);
 
-  console.log('[gallery] tiles:', grid.querySelectorAll('.media-tile').length);
+    // stop all videos
+    slides.forEach(s => { const v = s.querySelector('video'); if (v){ v.pause(); v.currentTime = 0; } });
+
+    // if current is video → play 5s then next
+    const v = loadVideoIfNeeded(index);
+    let nextDelay = AUTO_MS;
+    if (v){
+      v.currentTime = 0;
+      v.play().catch(()=>{});
+      nextDelay = 5000;
+    }
+
+    if (opts.autoplay){
+      clearTimeout(autoplayTimer);
+      autoplayTimer = setTimeout(() => go(index+1), nextDelay);
+    }
+  }
+
+  prev.addEventListener('click', () => go(index-1));
+  next.addEventListener('click', () => go(index+1));
+  dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+
+  // Swipe / drag
+  let startX = 0, dx = 0, dragging = false;
+  const viewport = $('.carousel-viewport', carousel);
+
+  function onStart(e){
+    dragging = true; dx = 0;
+    startX = (e.touches ? e.touches[0].clientX : e.clientX);
+    clearTimeout(autoplayTimer);
+  }
+  function onMove(e){
+    if (!dragging) return;
+    const x = (e.touches ? e.touches[0].clientX : e.clientX);
+    dx = x - startX;
+    const percent = (dx / viewport.clientWidth) * 100;
+    track.style.transition = 'none';
+    track.style.transform = `translateX(${-index*100 + percent}%)`;
+  }
+  function onEnd(){
+    if (!dragging) return;
+    track.style.transition = '';
+    const threshold = viewport.clientWidth * 0.15;
+    if (Math.abs(dx) > threshold){
+      go(index + (dx < 0 ? 1 : -1));
+    } else {
+      go(index); // snap back
+    }
+    dragging = false;
+  }
+
+  viewport.addEventListener('mousedown', onStart);
+  viewport.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onEnd);
+  viewport.addEventListener('touchstart', onStart, {passive:true});
+  viewport.addEventListener('touchmove', onMove, {passive:true});
+  viewport.addEventListener('touchend', onEnd);
+
+  // Pause on hover / focus for accessibility
+  carousel.addEventListener('mouseenter', () => clearTimeout(autoplayTimer));
+  carousel.addEventListener('mouseleave', () => go(index));
+  $('.carousel-viewport').addEventListener('focusin', () => clearTimeout(autoplayTimer));
+  $('.carousel-viewport').addEventListener('focusout', () => go(index));
+
+  // start
+  go(0);
 })();

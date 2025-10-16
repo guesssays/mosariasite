@@ -13,7 +13,7 @@
   <link rel="alternate" hreflang="x-default" href="https://www.mosariya.uz/" />
 
   <link rel="preload" href="/assets/hero.webp" as="image" imagesrcset="/assets/hero.webp 1x, /assets/hero@2x.webp 2x" fetchpriority="high">
-  <link rel="stylesheet" href="/styles.css?v=6" />
+  <link rel="stylesheet" href="/styles.css?v=7" />
 
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
@@ -96,8 +96,8 @@
       <a href="/manti.html">Манты</a>
       <a href="/vareniki.html">Вареники</a>
       <a href="/gotovaya-eda.html">Готовая еда</a>
-      <a href="/полуфабрикаты.html">Полуфабрикаты</a>
-      <a href="/dостavka.html">Доставка</a>
+      <a href="/polufabrikaty.html">Полуфабрикаты</a>
+      <a href="/dostavka.html">Доставка</a>
     </div>
     <div class="mobile-nav__contacts">
       <a class="btn btn-primary" href="tel:+998903166170">Позвонить</a>
@@ -145,7 +145,6 @@
           <li class="trust-card"><b class="trust-num">100%</b> <span class="trust-label">натуральный состав</span></li>
         </ul>
 
-        <!-- партнёры -->
         <ul class="partners trust-block">
           <li class="trust-card partner-card">
             <img src="/assets/partners/korzinka.png" alt="Korzinka" width="180" height="56" loading="lazy" decoding="async">
@@ -158,7 +157,6 @@
           </li>
         </ul>
 
-        <!-- фото у партнёров -->
         <div class="partners-photos trust-block">
           <figure class="trust-card photo-card">
             <img src="/assets/partners/partner-photo-1.jpg" alt="Фото продукции у партнёра 1" loading="lazy" width="900" height="600">
@@ -169,7 +167,6 @@
         </div>
       </div>
 
-      <!-- отзывы -->
       <div class="reviews trust-block">
         <article class="trust-card review-card">
           <header class="review-head"><div class="review-meta"><b>Ольга</b><span>Ташкент</span></div></header>
@@ -190,7 +187,7 @@
   <!-- B2B -->
   <section class="section" id="b2b">
     <div class="container quality-grid">
-      <div>
+      <div class="feature-card">
         <h2 class="h2">Готовая еда для организаций</h2>
         <ul class="list">
           <li>Обеды для сотрудников: индивидуальные ланч-боксы или сет-меню.</li>
@@ -222,29 +219,44 @@
     </div>
   </section>
 
-  <!-- медиа-галерея -->
+  <!-- медиа-галерея (карусель) -->
   <section class="section tinted" id="media">
     <div class="container">
       <h2 class="h2">Фото готовых обедов</h2>
-      <p class="muted">Мы регулярно обновляем галерею. Больше — в <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram-группе</a>.</p>
-      <div class="media-grid" id="mediaGrid" aria-live="polite"></div>
+      <p class="muted">Листайте карусель — фото и видео. Больше — в <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram-группе</a>.</p>
+
+      <div class="carousel" id="mediaCarousel" aria-roledescription="carousel">
+        <button class="carousel-btn prev" aria-label="Предыдущий">‹</button>
+        <div class="carousel-viewport" tabindex="0">
+          <div class="carousel-track" id="carouselTrack" aria-live="polite"></div>
+        </div>
+        <button class="carousel-btn next" aria-label="Следующий">›</button>
+        <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Слайды галереи"></div>
+      </div>
     </div>
   </section>
 
-  <!-- как заказать -->
+  <!-- как заказать / гарантия -->
   <section class="section" id="howto">
-    <div class="container quality-grid">
-      <div>
-        <h2 class="h2">Как сделать заказ</h2>
-        <ol class="list num">
-          <li>Выберите товары в <a href="/katalog.html">каталоге</a> или напишите в <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram</a>.</li>
-          <li>Оставьте заявку или позвоните <a href="tel:+998903166170">+998 (90) 316-61-70</a>.</li>
-          <li>Доставим за 60–90 минут по Ташкенту.</li>
+    <div class="container info-grid">
+      <div class="info-card steps-card">
+        <div class="info-card-head">
+          <span class="info-card-ico">🛒</span>
+          <h2 class="h2">Как сделать заказ</h2>
+        </div>
+        <ol class="steps">
+          <li><span class="step-num">1</span>Выберите товары в <a href="/katalog.html">каталоге</a> или напишите в <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram</a>.</li>
+          <li><span class="step-num">2</span>Оставьте заявку или позвоните <a href="tel:+998903166170">+998 (90) 316-61-70</a>.</li>
+          <li><span class="step-num">3</span>Доставим за 60–90 минут по Ташкенту.</li>
         </ol>
       </div>
-      <div>
-        <h2 class="h2">Гарантия качества</h2>
-        <ul class="list">
+
+      <div class="info-card guarantee-card">
+        <div class="info-card-head">
+          <span class="info-card-ico">✅</span>
+          <h2 class="h2">Гарантия качества</h2>
+        </div>
+        <ul class="checks">
           <li>Шоковая заморозка — сохраняет вкус и пользу.</li>
           <li>Без сои, без усилителей вкуса.</li>
           <li>Чистая этикетка: состав на упаковке.</li>
@@ -313,6 +325,6 @@
   </footer>
 </main>
 
-<script src="/script.js?v=5" defer></script>
+<script src="/script.js?v=6" defer></script>
 </body>
 </html>
