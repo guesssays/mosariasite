@@ -318,7 +318,7 @@ if (form){
       showSuccessModal(msg);
     } catch (err){
       console.error('lead submit error:', err);
-      alert('Не получилось отправить заявку. Попробуйте ещё раз или напишите нам в Instagram.');
+      alert('Не получилось отправить заявку. Попробуйте ещё раз или напишите нам в Instagram/Telegram.');
     } finally {
       btn && (btn.disabled = false);
     }
@@ -339,3 +339,73 @@ document.addEventListener('click', (e) => {
     }
   }
 });
+
+// =========================
+// MEDIA GALLERY (из массива READY_MEDIA)
+// =========================
+/**
+ * ⚙️ Как добавить медиа:
+ * 1) Сложи файлы в /assets/ready/
+ * 2) Ниже перечисли имена в массиве READY_MEDIA (jpg/png/webp/mp4)
+ * Можно вставлять как фото, так и короткие видео .mp4
+ */
+const READY_MEDIA = [
+  // пример:
+  // '2025-10-16-01.jpg','2025-10-16-02.jpg','2025-10-16-03.jpg','2025-10-16-04.jpg',
+  // '2025-10-16-05.jpg','2025-10-16-06.jpg','2025-10-16-07.jpg','2025-10-16-08.jpg',
+];
+
+(function renderMedia(){
+  const grid = $('#mediaGrid');
+  if (!grid) return;
+  if (!READY_MEDIA.length){
+    grid.innerHTML = '<p class="muted">Галерея обновляется. Свежие фото — в <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram</a>.</p>';
+    return;
+  }
+  grid.innerHTML = READY_MEDIA.map(name => {
+    const isVideo = /\.mp4$/i.test(name);
+    const src = `/assets/ready/${name}`;
+    const badge = isVideo ? '<span class="badge">видео</span>' : '';
+    const imgSrc = isVideo ? '/assets/ready/preview.jpg' : src;
+    return `<button class="media-tile" data-src="${src}" data-type="${isVideo ? 'video' : 'image'}" aria-label="Открыть медиа">
+      ${badge}<img src="${imgSrc}" alt="Готовые обеды МОСАРИЯ">
+    </button>`;
+  }).join('');
+
+  // Лайтбокс
+  let box = $('.lightbox');
+  if (!box){
+    box = document.createElement('div');
+    box.className = 'lightbox';
+    box.innerHTML = `<button class="lightbox-close" aria-label="Закрыть">×</button>
+      <div class="lightbox-inner" id="lightboxInner" role="dialog" aria-modal="true"></div>`;
+    document.body.appendChild(box);
+  }
+  const inner = $('#lightboxInner');
+  function open(src, type){
+    document.documentElement.classList.add('no-scroll');
+    if (type === 'video'){
+      inner.innerHTML = `<video src="${src}" controls autoplay playsinline></video>`;
+    } else {
+      inner.innerHTML = `<img src="${src}" alt="Готовые обеды МОСАРИЯ">`;
+    }
+    box.classList.add('is-open');
+  }
+  function close(){
+    box.classList.remove('is-open');
+    inner.innerHTML = '';
+    document.documentElement.classList.remove('no-scroll');
+  }
+  box.addEventListener('click', (e) => {
+    if (e.target === box || e.target.closest('.lightbox-close')) close();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && box.classList.contains('is-open')) close();
+  });
+
+  grid.addEventListener('click', (e) => {
+    const tile = e.target.closest('.media-tile');
+    if (!tile) return;
+    open(tile.dataset.src, tile.dataset.type);
+  });
+})();

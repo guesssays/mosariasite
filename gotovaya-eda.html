@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Готовая еда в Ташкенте — супы и горячее | МОСАРИЯ</title>
-<meta name="description" content="Супы и горячие блюда с доставкой: борщ, куриная лапша, крем-суп чечевичный, мастова, суп с фрикадельками, фаршированный перец, ножка куриная, куриная отбивная и др.">
+<meta name="description" content="Супы и горячие блюда с доставкой: борщ, куриная лапша, крем-суп чечевичный, мастова, фаршированный перец, котлеты, манты и др. Есть готовые обеды для организаций и офисов.">
 <link rel="canonical" href="https://www.mosariya.uz/gotovaya-eda.html"><meta name="robots" content="index,follow">
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/styles.css?v=5">
 
 <meta property="og:type" content="website"><meta property="og:locale" content="ru_RU">
 <meta property="og:title" content="Готовая еда — доставка по Ташкенту | МОСАРИЯ">
-<meta property="og:description" content="Все супы и горячие блюда с оперативной доставкой по Ташкенту.">
+<meta property="og:description" content="Супы и горячие блюда с оперативной доставкой по Ташкенту. Обеды для организаций и офисов.">
 <meta property="og:url" content="https://www.mosariya.uz/gotovaya-eda.html">
 <meta property="og:image" content="https://www.mosariya.uz/assets/borshch.jpg">
 <meta property="og:site_name" content="МОСАРИЯ"><meta name="twitter:card" content="summary_large_image">
@@ -17,7 +17,7 @@
 <script type="application/ld+json">{
   "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
     {"@type":"ListItem","position":1,"name":"Главная","item":"https://www.mosariya.uz/"},
-    {"@type":"ListItem","position":2,"name":"Готовая еда","item":"https://www.mosariya.uz/gotovaya-еда.html"}]}
+    {"@type":"ListItem","position":2,"name":"Готовая еда","item":"https://www.mosariya.uz/gotovaya-eda.html"}]}
 </script>
 </head>
 <body>
@@ -40,7 +40,9 @@
 <section class="section">
   <div class="container">
     <h1>Готовая еда — доставка по Ташкенту</h1>
+    <p class="muted">Ежедневно обновляемое меню. Больше фото и актуальные варианты — в нашей <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram-группе</a>. Для организаций доступны корпоративные обеды и безналичный расчёт.</p>
     <div class="cards">
+      <!-- примеры блюд (как было) -->
       <!-- СУПЫ -->
       <article class="card" data-category="Супы" itemscope itemtype="https://schema.org/Product">
         <img src="/assets/sup-frikadelki.jpg" alt="Суп из фрикаделек" width="800" height="600" loading="lazy" decoding="async" itemprop="image">
@@ -147,7 +149,6 @@
         </div>
       </article>
 
-      <!-- ДОМАШНЯЯ КЛАССИКА И МУЧНЫЕ — из списка -->
       <article class="card" data-category="Горячее" itemscope itemtype="https://schema.org/Product">
         <img src="/assets/kotlety_domashnie.jpg" alt="Котлеты домашние (горячие)" width="800" height="600" loading="lazy" decoding="async" itemprop="image">
         <div class="card-body">
@@ -210,16 +211,25 @@
         <input type="text" name="_hp" autocomplete="off" tabindex="-1" class="sr-only" aria-hidden="true">
         <label>Имя <input type="text" name="name" required></label>
         <label>Телефон <input type="tel" name="phone" required></label>
-        <label>Комментарий <textarea name="comment" rows="3" placeholder="Что привезти и когда"></textarea></label>
+        <label>Что интересует?
+          <select name="category">
+            <option value="Готовая еда" selected>Готовая еда</option>
+            <option value="B2B — для организации">B2B — для организации</option>
+          </select>
+        </label>
+        <label>Комментарий <textarea name="comment" rows="3" placeholder="Что привезти и когда (адрес, время, кол-во порций)"></textarea></label>
         <button class="btn btn-primary" type="submit">Отправить</button>
+        <p class="muted">Актуальное меню — в <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram-группе</a>.</p>
       </form>
     </div>
   </div>
 </section>
 </main>
 
-<footer class="site-footer"><div class="container"><address class="nap"><strong>МОСАРИЯ</strong> · Ташкент · <a href="tel:+998903166170">+998 (90) 316-61-70</a></address></div></footer>
+<footer class="site-footer"><div class="container">
+  <address class="nap"><strong>МОСАРИЯ</strong> · Ташкент · <a href="tel:+998903166170">+998 (90) 316-61-70</a> · <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram</a></address>
+</div></footer>
 
-<script src="/script.js" defer></script>
+<script src="/script.js?v=4" defer></script>
 </body>
 </html>
