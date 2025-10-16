@@ -35,6 +35,11 @@ img{max-width:100%;height:auto;display:block}
 .full-bleed{background:radial-gradient(1000px 400px at 80% -10%, rgba(0,0,0,.06), transparent 60%) no-repeat,var(--bg)}
 :where([id]){scroll-margin-top:calc(var(--header,56px) + 12px)}
 
+/* Headings */
+h1{margin:0 0 12px;font-size:34px;line-height:1.15;font-weight:800}
+h2,.h2{font-size:28px;margin:0 0 16px;font-weight:700}
+.h3{font-size:20px;margin:6px 0;font-weight:700}
+
 /* ===== FOCUS ===== */
 :where(a,button,input,select,textarea,.chip,.social-btn){outline:none}
 :where(a,button,input,select,textarea,.chip,.social-btn):focus-visible{
@@ -109,7 +114,7 @@ img{max-width:100%;height:auto;display:block}
 }
 .mobile-nav__links{display:grid;gap:10px;margin-top:36px}
 .mobile-nav__links a{
-  padding:10px 12px;border-radius:12px;text-decoration:none;color:#3b2b22;background:#fff;
+  padding:10px 12px;border-radius:12px;text-decoration:none;color:#3b2b2a;background:#fff;
   border:1.5px dashed #d6b8a5;font-weight:700
 }
 .mobile-nav__links a:hover{background:#3b2b22;color:#fff}
@@ -132,8 +137,6 @@ img{max-width:100%;height:auto;display:block}
 /* ===== SECTIONS ===== */
 .section{padding:48px 0}
 .tinted{background:var(--paper)}
-.h2{font-size:28px;margin:0 0 16px;font-weight:700}
-.h3{font-size:20px;margin:6px 0;font-weight:700}
 
 /* Chips / фильтр */
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
@@ -147,7 +150,7 @@ img{max-width:100%;height:auto;display:block}
 .card-body{padding:14px 14px 16px}
 .card-title{margin:0 0 6px;font-size:18px;line-height:1.3;font-weight:700}
 .muted{color:var(--muted)}
-.card-cta{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.card-cta{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:10px}
 .price{font-weight:900;color:#3b2b22}
 
 /* ===== QUALITY / DELIVERY ===== */
@@ -235,7 +238,7 @@ img{max-width:100%;height:auto;display:block}
 .form-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start}
 .lead-form{display:grid;gap:12px}
 .lead-form label{display:grid;gap:6px;font-weight:700}
-.lead-form input,.lead-form select,.lead-form textarea{border:2px solid #d8c2b2;border-radius:14px;padding:12px 14px;background:#fff;color:var(--ink);font:inherit;box-shadow:inset 0 2px 0 rgba(0,0,0,.02)}
+.lead-form input,.lead-form select,.lead-form textarea{border:2px solid #d8c2b2;border-radius:14px;padding:12px 14px;background:#fff;color:#2b211a;font:inherit;box-shadow:inset 0 2px 0 rgba(0,0,0,.02)}
 .lead-form input:focus-visible,.lead-form select:focus-visible,.lead-form textarea:focus-visible{border-color:var(--brand-2)}
 .lead-form .is-error{border-color:#b00020;box-shadow:0 0 0 2px rgba(176,0,32,.1)}
 .contacts{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:6px}
@@ -256,10 +259,13 @@ img{max-width:100%;height:auto;display:block}
 @media (max-width:1200px){
   .media-grid{grid-template-columns:repeat(3,1fr)}
 }
+
 @media (max-width:960px){
   .main-nav{display:none}
-  .site-header .container{display:flex;align-items:center;justify-content:space-between}
+  .site-header .container{justify-content:space-between}
+  .logo{font-size:24px}
 
+  .section{padding:36px 0}
   .hero{padding-top:28px;padding-bottom:28px}
   .hero-media{display:none !important}
   .hero .container{display:grid}
@@ -267,11 +273,15 @@ img{max-width:100%;height:auto;display:block}
   .hero-text h1{font-size:36px}
   .hero-text .brand-word{font-size:44px}
   .lead{margin-inline:auto}
-  .hero-cta{display:flex;flex-wrap:nowrap;justify-content:center;gap:10px}
+
+  .hero-cta{gap:10px;flex-wrap:nowrap}
   .hero-cta .btn{flex:1 1 48%;min-width:0;font-size:.95rem;font-weight:600;padding:.6rem .9rem;border-width:1.5px}
-  .hero-badges{justify-content:center}
 
   .cards{grid-template-columns:1fr 1fr}
+  /* компактный CTA и цены в карточках */
+  .card-cta{flex-direction:column;align-items:flex-start;gap:8px}
+  .price{margin-bottom:4px}
+
   .quality-grid,.delivery-grid,.form-grid{grid-template-columns:1fr}
 
   .trust-grid{grid-template-columns:1fr}
@@ -281,14 +291,28 @@ img{max-width:100%;height:auto;display:block}
   .partners-photos{grid-template-columns:1fr}
   .cat-cards{grid-template-columns:repeat(2,1fr)}
   .media-grid{grid-template-columns:repeat(2,1fr)}
+
+  /* секции с кнопками (например блок для организаций на странице доставки) */
+  .tinted .hero-cta{flex-direction:column;align-items:stretch}
+  .tinted .hero-cta .btn{width:100%}
+
+  /* Футер */
+  .footer-head{flex-direction:column;align-items:flex-start;gap:8px}
 }
+
 @media (max-width:640px){
+  h1{font-size:28px}
+  .section{padding:28px 0}
   .cards{grid-template-columns:1fr}
   .cat-cards{grid-template-columns:1fr;gap:18px}
   .media-grid{grid-template-columns:1fr}
+  .logo{font-size:22px}
+  .btn{padding:.75rem 1rem}
 }
+
 @media (max-width:420px){
   .trust-stats{grid-template-columns:1fr}
+  .mobile-nav__inner{width:92vw}
 }
 
 /* MOBILE фон hero */

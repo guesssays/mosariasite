@@ -341,54 +341,67 @@ document.addEventListener('click', (e) => {
 });
 
 // =========================
-// MEDIA GALLERY (из массива READY_MEDIA)
+// MEDIA GALLERY (из /assets/media/)
 // =========================
-/**
- * ⚙️ Как добавить медиа:
- * 1) Сложи файлы в /assets/ready/
- * 2) Ниже перечисли имена в массиве READY_MEDIA (jpg/png/webp/mp4)
- * Можно вставлять как фото, так и короткие видео .mp4
- */
+const MEDIA_BASE = '/assets/media/';
+const DEFAULT_POSTER = MEDIA_BASE + '1.jpg'; // превью для видео, если нет отдельного постера
+
+// Перечисли файлы, которые лежат в /assets/media/
 const READY_MEDIA = [
-  // пример:
-  // '2025-10-16-01.jpg','2025-10-16-02.jpg','2025-10-16-03.jpg','2025-10-16-04.jpg',
-  // '2025-10-16-05.jpg','2025-10-16-06.jpg','2025-10-16-07.jpg','2025-10-16-08.jpg',
+  '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg',
+  {src:'10.mp4', type:'video'}, {src:'11.mp4', type:'video'}, {src:'12.mp4', type:'video'},
+  '13.jpg'
 ];
 
 (function renderMedia(){
-  const grid = $('#mediaGrid');
+  const grid = document.getElementById('mediaGrid');
   if (!grid) return;
+
   if (!READY_MEDIA.length){
-    grid.innerHTML = '<p class="muted">Галерея обновляется. Свежие фото — в <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram</a>.</p>';
+    grid.innerHTML = '<p class="muted">Галерея обновляется. Больше фото — в <a href="https://t.me/mosariyafud" target="_blank" rel="noopener">Telegram</a>.</p>';
     return;
   }
-  grid.innerHTML = READY_MEDIA.map(name => {
-    const isVideo = /\.mp4$/i.test(name);
-    const src = `/assets/ready/${name}`;
-    const badge = isVideo ? '<span class="badge">видео</span>' : '';
-    const imgSrc = isVideo ? '/assets/ready/preview.jpg' : src;
-    return `<button class="media-tile" data-src="${src}" data-type="${isVideo ? 'video' : 'image'}" aria-label="Открыть медиа">
-      ${badge}<img src="${imgSrc}" alt="Готовые обеды МОСАРИЯ">
-    </button>`;
+
+  const tiles = READY_MEDIA.map(item => {
+    const isObj = typeof item === 'object';
+    const file  = isObj ? item.src : item;
+    const type  = isObj ? (item.type || (/\.(mp4)$/i.test(file) ? 'video' : 'image')) : (/\.(mp4)$/i.test(item) ? 'video' : 'image');
+    const src   = MEDIA_BASE + file;
+
+    if (type === 'video'){
+      const poster = (isObj && item.poster) ? MEDIA_BASE + item.poster : DEFAULT_POSTER;
+      return `
+        <button class="media-tile" data-src="${src}" data-type="video" aria-label="Открыть видео">
+          <span class="badge">Видео</span>
+          <img src="${poster}" alt="Видео — готовые обеды МОСАРИЯ">
+        </button>`;
+    } else {
+      return `
+        <button class="media-tile" data-src="${src}" data-type="image" aria-label="Открыть фото">
+          <img src="${src}" alt="Готовые обеды МОСАРИЯ">
+        </button>`;
+    }
   }).join('');
 
-  // Лайтбокс
-  let box = $('.lightbox');
+  grid.innerHTML = tiles;
+
+  // Лайтбокс (просмотр)
+  let box = document.querySelector('.lightbox');
   if (!box){
     box = document.createElement('div');
     box.className = 'lightbox';
-    box.innerHTML = `<button class="lightbox-close" aria-label="Закрыть">×</button>
+    box.innerHTML = `
+      <button class="lightbox-close" aria-label="Закрыть">×</button>
       <div class="lightbox-inner" id="lightboxInner" role="dialog" aria-modal="true"></div>`;
     document.body.appendChild(box);
   }
-  const inner = $('#lightboxInner');
+  const inner = document.getElementById('lightboxInner');
+
   function open(src, type){
     document.documentElement.classList.add('no-scroll');
-    if (type === 'video'){
-      inner.innerHTML = `<video src="${src}" controls autoplay playsinline></video>`;
-    } else {
-      inner.innerHTML = `<img src="${src}" alt="Готовые обеды МОСАРИЯ">`;
-    }
+    inner.innerHTML = type === 'video'
+      ? `<video src="${src}" controls autoplay playsinline></video>`
+      : `<img src="${src}" alt="Готовые обеды МОСАРИЯ">`;
     box.classList.add('is-open');
   }
   function close(){
@@ -396,6 +409,7 @@ const READY_MEDIA = [
     inner.innerHTML = '';
     document.documentElement.classList.remove('no-scroll');
   }
+
   box.addEventListener('click', (e) => {
     if (e.target === box || e.target.closest('.lightbox-close')) close();
   });
